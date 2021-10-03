@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Notion.Model
 {
-    public record NavigationPage<TItem>
+    public record List<TItem>
     {
         public string Object => "list";
         public TItem[] Results { get; set; }
