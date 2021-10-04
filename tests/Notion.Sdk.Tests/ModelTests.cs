@@ -24,7 +24,8 @@ namespace Notion.Sdk.Tests
         [Fact]
         public void ValidateNotionKey()
         {
-            Notion.NewClient(Configuration["Notion"]).Should().NotBeNull();
+            Configuration["Notion"].Should().Be("12345");
+            //Notion.NewClient(Configuration["Notion"]).Should().Be("12345");
         }
     }
 }
