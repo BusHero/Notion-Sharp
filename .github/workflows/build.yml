@@ -4,7 +4,7 @@ env:
   DOTNET_VERSION: 5.0.*
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-
+  
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -20,7 +20,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Store Secrets
         run:
-          dotnet user-secrets set "Notion" "123456" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
       - name: Restore
         run: dotnet restore
       - name: Build
