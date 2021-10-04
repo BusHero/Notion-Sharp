@@ -20,7 +20,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Store Secrets
         run:
-          dotnet user-secrets set "Notion" "12345" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "Notion" "123456" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
       - name: Restore
         run: dotnet restore
       - name: Build
