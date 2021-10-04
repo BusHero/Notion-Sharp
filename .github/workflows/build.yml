@@ -18,6 +18,10 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Store Secrets
+        run: |
+          dotnet user-secrets init
+          dotnet user-secrets set "Notion" "12345" 
       - name: Restore
         run: dotnet restore
       - name: Build
