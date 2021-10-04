@@ -9,6 +9,7 @@ namespace Notion.Sdk.Tests
 {
     public class ModelTests
     {
+        private IConfiguration Configuration { get; }
         private string NotionApiKey { get; }
         private INotion SUT { get; }
 
@@ -16,15 +17,14 @@ namespace Notion.Sdk.Tests
         {
             var builder = new ConfigurationBuilder().AddUserSecrets<ModelTests>();
 
-            var configuration = builder.Build();
-            SUT = Notion.NewClient(configuration["Notion"]);
+            Configuration = builder.Build();
+            SUT = Notion.NewClient(Configuration["Notion"]);
         }
-
 
         [Fact]
         public void ValidateNotionKey()
         {
-
+            Notion.NewClient(Configuration["Notion"]).Should().NotBeNull();
         }
     }
 }
