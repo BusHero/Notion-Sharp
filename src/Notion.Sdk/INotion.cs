@@ -64,5 +64,12 @@ namespace Notion
         Task<ApiResponse<List<Block>>> AddChildrenToBlock(Guid id, [Body] object content);
 
         #endregion
+
+        #region Search
+        [Post("/search")]
+        [Headers("Content-Type: application/json")]
+        Task<string> SearchAsync([Body]object query);
+
+        #endregion
     }
 }
