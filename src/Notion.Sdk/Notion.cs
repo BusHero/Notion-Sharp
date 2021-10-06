@@ -1,5 +1,6 @@
 ﻿using Refit;
 
+using System;
 using System.Threading.Tasks;
 
 namespace Notion
@@ -11,6 +12,7 @@ namespace Notion
             return RestService.For<INotion>("https://api.notion.com/v1/", new RefitSettings
             {
                 AuthorizationHeaderValueGetter = () => Task.FromResult(bearerToken),
+                ExceptionFactory = httpResponseMessage => Task.FromResult<Exception>(new NotionException())
             });
         }
     }

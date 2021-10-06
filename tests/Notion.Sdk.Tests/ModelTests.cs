@@ -45,14 +45,13 @@ namespace Notion.Sdk.Tests
         }
 
 
-        [Theory]
-        [InlineData(default(string))]
-        public void Search_Fails_OnInValidParameter(object data)
+        [Fact]
+        public async void Search_Fails_OnInValidParameter()
         {
-            SUT.Awaiting(sut => SUT.SearchAsync(new
+            await SUT.Awaiting(sut => sut.SearchAsync(new
             {
-                query = data
-            })).Should().ThrowAsync<Exception>();
+                query = default(string)
+            })).Should().ThrowAsync<NotionException>();
         }
     }
 }
