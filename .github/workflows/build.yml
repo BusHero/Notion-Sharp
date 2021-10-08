@@ -26,11 +26,9 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Store Secrets
-        env:
-          USER_ID: ${{ env.USER_ID }}
         run: |
           dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
-          dotnet user-secrets set "userId" "$USER_ID" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "userId" "${{ secrets.USER_ID }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
           dotnet user-secrets set "databaseId" "${{ secrets.DATABASE_ID }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
       - name: Restore
         run: dotnet restore
