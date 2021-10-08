@@ -13,7 +13,7 @@ namespace Notion
         #region Databases
 
         [Post("/databases")]
-        Task<string> CreateDatabaseAsync(Database database);
+        Task<string> CreateDatabaseAsync([Body] object database);
 
         [Patch("/databases/{database.id}")]
         Task<string> UpdateDatabaseAsync(Database database);

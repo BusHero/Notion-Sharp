@@ -73,6 +73,35 @@ namespace Notion.Sdk.Tests
         #region Databases
 
         [Fact]
+        public async Task CreateDatabase_Succeds()
+        {
+            await SUT.CreateDatabaseAsync(new
+            {
+                parent = new
+                {
+                    page_id = ValidPageId
+                },
+                title = new object[]
+                {
+                    new
+                    {
+                        text = new
+                        {
+                            content = "some new title"
+                        }
+                    }
+                },
+                properties = new
+                {
+                    Name = new
+                    {
+                        title = new object()
+                    }
+                }
+            });
+        }
+
+        [Fact]
         public async Task GetDatabase_Fails_OnInvalidId()
         {
             await SUT.Awaiting(sut => sut.GetDatabaseAsync(Guid.NewGuid()))
