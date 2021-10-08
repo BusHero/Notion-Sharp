@@ -152,6 +152,34 @@ namespace Notion.Sdk.Tests
             user.Should().NotBeNullOrEmpty();
         }
 
+        [Fact]
+        public async Task CreatePage_Succeds()
+        {
+            await SUT.CreatePageAsync(new
+            {
+                parent = new
+                {
+                    page_id = ValidPageId
+                },
+                properties = new
+                {
+                    title = new
+                    {
+                        title = new object[]
+                        {
+                            new
+                            {
+                                text = new
+                                {
+                                    content = "some new title"
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         #endregion
 
         #region Blocks
