@@ -73,6 +73,24 @@ namespace Notion.Sdk.Tests
         #region Databases
 
         [Fact]
+        public async Task UpdateDatabase_Succeds()
+        {
+            await SUT.UpdateDatabaseAsync(ValidDatabaseId, new
+            {
+                title = new object[]
+                {
+                    new
+                    {
+                        text = new
+                        {
+                            content = "some new title"
+                        }
+                    }
+                }
+            });
+        }
+
+        [Fact]
         public async Task CreateDatabase_Succeds()
         {
             await SUT.CreateDatabaseAsync(new

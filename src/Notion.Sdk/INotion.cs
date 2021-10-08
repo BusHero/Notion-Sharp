@@ -15,8 +15,8 @@ namespace Notion
         [Post("/databases")]
         Task<string> CreateDatabaseAsync([Body] object database);
 
-        [Patch("/databases/{database.id}")]
-        Task<string> UpdateDatabaseAsync(Database database);
+        [Patch("/databases/{id}")]
+        Task<string> UpdateDatabaseAsync(Guid id, [Body]object database);
         
         [Get("/databases")]
         Task<string> GetDatabasesAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
