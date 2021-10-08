@@ -11,10 +11,18 @@ namespace Notion.Sdk.Tests
     public class ModelTests
     {
         private INotion SUT { get; }
+
+        #region Ids
+
         private Guid ValidUserId { get; }
+     
         private Guid ValidDatabaseId {  get; }
+        
         private Guid ValidPageId { get; }
+        
         private Guid ValidBlockId { get; }
+
+        #endregion
 
         public ModelTests()
         {
@@ -82,6 +90,54 @@ namespace Notion.Sdk.Tests
         #endregion
 
         #region Pages
+
+        [Fact]
+        public async Task UpdatePage_Succeds_OnValidId()
+        {
+            await SUT.UpdatePageAsync(ValidPageId, new
+            {
+                properties = new
+                {
+                    title = new
+                    {
+                        title = new object[]
+                        {
+                            new
+                            {
+                                text = new
+                                {
+                                    content = "some new title"
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        [Fact]
+        public async Task UpdatePage_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.UpdatePageAsync(Guid.NewGuid(), new
+            {
+                properties = new
+                {
+                    title = new
+                    {
+                        title = new object[]
+                        {
+                            new
+                            {
+                                text = new
+                                {
+                                    content = "some new title"
+                                }
+                            }
+                        }
+                    }
+                }
+            })).Should().ThrowAsync<NotionException>();
+        }
 
         [Fact]
         public async Task GetPage_Fails_OnInvalidId()

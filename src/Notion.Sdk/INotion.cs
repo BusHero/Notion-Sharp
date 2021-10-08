@@ -44,8 +44,8 @@ namespace Notion
         [Get("/pages/{page_id}")]
         Task<string> GetPageAsync([AliasAs("page_id")] Guid pageId);
 
-        [Patch("/pages/{page.id}")]
-        Task<string> UpdatePageAsync(Page page);
+        [Patch("/pages/{id}")]
+        Task<string> UpdatePageAsync(Guid id, [Body] object page);
 
         [Post("/pages")]
         Task<string> CreatePageAsync(Page page);
