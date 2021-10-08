@@ -68,7 +68,7 @@ namespace Notion
         #region Search
         [Post("/search")]
         [Headers("Content-Type: application/json")]
-        Task<string> SearchAsync([Body]object query);
+        Task<string> SearchAsync([Body]SearchPayload query);
 
         #endregion
     }
