@@ -58,7 +58,7 @@ namespace Notion
         Task<string> GetBlocksChildrenAsync([AliasAs("id")] Guid blockId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Get("/blocks/{block_id}")]
-        Task<string> GetBlock([AliasAs("block_id")] Guid blockId);
+        Task<string> GetBlockAsync([AliasAs("block_id")] Guid blockId);
 
         [Patch("/blocks/{block.id}")]
         Task<string> UpdateBlockAsync(Block block);

@@ -14,6 +14,7 @@ namespace Notion.Sdk.Tests
         private Guid ValidUserId { get; }
         private Guid ValidDatabaseId {  get; }
         private Guid ValidPageId { get; }
+        private Guid ValidBlockId { get; }
 
         public ModelTests()
         {
@@ -25,6 +26,7 @@ namespace Notion.Sdk.Tests
             ValidUserId = Guid.Parse(configuration["userId"]);
             ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
             ValidPageId = Guid.Parse(configuration["pageId"]);
+            ValidBlockId = Guid.Parse(configuration["blockId"]);
         }
 
         #region Users
@@ -107,8 +109,21 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetBlocks_Succeds_OnValidId()
         {
-            var block = await SUT.GetBlocksChildrenAsync(ValidPageId);
-            block.Should().NotBeNullOrEmpty(); 
+            var blocks = await SUT.GetBlocksChildrenAsync(ValidPageId);
+            blocks.Should().NotBeNullOrEmpty(); 
+        }
+
+        [Fact]
+        public async Task GetBlock_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.GetBlockAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
+        }
+
+        [Fact]
+        public async Task GetBlock_Succeds_OnValidId()
+        {
+            var block = await SUT.GetBlockAsync(ValidBlockId);
+            block.Should().NotBeNullOrEmpty();
         }
 
         #endregion
