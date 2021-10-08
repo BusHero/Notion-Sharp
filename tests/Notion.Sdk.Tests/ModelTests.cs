@@ -4,12 +4,14 @@ using Microsoft.Extensions.Configuration;
 
 using Xunit;
 using System.Threading.Tasks;
+using System;
 
 namespace Notion.Sdk.Tests
 {
     public class ModelTests
     {
         private INotion SUT { get; }
+        private Guid ValidUserId { get; }
 
         public ModelTests()
         {
@@ -17,10 +19,43 @@ namespace Notion.Sdk.Tests
                 .AddUserSecrets<ModelTests>()
                 .Build();
 
-            var bearerToken = configuration["Notion"];
-            
-            SUT = Notion.NewClient(bearerToken: bearerToken);
+            SUT = Notion.NewClient(bearerToken: configuration["Notion"]);
+
+            ValidUserId = Guid.Parse(configuration["userId"]);
         }
+
+        #region Users
+
+        [Fact]
+        public async Task GetUsers()
+        {
+            var users = await SUT.GetUsersAsync();
+            users.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task GetMe()
+        {
+            var me = await SUT.GetMeAsync();
+            me.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task GetUser_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.GetUserAsync(System.Guid.NewGuid()))
+                .Should()
+                .ThrowAsync<NotionException>();
+        }
+
+        [Fact]
+        public async Task GetUser_Succeds_OnValidId()
+        {
+            var user = await SUT.GetUserAsync(ValidUserId);
+            user.Should().NotBeNullOrEmpty();
+        }
+        
+        #endregion
 
         [Fact]
         public async Task Search_Succeds_OnValidParameter()

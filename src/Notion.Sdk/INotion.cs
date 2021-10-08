@@ -7,7 +7,7 @@ using Refit;
 
 namespace Notion
 {
-    [Headers("Notion-Version: 2021-05-13", "Authorization: Bearer")]
+    [Headers("Notion-Version: 2021-08-16", "Authorization: Bearer")]
     public interface INotion
     {
         #region Databases
@@ -33,6 +33,9 @@ namespace Notion
 
         [Get("/users/{user_id}")]
         Task<string> GetUserAsync([AliasAs("user_id")] Guid userId);
+
+        [Get("/users/me")]
+        Task<string> GetMeAsync();
 
         #endregion
 
