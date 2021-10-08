@@ -12,6 +12,7 @@ namespace Notion.Sdk.Tests
     {
         private INotion SUT { get; }
         private Guid ValidUserId { get; }
+        private Guid ValidDatabaseId {  get; }
 
         public ModelTests()
         {
@@ -20,8 +21,8 @@ namespace Notion.Sdk.Tests
                 .Build();
 
             SUT = Notion.NewClient(bearerToken: configuration["Notion"]);
-
             ValidUserId = Guid.Parse(configuration["userId"]);
+            ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
         }
 
         #region Users
@@ -54,7 +55,26 @@ namespace Notion.Sdk.Tests
             var user = await SUT.GetUserAsync(ValidUserId);
             user.Should().NotBeNullOrEmpty();
         }
-        
+
+        #endregion
+
+        #region Databases
+
+        [Fact]
+        public async Task GetDatabase_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.GetDatabaseAsync(Guid.NewGuid()))
+                .Should()
+                .ThrowAsync<NotionException>();
+        }
+
+        [Fact]
+        public async Task GetDatabase_Succeds_OnValidId()
+        {
+            var database = await SUT.GetDatabaseAsync(ValidDatabaseId);
+            database.Should().NotBeNullOrEmpty();
+        }
+
         #endregion
 
         [Fact]
