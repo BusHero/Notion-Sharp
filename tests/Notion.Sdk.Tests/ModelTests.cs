@@ -96,6 +96,23 @@ namespace Notion.Sdk.Tests
 
         #endregion
 
+        #region Blocks
+
+        [Fact]
+        public async Task GetBlocksChildren_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.GetBlocksChildrenAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
+        }
+
+        [Fact]
+        public async Task GetBlocks_Succeds_OnValidId()
+        {
+            var block = await SUT.GetBlocksChildrenAsync(ValidPageId);
+            block.Should().NotBeNullOrEmpty(); 
+        }
+
+        #endregion
+
         [Fact]
         public async Task Search_Succeds_OnValidParameter()
         {
