@@ -64,7 +64,7 @@ namespace Notion
         Task<string> UpdateBlockAsync(Block block);
 
         [Patch("/blocks/{id}/children")]
-        Task<string> AddChildrenToBlock(Guid id, [Body] object content);
+        Task<string> AppendBlockChildrenAsync(Guid id, [Body] object content);
 
         #endregion
 

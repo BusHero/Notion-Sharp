@@ -275,6 +275,60 @@ namespace Notion.Sdk.Tests
             block.Should().NotBeNullOrEmpty();
         }
 
+        [Fact]
+        public async Task AppendChildren_Succeds()
+        {
+            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new
+            {
+                children = new object[]
+                {
+                    new
+                    {
+                        heading_2 = new
+                        {
+                            text = new object[]
+                            {
+                                new
+                                {
+                                    text = new
+                                    {
+                                        content = "Brave new world!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        [Fact]
+        public async Task AppendChildren_Fails_OnInvalidId()
+        {
+            var result = await SUT.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new
+            {
+                children = new object[]
+                {
+                    new
+                    {
+                        heading_2 = new
+                        {
+                            text = new object[]
+                            {
+                                new
+                                {
+                                    text = new
+                                    {
+                                        content = "Brave new world!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })).Should().ThrowAsync<NotionException>();
+        }
+
         #endregion
 
         [Fact]
