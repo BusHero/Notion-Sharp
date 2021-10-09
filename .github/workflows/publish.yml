@@ -1,0 +1,71 @@
+name: Publish Package
+on:
+  release:
+    types:
+      - published
+env:
+  # Stop wasting time caching packages
+  DOTNET_VERSION: 5.0.*
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Disable sending usage data to Microsoft
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # Project name to pack and publish
+  PROJECT_NAME: Notion.Sdk
+  # GitHub Packages Feed settings
+  GITHUB_FEED: https://nuget.pkg.github.com/BusHero/index.json
+  GITHUB_USER: BusHero
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Official NuGet Feed settings
+  NUGET_FEED: https://api.nuget.org/v3/index.json
+  NUGET_KEY: ${{ secrets.NOTION_SDK_NUGET_KEY }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Restore
+        run: dotnet restore
+      - name: Build
+        run: dotnet build -c Release --no-restore
+      - name: Test
+        run: dotnet test -c Release
+      - name: Get Version
+        id: vars
+        run: |
+          VERSION=${GITHUB_REF#refs/*/}
+          echo ::set-output name=tag::"${VERSION//v}"
+      - name: Pack
+        env:
+          VERSION: ${{ steps.vars.outputs.tag }}
+        run: 
+          dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION src/$PROJECT_NAME/$PROJECT_NAME.*proj
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: nupkg
+          path: ./src/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
+  deploy-GitHub:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: nupkg
+      - name: Push to GitHub Feed
+        run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --skip-duplicate --api-key $GITHUB_TOKEN  
+  deploy-NuGet:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: nupkg
+      - name: Push to NuGet
+        run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
