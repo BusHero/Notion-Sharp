@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Notion.Sdk\Notion.Sdk.csproj" />
+    <ProjectReference Include="..\..\src\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
 </Project>

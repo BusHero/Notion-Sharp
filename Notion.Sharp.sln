@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notion.Sdk", "src\Notion.Sdk\Notion.Sdk.csproj", "{04EC5A01-CF5B-45CA-98E7-109ED18ADAC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notion.Sharp", "src\Notion.Sharp\Notion.Sharp.csproj", "{04EC5A01-CF5B-45CA-98E7-109ED18ADAC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notion.Sdk.Tests", "tests\Notion.Sdk.Tests\Notion.Sdk.Tests.csproj", "{42E7D4B8-187E-4890-B832-C700994A3F76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notion.Sharp.Tests", "tests\Notion.Sharp.Tests\Notion.Sharp.Tests.csproj", "{42E7D4B8-187E-4890-B832-C700994A3F76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
