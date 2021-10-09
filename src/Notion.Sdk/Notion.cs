@@ -3,13 +3,14 @@
 using System;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Notion
 {
     public static class Notion
     {
-        public static INotion NewClient(string bearerToken)
+        public static INotion NewClient(string bearerToken, string version)
         {
             return RestService.For<INotion>("https://api.notion.com/v1/", new RefitSettings
             {
@@ -18,7 +19,11 @@ namespace Notion
                 {
                     IgnoreNullValues = true
                 }),
-                ExceptionFactory = GetException
+                ExceptionFactory = GetException,
+                HttpMessageHandlerFactory = () => new AuthHeaderHandler(version)
+                {
+                    InnerHandler = new HttpClientHandler()
+                }
             });
         }
 
@@ -41,6 +46,22 @@ namespace Notion
                 Status = error.status,
             };
             return await Task.FromResult(exception);
+        }
+        
+        private class AuthHeaderHandler : DelegatingHandler
+        {
+            public AuthHeaderHandler(string version)
+            {
+                Version = version ?? throw new ArgumentNullException(nameof(version));
+            }
+
+            private string Version { get; }
+
+            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                request.Headers.Add("Notion-Version", Version);
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            }
         }
     }
 }

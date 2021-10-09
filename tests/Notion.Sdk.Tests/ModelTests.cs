@@ -31,7 +31,7 @@ namespace Notion.Sdk.Tests
                 .AddUserSecrets<ModelTests>()
                 .Build();
 
-            SUT = Notion.NewClient(bearerToken: configuration["Notion"]);
+            SUT = Notion.NewClient(bearerToken: configuration["Notion"], "2021-08-16");
             ValidUserId = Guid.Parse(configuration["userId"]);
             ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
             ValidPageId = Guid.Parse(configuration["pageId"]);

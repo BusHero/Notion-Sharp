@@ -7,7 +7,7 @@ using Refit;
 
 namespace Notion
 {
-    [Headers("Notion-Version: 2021-08-16", "Authorization: Bearer")]
+    [Headers("Authorization: Bearer")]
     public interface INotion
     {
         #region Databases
