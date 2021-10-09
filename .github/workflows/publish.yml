@@ -21,7 +21,15 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: development
     steps:
+      - name: Store Secrets
+        run: |
+          dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "userId" "${{ secrets.USER_ID }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "databaseId" "${{ secrets.DATABASE_ID }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "pageId" "${{ secrets.PAGE_ID }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
+          dotnet user-secrets set "blockId" "${{ secrets.BLOCK_ID }}" --project ./tests/Notion.Sdk.Tests/Notion.Sdk.Tests.csproj 
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup .NET Core
