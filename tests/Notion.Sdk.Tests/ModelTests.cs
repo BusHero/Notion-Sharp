@@ -10,9 +10,8 @@ namespace Notion.Sdk.Tests
 {
     public class ModelTests
     {
-        private INotion SUT { get; }
-
         #region Ids
+        private INotion SUT { get; }
 
         private Guid ValidUserId { get; }
      
@@ -132,6 +131,25 @@ namespace Notion.Sdk.Tests
         {
             var database = await SUT.GetDatabaseAsync(ValidDatabaseId);
             database.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task QueryDatabase_Succeds()
+        {
+            string results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
+            {
+
+            });
+            results.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task QueryDatabase_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.QueryDatabaseAsync(Guid.NewGuid(), new
+            {
+
+            })).Should().ThrowAsync<NotionException>();
         }
 
         #endregion
