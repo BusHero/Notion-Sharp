@@ -29,7 +29,7 @@ namespace Notion
         #region Users
 
         [Get("/users")]
-        Task<string> GetUsersAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
+        Task<PaginationList<object>> GetUsersAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Get("/users/{user_id}")]
         Task<string> GetUserAsync([AliasAs("user_id")] Guid userId);
@@ -54,31 +54,32 @@ namespace Notion
 
         #region Blocks
 
-        [Get("/blocks/{id}/children")]
-        Task<string> GetBlocksChildrenAsync([AliasAs("id")] Guid blockId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
-
         [Get("/blocks/{block_id}")]
         Task<string> GetBlockAsync([AliasAs("block_id")] Guid blockId);
-
+        
         [Patch("/blocks/{id}")]
         Task<string> UpdateBlockAsync(Guid id, [Body] object block);
 
+        [Get("/blocks/{id}/children")]
+        Task<PaginationList<object>> GetBlocksChildrenAsync([AliasAs("id")] Guid blockId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
+
         [Patch("/blocks/{id}/children")]
-        Task<string> AppendBlockChildrenAsync(Guid id, [Body] object content);
+        Task<PaginationList<object>> AppendBlockChildrenAsync(Guid id, [Body] object content);
+        
+        [Delete("/blocks/{id}")]
+        Task<string> DeleteBlockAsync(Guid id);
 
         #endregion
 
         #region Search
         [Post("/search")]
         [Headers("Content-Type: application/json")]
-        Task<string> SearchAsync([Body]SearchPayload query);
+        Task<PaginationList<object>> SearchAsync([Body]SearchPayload query);
         
         [Post("/databases/{id}/query")]
-        Task<string> QueryDatabaseAsync(Guid id, [Body]object p);
+        Task<PaginationList<object>> QueryDatabaseAsync(Guid id, [Body]object p);
         
-        [Delete("/blocks/{id}")]
-        Task<string> DeleteBlockAsync(Guid id);
-
+        
         #endregion
     }
 }

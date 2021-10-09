@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using System.Text.Json;
 using System.Linq;
+using Notion.Model;
 
 namespace Notion.Sdk.Tests
 {
@@ -43,8 +44,8 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetUsers()
         {
-            var users = await SUT.GetUsersAsync();
-            users.Should().NotBeNullOrEmpty();
+            PaginationList<object> users = await SUT.GetUsersAsync();
+            users.Should().NotBeNull();
         }
 
         [Fact]
@@ -138,11 +139,11 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task QueryDatabase_Succeds()
         {
-            string results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
+            PaginationList<object> results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
             {
 
             });
-            results.Should().NotBeNullOrEmpty();
+            results.Should().NotBeNull();
         }
 
         [Fact]
@@ -261,7 +262,7 @@ namespace Notion.Sdk.Tests
         public async Task GetBlocks_Succeds_OnValidId()
         {
             var blocks = await SUT.GetBlocksChildrenAsync(ValidPageId);
-            blocks.Should().NotBeNullOrEmpty(); 
+            blocks.Should().NotBeNull(); 
         }
 
         [Fact]
@@ -302,7 +303,7 @@ namespace Notion.Sdk.Tests
                     }
                 }
             });
-            result.Should().NotBeNullOrEmpty();
+            result.Should().NotBeNull();
         }
 
         [Fact]
@@ -408,12 +409,9 @@ namespace Notion.Sdk.Tests
                     }
                 }
             });
-
-            using var document = JsonDocument.Parse(result);
-            var root = document.RootElement;
-            var id = root.GetProperty("results").EnumerateArray().First().GetProperty("id").GetString();
-            result = await SUT.DeleteBlockAsync(Guid.Parse(id));
-            result.Should().NotBeNullOrEmpty();
+            var id = ((JsonElement)result.Results[0]).GetProperty("id").GetString();
+            var result2 = await SUT.DeleteBlockAsync(Guid.Parse(id));
+            result2.Should().NotBeNullOrEmpty();
         }
 
         #endregion
@@ -421,12 +419,12 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task Search_Succeds_OnValidParameter()
         {
-            string result = await SUT.SearchAsync(new(
+            PaginationList<object> result = await SUT.SearchAsync(new(
                 query: "foo",
                 sort: new Sort(direction: "ascending", timestamp: "last_edited_time"),
                 filter: new Filter(value: "database", property: "object"),
                 page_size: 100));
-            result.Should().NotBeNullOrEmpty();
+            result.Should().NotBeNull();
         }
     }
 }

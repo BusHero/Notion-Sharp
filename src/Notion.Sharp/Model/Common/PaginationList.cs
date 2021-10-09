@@ -3,8 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace Notion.Model
 {
-    public record List<TItem>
+    public record PaginationList<TItem>
     {
+        [JsonPropertyName("object")]
+        public const string Object = "list";
+
+        [JsonPropertyName("results")]
         public TItem[] Results { get; set; }
 
         [JsonPropertyName("next_cursor")]
