@@ -75,6 +75,9 @@ namespace Notion
         
         [Post("/databases/{id}/query")]
         Task<string> QueryDatabaseAsync(Guid id, [Body]object p);
+        
+        [Delete("/blocks/{id}")]
+        Task<string> DeleteBlockAsync(Guid id);
 
         #endregion
     }

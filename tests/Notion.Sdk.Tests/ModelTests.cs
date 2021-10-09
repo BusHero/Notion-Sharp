@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Xunit;
 using System.Threading.Tasks;
 using System;
+using System.Text.Json;
+using System.Linq;
 
 namespace Notion.Sdk.Tests
 {
@@ -300,6 +302,7 @@ namespace Notion.Sdk.Tests
                     }
                 }
             });
+            result.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -370,6 +373,47 @@ namespace Notion.Sdk.Tests
                     }
                 }
             })).Should().ThrowAsync<NotionException>();
+        }
+
+        [Fact]
+        public async Task DeleteBlock_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.DeleteBlockAsync(Guid.NewGuid()))
+                .Should()
+                .ThrowAsync<NotionException>();
+        }
+
+        [Fact]
+        public async Task DeleteBlock_Succeds()
+        {
+            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new
+            {
+                children = new object[]
+                {
+                    new
+                    {
+                        heading_2 = new
+                        {
+                            text = new object[]
+                            {
+                                new
+                                {
+                                    text = new
+                                    {
+                                        content = "Brave new world!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            using var document = JsonDocument.Parse(result);
+            var root = document.RootElement;
+            var id = root.GetProperty("results").EnumerateArray().First().GetProperty("id").GetString();
+            result = await SUT.DeleteBlockAsync(Guid.Parse(id));
+            result.Should().NotBeNullOrEmpty();
         }
 
         #endregion
