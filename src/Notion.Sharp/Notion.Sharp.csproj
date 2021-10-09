@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/BusHero/Notion-SDK</RepositoryUrl>
     <PackageTags>Notion, Notion-api</PackageTags>
     <PackageReleaseNotes>This is a prerelease version</PackageReleaseNotes>
-    <PackageLicenseExpression>mit</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
