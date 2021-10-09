@@ -329,6 +329,49 @@ namespace Notion.Sdk.Tests
             })).Should().ThrowAsync<NotionException>();
         }
 
+        [Fact]
+        public async Task UpdateBlock_Succeds()
+        {
+            var result = await SUT.UpdateBlockAsync(ValidBlockId, new
+            {
+                paragraph = new
+                {
+                    text = new object[]
+                    {
+                        new
+                        {
+                            text = new
+                            {
+                                content = "hello to you"
+                            }
+                        }
+                    }
+                }
+            });
+            result.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task UpdateBlock_Fails_OnInvalidId()
+        {
+            await SUT.Awaiting(sut => sut.UpdateBlockAsync(Guid.NewGuid(), new
+            {
+                paragraph = new
+                {
+                    text = new object[]
+                    {
+                        new
+                        {
+                            text = new
+                            {
+                                content = "hello to you"
+                            }
+                        }
+                    }
+                }
+            })).Should().ThrowAsync<NotionException>();
+        }
+
         #endregion
 
         [Fact]

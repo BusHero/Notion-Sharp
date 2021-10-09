@@ -60,8 +60,8 @@ namespace Notion
         [Get("/blocks/{block_id}")]
         Task<string> GetBlockAsync([AliasAs("block_id")] Guid blockId);
 
-        [Patch("/blocks/{block.id}")]
-        Task<string> UpdateBlockAsync(Block block);
+        [Patch("/blocks/{id}")]
+        Task<string> UpdateBlockAsync(Guid id, [Body] object block);
 
         [Patch("/blocks/{id}/children")]
         Task<string> AppendBlockChildrenAsync(Guid id, [Body] object content);
