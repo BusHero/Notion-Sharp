@@ -44,15 +44,15 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetUsers()
         {
-            PaginationList<object> users = await SUT.GetUsersAsync();
+            PaginationList<User> users = await SUT.GetUsersAsync();
             users.Should().NotBeNull();
         }
 
         [Fact]
         public async Task GetMe()
         {
-            var me = await SUT.GetMeAsync();
-            me.Should().NotBeNullOrEmpty();
+            User me = await SUT.GetMeAsync();
+            me.Should().BeOfType<User.Bot>();
         }
 
         [Fact]
@@ -66,8 +66,8 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetUser_Succeds_OnValidId()
         {
-            var user = await SUT.GetUserAsync(ValidUserId);
-            user.Should().NotBeNullOrEmpty();
+            User user = await SUT.GetUserAsync(ValidUserId);
+            user.Should().NotBeNull();
         }
 
         #endregion

@@ -29,13 +29,13 @@ namespace Notion
         #region Users
 
         [Get("/users")]
-        Task<PaginationList<object>> GetUsersAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
+        Task<PaginationList<User>> GetUsersAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Get("/users/{user_id}")]
-        Task<string> GetUserAsync([AliasAs("user_id")] Guid userId);
+        Task<User> GetUserAsync([AliasAs("user_id")] Guid userId);
 
         [Get("/users/me")]
-        Task<string> GetMeAsync();
+        Task<User> GetMeAsync();
 
         #endregion
 

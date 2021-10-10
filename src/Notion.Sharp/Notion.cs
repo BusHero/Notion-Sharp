@@ -1,8 +1,12 @@
-﻿using Refit;
+﻿using Notion.Converters;
+
+using Refit;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +21,11 @@ namespace Notion
                 AuthorizationHeaderValueGetter = () => Task.FromResult(bearerToken),
                 ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions
                 {
-                    IgnoreNullValues = true
+                    IgnoreNullValues = true,
+                    Converters =
+                    {
+                        new UserConverter()
+                    }
                 }),
                 ExceptionFactory = GetException,
                 HttpMessageHandlerFactory = () => new AuthHeaderHandler(version)
