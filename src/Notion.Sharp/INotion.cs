@@ -13,16 +13,17 @@ namespace Notion
         #region Databases
 
         [Post("/databases")]
-        Task<string> CreateDatabaseAsync([Body] object database);
+        Task<Database> CreateDatabaseAsync([Body] object database);
 
         [Patch("/databases/{id}")]
-        Task<string> UpdateDatabaseAsync(Guid id, [Body]object database);
+        Task<Database> UpdateDatabaseAsync(Guid id, [Body]object database);
         
+        [Obsolete]
         [Get("/databases")]
         Task<string> GetDatabasesAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Get("/databases/{database_id}")]
-        Task<string> GetDatabaseAsync([AliasAs("database_id")] Guid databaseId);
+        Task<Database> GetDatabaseAsync([AliasAs("database_id")] Guid databaseId);
 
         #endregion
 
@@ -55,19 +56,19 @@ namespace Notion
         #region Blocks
 
         [Get("/blocks/{block_id}")]
-        Task<string> GetBlockAsync([AliasAs("block_id")] Guid blockId);
+        Task<Block> GetBlockAsync([AliasAs("block_id")] Guid blockId);
         
         [Patch("/blocks/{id}")]
-        Task<string> UpdateBlockAsync(Guid id, [Body] object block);
+        Task<Block> UpdateBlockAsync(Guid id, [Body] object block);
 
         [Get("/blocks/{id}/children")]
-        Task<PaginationList<object>> GetBlocksChildrenAsync([AliasAs("id")] Guid blockId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
+        Task<PaginationList<Block>> GetBlocksChildrenAsync([AliasAs("id")] Guid blockId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Patch("/blocks/{id}/children")]
-        Task<PaginationList<object>> AppendBlockChildrenAsync(Guid id, [Body] object content);
+        Task<PaginationList<Block>> AppendBlockChildrenAsync(Guid id, [Body] object content);
         
         [Delete("/blocks/{id}")]
-        Task<string> DeleteBlockAsync(Guid id);
+        Task<Block> DeleteBlockAsync(Guid id);
 
         #endregion
 

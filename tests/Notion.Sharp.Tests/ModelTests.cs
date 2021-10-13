@@ -132,8 +132,8 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetDatabase_Succeds_OnValidId()
         {
-            var database = await SUT.GetDatabaseAsync(ValidDatabaseId);
-            database.Should().NotBeNullOrEmpty();
+            Database database = await SUT.GetDatabaseAsync(ValidDatabaseId);
+            database.Should().NotBeNull();
         }
 
         [Fact]
@@ -275,7 +275,7 @@ namespace Notion.Sdk.Tests
         public async Task GetBlock_Succeds_OnValidId()
         {
             var block = await SUT.GetBlockAsync(ValidBlockId);
-            block.Should().NotBeNullOrEmpty();
+            block.Should().NotBeNull();
         }
 
         [Fact]
@@ -352,7 +352,7 @@ namespace Notion.Sdk.Tests
                     }
                 }
             });
-            result.Should().NotBeNullOrEmpty();
+            result.Should().NotBeNull();
         }
 
         [Fact]
@@ -409,9 +409,8 @@ namespace Notion.Sdk.Tests
                     }
                 }
             });
-            var id = ((JsonElement)result.Results[0]).GetProperty("id").GetString();
-            var result2 = await SUT.DeleteBlockAsync(Guid.Parse(id));
-            result2.Should().NotBeNullOrEmpty();
+            var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
+            result2.Should().NotBeNull();
         }
 
         #endregion

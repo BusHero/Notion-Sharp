@@ -153,7 +153,7 @@ namespace Notion.Model
             }
 
             public object Text { get; init; }
-            public LanguageType Language { get; init; }
+            public string Language { get; init; }
         }
 
         public record ChildPage : Block
@@ -184,7 +184,7 @@ namespace Notion.Model
 
         public record FileBlock : Block
         {
-            public File Content { get; init; }
+            public File File { get; init; }
         }
 
         public record Pdf : Block
@@ -196,6 +196,17 @@ namespace Notion.Model
         {
             public RichText[] Caption { get; init; }
             public Uri Url { get; init; }
+        }
+
+        public record Callout: Block
+        {
+            public RichText[] Text { get; init; }
+            public Emoji Icon { get; init; }
+        }
+
+        public record Quote: Block
+        {
+            public RichText[] Text { get; init; }
         }
 
         public record Unsupported : Block { }
