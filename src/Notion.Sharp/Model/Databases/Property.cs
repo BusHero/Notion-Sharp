@@ -7,10 +7,10 @@ namespace Notion.Model
         public string Id { get; init; }
         public string Name { get; init; }
 
-        public static T Copy<T>(Property descriptor) where T : Property, new() => new()
+        public T Copy<T>() where T : Property, new() => new()
         {
-            Id = descriptor.Id,
-            Name = descriptor.Name
+            Id = Id,
+            Name = Name
         };
 
         public record Title : Property
@@ -36,11 +36,7 @@ namespace Notion.Model
 
         public record Number : Property
         {
-            public const string type = "number";
-
-            public NumberFormat Format { get; init; }
-
-            public static Func<Number, Number> Updater(Func<Number, Number> func) => func;
+            public string Format { get; init; }
 
             public enum NumberFormat
             {
@@ -84,15 +80,11 @@ namespace Notion.Model
 
         public record Select : Property
         {
-            public const string type = "select";
-
             public Option[] Options { get; init; }
         }
 
         public record MultiSelect : Property
         {
-            public const string type = "multi_select";
-
             public Option[] Options { get; init; }
         }
 
@@ -112,7 +104,7 @@ namespace Notion.Model
             public string RelationPropertyId { get; init; }
             public string RollupPropertyName { get; init; }
             public string RollupPropertyId { get; init; }
-            public RollupFunction Function { get; init; }
+            public string Function { get; init; }
 
             public enum RollupFunction
             {
