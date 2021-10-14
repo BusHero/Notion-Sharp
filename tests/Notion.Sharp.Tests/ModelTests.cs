@@ -142,7 +142,7 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task QueryDatabase_Succeds()
         {
-            PaginationList<object> results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
+            PaginationList<Page> results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
             {
 
             });
