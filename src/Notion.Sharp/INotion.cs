@@ -78,7 +78,7 @@ namespace Notion
         Task<PaginationList<object>> SearchAsync([Body]SearchPayload query);
         
         [Post("/databases/{id}/query")]
-        Task<PaginationList<object>> QueryDatabaseAsync(Guid id, [Body]object p);
+        Task<PaginationList<Page>> QueryDatabaseAsync(Guid id, [Body]object p);
         
         
         #endregion

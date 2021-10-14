@@ -29,6 +29,7 @@ jobs:
           dotnet user-secrets set "databaseId" "${{ secrets.DATABASE_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "pageId" "${{ secrets.PAGE_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "blockId" "${{ secrets.BLOCK_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
+          dotnet user-secrets set "pageFromDatabase" "${{ secrets.DATABASE_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
       - name: Restore
         run: dotnet restore
       - name: Build
