@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pevac" Version="0.3.4" />
+    <PackageReference Include="Pevac" Version="0.4.0" />
     <PackageReference Include="Refit" Version="6.0.94" />
   </ItemGroup>
 

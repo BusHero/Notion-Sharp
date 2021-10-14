@@ -18,11 +18,11 @@ namespace Notion.Converters
         {
             return Parser.ParseObject(propertyName => propertyName switch
             {
-                "id" => Parser.String.Updater((string id, PropertyValue propertyValue) => propertyValue with { Id = id}),
+                "id" => Parser.String.Updater((string id, PropertyValue propertyValue) => propertyValue with { Id = id }),
                 "type" => Parser.String.Updater<string, PropertyValue>(),
                 "title" => Parser.ParseType<RichText[]>().Updater((RichText[] content, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Title>() with { Content = content}),
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] content, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Text>() with { Content = content }),
-                "number" => MyParserExtensions.OptionalDouble.Updater((double? value, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Number>() with { Value = value }),
+                "number" => Parser.OptionalDouble.Updater((double? value, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Number>() with { Value = value }),
                 "select" => Parser.ParseType<Option>().Updater((Option option, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Select>() with { Option = option }),
                 "multi_select" => Parser.ParseType<Option[]>().Updater((Option[] options, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.MultiSelect>() with { Options = options }),
                 "date" => (Parser.NullToken.Updater((Void _, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Date>())).Or(
@@ -35,7 +35,11 @@ namespace Notion.Converters
                 "people" => Parser.ParseType<User[]>().Updater((User[] users, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.People>() with { Value = users }),
                 "files" => Parser.ParseType<File[]>().Updater((File[] files, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Files>() with { Vaule = files }),
                 "checkbox" => Parser.Bool.Updater((bool @checked, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Checkbox>() with { Checked = @checked }),
-                "url" => Parser.OptionalUri.Updater((Uri link, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Url>() with { Link = link }),
+                "url" => Parser.OptionalString.Select(uri =>
+                {
+                    Uri.TryCreate(uri, UriKind.RelativeOrAbsolute, out var @return);
+                    return @return;
+                }).Updater((Uri link, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Url>() with { Link = link }),
                 "email" => Parser.OptionalString.Updater((string email, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Email>() with { Value = email }),
                 "phone_number" => Parser.OptionalString.Updater((string phoneNumber, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.PhoneNumber>() with { Value = phoneNumber }),
                 "formula" => Parser.ParseObject(propertyName => propertyName switch
@@ -51,7 +55,7 @@ namespace Notion.Converters
                 "rollup" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "type" => Parser.String.Updater<string, PropertyValue.Rollup>(),
-                    "number" => MyParserExtensions.OptionalDecimal.Updater((decimal? value, PropertyValue.Rollup rollup) => rollup.Copy<PropertyValue.NumberRollup>() with { Value = value }),
+                    "number" => Parser.OptionalDecimal.Updater((decimal? value, PropertyValue.Rollup rollup) => rollup.Copy<PropertyValue.NumberRollup>() with { Value = value }),
                     "date" => Parser.OptionalDateTime.Updater((DateTime? value, PropertyValue.Rollup rollup) => rollup.Copy<PropertyValue.DateRollup>() with { Value = value }),
                     "array" => Parser.ParseType<PropertyValue[]>().Updater((PropertyValue[] value, PropertyValue.Rollup rollup) => rollup.Copy<PropertyValue.ArrayRollup>() with { Value = value }),
                     "function" => Parser.String.Updater((string? function, PropertyValue.Rollup rollup) => rollup with { Function = function }),
@@ -69,27 +73,5 @@ namespace Notion.Converters
         {
             throw new NotImplementedException();
         }
-    }
-
-    public static class MyParserExtensions
-    {
-        private static Parser<double?> optionalDouble;
-        private static Parser<decimal?> optionalDecimal;
-
-        public static Parser<double?> OptionalDouble => optionalDouble ??= Parser.OptionalNumber
-            .Then((ref Utf8JsonReader reader, JsonSerializerOptions? _) => reader.GetString() switch
-             {
-                 null => Result.Success(default(double?)),
-                 var x when double.TryParse(x, out var result) => Result.Success<double?>(result),
-                 _ => Result.Failure<double?>()
-             });
-
-        public static Parser<decimal?> OptionalDecimal => optionalDecimal ??= Parser.OptionalNumber
-            .Then((ref Utf8JsonReader reader, JsonSerializerOptions? _) => reader.GetString() switch
-            {
-                null => Result.Success(default(decimal?)),
-                var x when decimal.TryParse(x, out var result) => Result.Success<decimal?>(result),
-                _ => Result.Failure<decimal?>()
-            });
     }
 }
