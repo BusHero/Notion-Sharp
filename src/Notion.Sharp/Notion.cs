@@ -29,6 +29,7 @@ namespace Notion
                         new RichTextConverter(),
                         new ParentConverter(),
                         new PropertyConverter(),
+                        new PropertyValueConverter()
                     }
                 }),
                 ExceptionFactory = GetException,

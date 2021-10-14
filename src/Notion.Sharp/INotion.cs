@@ -43,13 +43,13 @@ namespace Notion
         #region Pages
 
         [Get("/pages/{page_id}")]
-        Task<string> GetPageAsync([AliasAs("page_id")] Guid pageId);
+        Task<Page> GetPageAsync([AliasAs("page_id")] Guid pageId);
 
         [Patch("/pages/{id}")]
-        Task<string> UpdatePageAsync(Guid id, [Body] object page);
+        Task<Page> UpdatePageAsync(Guid id, [Body] object page);
 
         [Post("/pages")]
-        Task<string> CreatePageAsync([Body]object page);
+        Task<Page> CreatePageAsync([Body]object page);
 
         #endregion
 

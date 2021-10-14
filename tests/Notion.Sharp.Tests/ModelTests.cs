@@ -24,6 +24,8 @@ namespace Notion.Sdk.Tests
         
         private Guid ValidBlockId { get; }
 
+        private Guid PageFromDatabase { get; }
+
         #endregion
 
         public ModelTests()
@@ -37,6 +39,7 @@ namespace Notion.Sdk.Tests
             ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
             ValidPageId = Guid.Parse(configuration["pageId"]);
             ValidBlockId = Guid.Parse(configuration["blockId"]);
+            PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
         }
 
         #region Users
@@ -216,8 +219,15 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetPage_Succeds_OnValidId()
         {
-            var user = await SUT.GetPageAsync(ValidPageId);
-            user.Should().NotBeNullOrEmpty();
+            Page page = await SUT.GetPageAsync(ValidPageId);
+            page.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task GetPageFromDatabase_Succeds()
+        {
+            Page page = await SUT.GetPageAsync(PageFromDatabase);
+            page.Should().NotBeNull();
         }
 
         [Fact]

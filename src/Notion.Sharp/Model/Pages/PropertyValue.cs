@@ -32,7 +32,7 @@ namespace Notion.Model
 
         public record Number : PropertyValue
         {
-            public double Value { get; init; }
+            public double? Value { get; init; }
         }
 
         public record Text : PropertyValue
@@ -52,33 +52,35 @@ namespace Notion.Model
 
         public record Date : PropertyValue
         {
-            public DateTimeOffset? Start { get; init; }
-            public DateTimeOffset? End { get; init; }
+            public DateTime? Start { get; init; }
+            public DateTime? End { get; init; }
         }
 
         public record PageReference(Guid id);
 
+        public record SrtingFormula : Formula
+        {
+            public string Value { get; init; }
+        }
+        public record NumberFormula : Formula
+        {
+            public decimal Value { get; init; }
+        }
+
+        public record BooleanFormula : Formula
+        {
+            public bool? Value { get; init; }
+        }
+
+
+        public record DateFormula : Formula
+        {
+            public DateTime? Value { get; init; }
+        }
+
         public record Formula : PropertyValue
         {
-            public record Srting : Formula
-            {
-                public string Value { get; init; }
-            }
-
-            public record Number : Formula
-            {
-                public decimal? Value { get; init; }
-            }
-
-            public record Boolean : Formula
-            {
-                public bool? Value { get; init; }
-            }
-
-            public record Date : Formula
-            {
-                public DateTime? Value { get; init; }
-            }
+            
         }
 
         public record Relation : PropertyValue
@@ -86,22 +88,24 @@ namespace Notion.Model
             public PageReference[] Pages { get; init; }
         }
 
+        public record NumberRollup : Rollup
+        {
+            public decimal? Value { get; init; }
+        }
+
+        public record DateRollup : Rollup
+        {
+            public DateTime? Value { get; init; }
+        }
+
+        public record ArrayRollup : Rollup
+        {
+            public PropertyValue[] Value { get; init; }
+        }
+
         public record Rollup : PropertyValue
         {
-            public record Number : Rollup
-            {
-                public decimal Value { get; init; }
-            }
-
-            public record Date : Rollup
-            {
-                public DateTime? Value { get; init; }
-            }
-
-            public record Array : Rollup
-            {
-                public PropertyValue[] Value { get; init; }
-            }
+            public string Function { get; init; }
         }
 
         public record Email : PropertyValue

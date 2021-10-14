@@ -6,6 +6,7 @@ namespace Notion.Model
 {
     public record Page
     {
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
 
         [JsonPropertyName("created_time")]
@@ -13,11 +14,17 @@ namespace Notion.Model
 
         [JsonPropertyName("last_edited_time")]
         public DateTimeOffset LastEditedTime { get; set; }
+        [JsonPropertyName("archived")]
         public bool Archived { get; set; }
+        [JsonPropertyName("icon")]
         public File Icon { get; set; }
+        [JsonPropertyName("cover")]
         public File Cover { get; set; }
+        [JsonPropertyName("properties")]
         public IImmutableDictionary<string, PropertyValue> Properties { get; set; }
+        [JsonPropertyName("parent")]
         public Parent Parent { get; set; }
+        [JsonPropertyName("url")]
         public Uri Url { get; set; }
     }
 }
