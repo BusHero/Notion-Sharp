@@ -281,6 +281,19 @@ namespace Notion
                                     var lastEditedBy = propertyValue as PropertyValue.LastEditedBy;
                                     JsonSerializer.Serialize(writer, lastEditedBy.Value, options);
                                 }),
+                                [typeof(PropertyValue.Url)] = Writer.GetWriter<PropertyValue>("url", (writer, propertyValue, options) =>
+                                {
+                                    var url = propertyValue as PropertyValue.Url;
+                                    writer.WriteStringValue(url.Link.ToString());
+                                }),
+                                [typeof(PropertyValue.Date)] = Writer.GetWriter<PropertyValue>("date", (writer, propertyValue, options) =>
+                                {
+                                    var date = propertyValue as PropertyValue.Date;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("start", date.Start?.ToString());
+                                    writer.WriteString("end", date.End?.ToString());
+                                    writer.WriteEndObject();
+                                }),
                             }
                         },
                         new PageOrDatabaseConverter()
