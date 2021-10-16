@@ -428,11 +428,15 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task Search_Succeds_OnValidParameter()
         {
-            PaginationList<object> result = await SUT.SearchAsync(new(
-                query: "foo",
-                sort: new Sort(direction: "ascending", timestamp: "last_edited_time"),
-                filter: new Filter(value: "database", property: "object"),
-                page_size: 100));
+            //var result = await SUT.SearchAsync("foo");
+            PaginationList<PageOrDatabase> result = await SUT.SearchAsync(
+                new(
+                //query: "foo",
+                //sort: new Sort(direction: "ascending", timestamp: "last_edited_time"),
+                //filter: new Filter(value: "database", property: "object"),
+                //page_size: 100
+                )
+                );
             result.Should().NotBeNull();
         }
     }

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Notion.Model
 {
-    public record Database
+    public record Database : PageOrDatabase
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }

@@ -75,7 +75,12 @@ namespace Notion
         #region Search
         [Post("/search")]
         [Headers("Content-Type: application/json")]
-        Task<PaginationList<object>> SearchAsync([Body]SearchPayload query);
+        Task<PaginationList<PageOrDatabase>> SearchAsync([Body] SearchPayload query);
+
+        //public async Task<PaginationList<PageOrDatabase>> SearchAsync(string query)
+        //{
+        //    return await SearchAsync(new SearchPayload(query));
+        //}
         
         [Post("/databases/{id}/query")]
         Task<PaginationList<Page>> QueryDatabaseAsync(Guid id, [Body]object p);
