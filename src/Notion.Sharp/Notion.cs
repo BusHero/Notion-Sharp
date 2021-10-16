@@ -186,12 +186,12 @@ namespace Notion
                                     var page = parent as Parent.Page;
                                     writer.WriteStringValue(page.Id.ToString());
                                 }),
-                                [typeof(Parent.Page)] = Writer.GetWriter<Parent>("workspace", (writer, parent, options) =>
+                                [typeof(Parent.Workspace)] = Writer.GetWriter<Parent>("workspace", (writer, parent, options) =>
                                 {
                                     writer.WriteStartObject();
                                     writer.WriteEndObject();
                                 }),
-                                [typeof(Parent.Page)] = Writer.GetWriter<Parent>("page_id", (writer, parent, options) =>
+                                [typeof(Parent.Database)] = Writer.GetWriter<Parent>("database_id", (writer, parent, options) =>
                                 {
                                     var page = parent as Parent.Database;
                                     writer.WriteStringValue(page.Id.ToString());
