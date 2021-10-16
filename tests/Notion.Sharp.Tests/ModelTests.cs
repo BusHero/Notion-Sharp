@@ -255,29 +255,45 @@ namespace Notion.Sharp.Tests
                 }
             });
             result.Should().NotBeNull();
-            //await SUT.CreatePageAsync(new
-            //{
-            //    parent = new
-            //    {
-            //        page_id = ValidPageId
-            //    },
-            //    properties = new
-            //    {
-            //        title = new
-            //        {
-            //            title = new object[]
-            //            {
-            //                new
-            //                {
-            //                    text = new
-            //                    {
-            //                        content = "some new title"
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //});
+        }
+
+        [Fact]
+        public async Task CreatePageWithChildren_Succeds()
+        {
+            var result = await SUT.CreatePageAsync(new Page
+            {
+                Parent = new Parent.Page
+                {
+                    Id = ValidPageId
+                },
+                Properties = new Dictionary<string, PropertyValue>
+                {
+                    ["title"] = new PropertyValue.Title
+                    {
+                        Content = new RichText[]
+                        {
+                            new RichText.Text
+                            {
+                                Content = "Page with content"
+                            }
+                        }
+                    }
+                }
+            }, new Block[]
+            {
+                new Block.Heading1
+                {
+                    Text = new RichText[]
+                    {
+                        new RichText.Text
+                        {
+                            Content = "Heading 1"
+                        }
+                    }
+                },
+            });
+            result.Should().NotBeNull();
+
         }
 
         #endregion

@@ -50,7 +50,22 @@ namespace Notion
         Task<Page> UpdatePageAsync(Guid id, [Body] object page);
 
         [Post("/pages")]
-        Task<Page> CreatePageAsync([Body]Page page);
+        internal Task<Page> CreatePageAsync([Body]object page);
+
+        public async Task<Page> CreatePageAsync(Page page)
+        {
+            return await CreatePageAsync(page as object);
+        }
+
+        public async Task<Page> CreatePageAsync(Page page, Block[] children)
+        {
+            return await CreatePageAsync(new
+            {
+                parent = page.Parent,
+                properties = page.Properties,
+                children = children
+            });
+        }
 
         #endregion
 
