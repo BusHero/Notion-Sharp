@@ -120,7 +120,7 @@ namespace Notion.Model
 
         public record Files : PropertyValue
         {
-            public File[] Vaule { get; init; }
+            public File[] Value { get; init; }
         }
 
         public record PhoneNumber : PropertyValue

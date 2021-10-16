@@ -3,6 +3,7 @@
 using Pevac;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -33,7 +34,7 @@ namespace Notion.Converters
                         _ => Parser.FailUpdate<PropertyValue.Date>()
                     }, (PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Date>())),
                 "people" => Parser.ParseType<User[]>().Updater((User[] users, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.People>() with { Value = users }),
-                "files" => Parser.ParseType<File[]>().Updater((File[] files, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Files>() with { Vaule = files }),
+                "files" => Parser.ParseType<File[]>().Updater((File[] files, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Files>() with { Value = files }),
                 "checkbox" => Parser.Bool.Updater((bool @checked, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Checkbox>() with { Checked = @checked }),
                 "url" => Parser.OptionalString.Select(uri =>
                 {
@@ -71,7 +72,15 @@ namespace Notion.Converters
 
         public override void Write(Utf8JsonWriter writer, PropertyValue value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            if (Writers is null || !Writers.TryGetValue(value.GetType(), out var blockWriter))
+                throw new JsonException($"Cannot serialize {value.GetType().Name}");
+
+            writer.WriteStartObject();
+            writer.WritePropertyName(blockWriter.Property);
+            blockWriter.Write(writer, value, options);
+            writer.WriteEndObject();
         }
+
+        public Dictionary<Type, IWriter<PropertyValue>> Writers { get; init; }
     }
 }

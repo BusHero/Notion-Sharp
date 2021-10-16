@@ -50,7 +50,7 @@ namespace Notion
         Task<Page> UpdatePageAsync(Guid id, [Body] object page);
 
         [Post("/pages")]
-        Task<Page> CreatePageAsync([Body]object page);
+        Task<Page> CreatePageAsync([Body]Page page);
 
         #endregion
 

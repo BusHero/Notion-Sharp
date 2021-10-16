@@ -177,9 +177,112 @@ namespace Notion
                             }
                         },
                         new RichTextConverter(),
-                        new ParentConverter(),
+                        new ParentConverter
+                        {
+                            Writers = new Dictionary<Type, IWriter<Parent>>
+                            {
+                                [typeof(Parent.Page)] = Writer.GetWriter<Parent>("page_id", (writer, parent, options) =>
+                                {
+                                    var page = parent as Parent.Page;
+                                    writer.WriteStringValue(page.Id.ToString());
+                                }),
+                                [typeof(Parent.Page)] = Writer.GetWriter<Parent>("workspace", (writer, parent, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Parent.Page)] = Writer.GetWriter<Parent>("page_id", (writer, parent, options) =>
+                                {
+                                    var page = parent as Parent.Database;
+                                    writer.WriteStringValue(page.Id.ToString());
+                                })
+                            }
+                        },
                         new PropertyConverter(),
-                        new PropertyValueConverter(),
+                        new PropertyValueConverter
+                        {
+                            Writers = new Dictionary<Type, IWriter<PropertyValue>>
+                            {
+                                [typeof(PropertyValue.Title)] = Writer.GetWriter<PropertyValue>("title", (writer, propertyValue, options) =>
+                                {
+                                    var title = propertyValue as PropertyValue.Title;
+                                    JsonSerializer.Serialize(writer, title.Content, options);
+                                }),
+                                [typeof(PropertyValue.Text)] = Writer.GetWriter<PropertyValue>("rich_text", (writer, propertyValue, options) =>
+                                {
+                                    var text = propertyValue as PropertyValue.Text;
+                                    JsonSerializer.Serialize(writer, text.Content, options);
+                                }),
+                                [typeof(PropertyValue.Number)] = Writer.GetWriter<PropertyValue>("number", (writer, propertyValue, options) =>
+                                {
+                                    var number = propertyValue as PropertyValue.Number;
+                                    if (number.Value is not null)
+                                        writer.WriteNumberValue(number.Value.Value);
+                                    else
+                                        writer.WriteNullValue();
+                                }),
+                                [typeof(PropertyValue.Select)] = Writer.GetWriter<PropertyValue>("select", (writer, propertyValue, options) =>
+                                {
+                                    var select = propertyValue as PropertyValue.Select;
+                                    JsonSerializer.Serialize(writer, select.Option, options);
+                                }),
+                                [typeof(PropertyValue.MultiSelect)] = Writer.GetWriter<PropertyValue>("multi_select", (writer, propertyValue, options) =>
+                                {
+                                    var multiSelect = propertyValue as PropertyValue.MultiSelect;
+                                    JsonSerializer.Serialize(writer, multiSelect.Options, options);
+                                }),
+                                [typeof(PropertyValue.People)] = Writer.GetWriter<PropertyValue>("people", (writer, propertyValue, options) =>
+                                {
+                                    var people = propertyValue as PropertyValue.People;
+                                    JsonSerializer.Serialize(writer, people.Value, options);
+                                }),
+                                [typeof(PropertyValue.Files)] = Writer.GetWriter<PropertyValue>("files", (writer, propertyValue, options) =>
+                                {
+                                    var files = propertyValue as PropertyValue.Files;
+                                    JsonSerializer.Serialize(writer, files.Value, options);
+                                }),
+                                [typeof(PropertyValue.Checkbox)] = Writer.GetWriter<PropertyValue>("checkbox", (writer, propertyValue, options) =>
+                                {
+                                    var checkbox = propertyValue as PropertyValue.Checkbox;
+                                    writer.WriteBooleanValue(checkbox.Checked);
+                                }),
+                                [typeof(PropertyValue.Email)] = Writer.GetWriter<PropertyValue>("email", (writer, propertyValue, options) =>
+                                {
+                                    var email = propertyValue as PropertyValue.Email;
+                                    writer.WriteStringValue(email.Value);
+                                }),
+                                [typeof(PropertyValue.PhoneNumber)] = Writer.GetWriter<PropertyValue>("phone_number", (writer, propertyValue, options) =>
+                                {
+                                    var phoneNumber = propertyValue as PropertyValue.PhoneNumber;
+                                    writer.WriteStringValue(phoneNumber.Value);
+                                }),
+                                [typeof(PropertyValue.Relation)] = Writer.GetWriter<PropertyValue>("relation", (writer, propertyValue, options) =>
+                                {
+                                    var relation = propertyValue as PropertyValue.Relation;
+                                    JsonSerializer.Serialize(writer, relation.Pages, options);
+                                }),
+                                [typeof(PropertyValue.CreatedTime)] = Writer.GetWriter<PropertyValue>("created_time", (writer, propertyValue, options) =>
+                                {
+                                    var createdTime = propertyValue as PropertyValue.CreatedTime;
+                                    JsonSerializer.Serialize(writer, createdTime.Value, options);
+                                }),
+                                [typeof(PropertyValue.CreatedBy)] = Writer.GetWriter<PropertyValue>("created_by", (writer, propertyValue, options) =>
+                                {
+                                    var createdBy = propertyValue as PropertyValue.CreatedBy;
+                                    JsonSerializer.Serialize(writer, createdBy.Value, options);
+                                }),
+                                [typeof(PropertyValue.LastEditedTime)] = Writer.GetWriter<PropertyValue>("last_edited_time", (writer, propertyValue, options) =>
+                                {
+                                    var lastEditedTime = propertyValue as PropertyValue.LastEditedTime;
+                                    JsonSerializer.Serialize(writer, lastEditedTime.Value, options);
+                                }),
+                                [typeof(PropertyValue.LastEditedBy)] = Writer.GetWriter<PropertyValue>("last_edited_by", (writer, propertyValue, options) =>
+                                {
+                                    var lastEditedBy = propertyValue as PropertyValue.LastEditedBy;
+                                    JsonSerializer.Serialize(writer, lastEditedBy.Value, options);
+                                }),
+                            }
+                        },
                         new PageOrDatabaseConverter()
                     }
                 }),

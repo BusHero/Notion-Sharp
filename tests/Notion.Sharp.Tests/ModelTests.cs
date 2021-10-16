@@ -234,29 +234,50 @@ namespace Notion.Sharp.Tests
         [Fact]
         public async Task CreatePage_Succeds()
         {
-            await SUT.CreatePageAsync(new
+            var result = await SUT.CreatePageAsync(new Page
             {
-                parent = new
+                Parent = new Parent.Page
                 {
-                    page_id = ValidPageId
+                    Id = ValidPageId
                 },
-                properties = new
+                Properties = new Dictionary<string, PropertyValue>
                 {
-                    title = new
+                    ["title"] = new PropertyValue.Title
                     {
-                        title = new object[]
+                        Content = new RichText[]
                         {
-                            new
+                            new RichText.Text
                             {
-                                text = new
-                                {
-                                    content = "some new title"
-                                }
+                                Content = "Some content here and there"
                             }
                         }
                     }
                 }
             });
+            result.Should().NotBeNull();
+            //await SUT.CreatePageAsync(new
+            //{
+            //    parent = new
+            //    {
+            //        page_id = ValidPageId
+            //    },
+            //    properties = new
+            //    {
+            //        title = new
+            //        {
+            //            title = new object[]
+            //            {
+            //                new
+            //                {
+            //                    text = new
+            //                    {
+            //                        content = "some new title"
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //});
         }
 
         #endregion
