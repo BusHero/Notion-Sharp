@@ -209,6 +209,21 @@ namespace Notion.Model
             public RichText[] Text { get; init; }
         }
 
+        public record Equation : Block
+        {
+            public string Expression { get; init; }
+        }
+
+        public record Divider: Block
+        {
+
+        }
+
+        public record TableOfContents : Block
+        {
+
+        }
+
         public record Unsupported : Block { }
 
         #endregion

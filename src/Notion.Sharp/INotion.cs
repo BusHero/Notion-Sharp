@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Notion.Model;
@@ -65,7 +66,15 @@ namespace Notion
         Task<PaginationList<Block>> GetBlocksChildrenAsync([AliasAs("id")] Guid blockId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Patch("/blocks/{id}/children")]
-        Task<PaginationList<Block>> AppendBlockChildrenAsync(Guid id, [Body] object content);
+        internal Task<PaginationList<Block>> AppendBlockChildrenAsync(Guid id, [Body] object content);
+
+        public async Task<PaginationList<Block>> AppendBlockChildrenAsync(Guid id, List<Block> content)
+        {
+            return await AppendBlockChildrenAsync(id, new
+            {
+                children = content
+            });
+        }
         
         [Delete("/blocks/{id}")]
         Task<Block> DeleteBlockAsync(Guid id);

@@ -59,7 +59,20 @@ namespace Notion.Converters
 
         public override void Write(Utf8JsonWriter writer, RichText value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            var text = value as RichText.Text;
+            writer.WriteStartObject();
+            writer.WriteStartObject("text");
+            writer.WriteString("content", text.Content);
+            writer.WriteEndObject();
+            //new
+            //{
+            //    text = new
+            //    {
+            //        content = "Brave new world!"
+            //    }
+            //}
+
+            writer.WriteEndObject();
         }
     }
 }

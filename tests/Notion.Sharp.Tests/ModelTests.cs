@@ -8,8 +8,9 @@ using System;
 using System.Text.Json;
 using System.Linq;
 using Notion.Model;
+using System.Collections.Generic;
 
-namespace Notion.Sdk.Tests
+namespace Notion.Sharp.Tests
 {
     public class ModelTests
     {
@@ -17,11 +18,11 @@ namespace Notion.Sdk.Tests
         private INotion SUT { get; }
 
         private Guid ValidUserId { get; }
-     
-        private Guid ValidDatabaseId {  get; }
-        
+
+        private Guid ValidDatabaseId { get; }
+
         private Guid ValidPageId { get; }
-        
+
         private Guid ValidBlockId { get; }
 
         private Guid PageFromDatabase { get; }
@@ -61,7 +62,7 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task GetUser_Fails_OnInvalidId()
         {
-            await SUT.Awaiting(sut => sut.GetUserAsync(System.Guid.NewGuid()))
+            await SUT.Awaiting(sut => sut.GetUserAsync(Guid.NewGuid()))
                 .Should()
                 .ThrowAsync<NotionException>();
         }
@@ -272,7 +273,7 @@ namespace Notion.Sdk.Tests
         public async Task GetBlocks_Succeds_OnValidId()
         {
             var blocks = await SUT.GetBlocksChildrenAsync(ValidPageId);
-            blocks.Should().NotBeNull(); 
+            blocks.Should().NotBeNull();
         }
 
         [Fact]
@@ -288,59 +289,58 @@ namespace Notion.Sdk.Tests
             block.Should().NotBeNull();
         }
 
-        [Fact]
-        public async Task AppendChildren_Succeds()
+        [Theory]
+        [MemberData(nameof(Blocks))]
+        public async Task AppendChildren_Succeds(Block block)
         {
-            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new
-            {
-                children = new object[]
-                {
-                    new
-                    {
-                        heading_2 = new
-                        {
-                            text = new object[]
-                            {
-                                new
-                                {
-                                    text = new
-                                    {
-                                        content = "Brave new world!"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            var result = await SUT.AppendBlockChildrenAsync(ValidPageId,
+               new List<Block>
+               {
+                   block
+               }
+
+                //    new
+                //{
+                //    children = new object[]
+                //    {
+                //        new
+                //        {
+                //            heading_2 = new
+                //            {
+                //                text = new object[]
+                //                {
+                //                    new
+                //                    {
+                //                        text = new
+                //                        {
+                //                            content = "Brave new world!"
+                //                        }
+                //                    }
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+                );
             result.Should().NotBeNull();
         }
 
         [Fact]
         public async Task AppendChildren_Fails_OnInvalidId()
         {
-            var result = await SUT.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new
-            {
-                children = new object[]
-                {
-                    new
-                    {
-                        heading_2 = new
-                        {
-                            text = new object[]
-                            {
-                                new
-                                {
-                                    text = new
-                                    {
-                                        content = "Brave new world!"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            })).Should().ThrowAsync<NotionException>();
+            var result = await SUT.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new List<Block>
+               {
+                   new Block.Heading2
+                   {
+                       Text = new RichText[]
+                       {
+                           new RichText.Text
+                           {
+                               Content = "Brave new world"
+                           }
+                       }
+                   }
+               })).Should().ThrowAsync<NotionException>();
         }
 
         [Fact]
@@ -397,28 +397,19 @@ namespace Notion.Sdk.Tests
         [Fact]
         public async Task DeleteBlock_Succeds()
         {
-            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new
-            {
-                children = new object[]
-                {
-                    new
-                    {
-                        heading_2 = new
-                        {
-                            text = new object[]
-                            {
-                                new
-                                {
-                                    text = new
-                                    {
-                                        content = "Brave new world!"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
+               {
+                   new Block.Heading2
+                   {
+                       Text = new RichText[]
+                       {
+                           new RichText.Text
+                           {
+                               Content = "Brave new world"
+                           }
+                       }
+                   }
+               });
             var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
             result2.Should().NotBeNull();
         }
@@ -439,5 +430,206 @@ namespace Notion.Sdk.Tests
                 );
             result.Should().NotBeNull();
         }
+
+        public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
+        {
+            new Block.Heading1
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Heading 1"
+                    }
+                }
+            },
+            new Block.Heading2
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Heading 2"
+                    }
+                }
+            },
+            new Block.Heading3
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Heading 3"
+                    }
+                }
+            },
+            new Block.Paragraph
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Paragraph"
+                    }
+                },
+                Children = new Block[]
+                {
+                    new Block.Paragraph
+                    {
+                        Text = new RichText[]
+                        {
+                            new RichText.Text
+                            {
+                                Content = "Child paragraph"
+                            }
+                        }
+                    }
+                }
+            },
+            new Block.BulletedListItem
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Bulleted list item"
+                    }
+                },
+                Children = new Block[]
+                {
+                    new Block.BulletedListItem
+                    {
+                        Text = new RichText[]
+                        {
+                            new RichText.Text
+                            {
+                                Content = "Child content"
+                            }
+                        }
+                    }
+                }
+            },
+            new Block.NumberedListItem
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Numbered list item"
+                    }
+                },
+                Children = new Block[]
+                {
+                    new Block.BulletedListItem
+                    {
+                        Text = new RichText[]
+                        {
+                            new RichText.Text
+                            {
+                                Content = "Child content"
+                            }
+                        }
+                    }
+                }
+            },
+            new Block.ToDo
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "to do"
+                    }
+                },
+                Children = new Block[]
+                {
+                    new Block.BulletedListItem
+                    {
+                        Text = new RichText[]
+                        {
+                            new RichText.Text
+                            {
+                                Content = "Child content"
+                            }
+                        }
+                    }
+                }
+            },
+            new Block.Toggle
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "toggle"
+                    }
+                },
+                Children = new Block[]
+                {
+                    new Block.BulletedListItem
+                    {
+                        Text = new RichText[]
+                        {
+                            new RichText.Text
+                            {
+                                Content = "Child content"
+                            }
+                        }
+                    }
+                },
+            },
+            new Block.Code
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "var x = 1 + 1;"
+                    }
+                },
+                Language = "c#"
+            },
+            new Block.Bookmark
+            {
+                Caption = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Caption text"
+                    }
+                },
+                Url = new Uri("https://google.com")
+            },
+            new Block.Quote
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Quote text"
+                    }
+                }
+            },
+            new Block.Callout
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Callout"
+                    }
+                }
+            },
+            new Block.Divider
+            {
+            },
+            new Block.TableOfContents
+            { 
+            },
+            new Block.Equation
+            {
+                Expression = "1 + 1"
+            }
+        };
     }
 }
