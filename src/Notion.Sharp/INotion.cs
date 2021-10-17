@@ -14,7 +14,7 @@ namespace Notion
         #region Databases
 
         [Post("/databases")]
-        Task<Database> CreateDatabaseAsync([Body] object database);
+        Task<Database> CreateDatabaseAsync(Database database);
 
         [Patch("/databases/{id}")]
         Task<Database> UpdateDatabaseAsync(Guid id, [Body]object database);
@@ -46,8 +46,8 @@ namespace Notion
         [Get("/pages/{page_id}")]
         Task<Page> GetPageAsync([AliasAs("page_id")] Guid pageId);
 
-        [Patch("/pages/{id}")]
-        Task<Page> UpdatePageAsync(Guid id, [Body] object page);
+        [Patch("/pages/{page.id}")]
+        Task<Page> UpdatePageAsync(Page page);
 
         [Post("/pages")]
         internal Task<Page> CreatePageAsync([Body]object page);

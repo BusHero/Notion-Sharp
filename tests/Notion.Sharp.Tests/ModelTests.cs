@@ -99,30 +99,29 @@ namespace Notion.Sharp.Tests
         [Fact]
         public async Task CreateDatabase_Succeds()
         {
-            await SUT.CreateDatabaseAsync(new
+            var database = new Database
             {
-                parent = new
+                Parent = new Parent.Page
                 {
-                    page_id = ValidPageId
+                    Id = ValidPageId
                 },
-                title = new object[]
+                Title = new RichText[]
                 {
-                    new
+                    new RichText.Text
                     {
-                        text = new
-                        {
-                            content = "some new title"
-                        }
+                        Content = "A new database is born"
                     }
                 },
-                properties = new
+                Properties = new Dictionary<string, Property>
                 {
-                    Name = new
+                    ["Name"] = new Property.Title
                     {
-                        title = new object()
                     }
                 }
-            });
+            };
+            //var database = await SUT.GetDatabaseAsync(ValidDatabaseId);
+            database = database with { Parent = new Parent.Page { Id = ValidPageId } };
+            await SUT.CreateDatabaseAsync(database);
         }
 
         [Fact]
@@ -166,49 +165,17 @@ namespace Notion.Sharp.Tests
         [Fact]
         public async Task UpdatePage_Succeds_OnValidId()
         {
-            await SUT.UpdatePageAsync(ValidPageId, new
-            {
-                properties = new
-                {
-                    title = new
-                    {
-                        title = new object[]
-                        {
-                            new
-                            {
-                                text = new
-                                {
-                                    content = "some new title"
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            var page = await SUT.GetPageAsync(ValidPageId);
+            var result = SUT.UpdatePageAsync(page);
+            result.Should().NotBeNull();
         }
 
         [Fact]
         public async Task UpdatePage_Fails_OnInvalidId()
         {
-            await SUT.Awaiting(sut => sut.UpdatePageAsync(Guid.NewGuid(), new
-            {
-                properties = new
-                {
-                    title = new
-                    {
-                        title = new object[]
-                        {
-                            new
-                            {
-                                text = new
-                                {
-                                    content = "some new title"
-                                }
-                            }
-                        }
-                    }
-                }
-            })).Should().ThrowAsync<NotionException>();
+            var page = await SUT.GetPageAsync(ValidPageId);
+            page = page with { Id = Guid.NewGuid() };
+            await SUT.Awaiting(sut => sut.UpdatePageAsync(page)).Should().ThrowAsync<NotionException>();
         }
 
         [Fact]

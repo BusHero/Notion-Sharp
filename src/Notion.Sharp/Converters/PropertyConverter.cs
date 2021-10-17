@@ -3,6 +3,7 @@
 using Pevac;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -77,7 +78,15 @@ namespace Notion.Converters
 
         public override void Write(Utf8JsonWriter writer, Property value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            if (Writers is null || !Writers.TryGetValue(value.GetType(), out var propertyWriter))
+                throw new JsonException($"Cannot serialize {value.GetType().Name}");
+
+            writer.WriteStartObject();
+            writer.WritePropertyName(propertyWriter.Property);
+            propertyWriter.Write(writer, value, options);
+            writer.WriteEndObject();
         }
+
+        public Dictionary<Type, IWriter<Property>> Writers { get; init; }
     }
 }

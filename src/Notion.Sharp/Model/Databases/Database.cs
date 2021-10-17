@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
@@ -19,7 +20,7 @@ namespace Notion.Model
         [JsonPropertyName("cover")]
         public File Cover { get; set; }
         [JsonPropertyName("properties")]
-        public IImmutableDictionary<string, Property> Properties { get; set; }
+        public Dictionary<string, Property> Properties { get; set; }
         [JsonPropertyName("parent")]
         public Parent Parent { get; set; }
     }

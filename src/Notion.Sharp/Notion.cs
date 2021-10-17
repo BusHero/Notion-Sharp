@@ -198,7 +198,135 @@ namespace Notion
                                 })
                             }
                         },
-                        new PropertyConverter(),
+                        new PropertyConverter
+                        {
+                            Writers = new Dictionary<Type, IWriter<Property>>
+                            {
+                                [typeof(Property.Title)] = Writer.GetWriter<Property>("title", (writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.RichTextProperty)] = Writer.GetWriter<Property>("rich_text", (writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Number)] = Writer.GetWriter<Property>("number", (writer, property, options) =>
+                                {
+                                    var number = property as Property.Number;
+
+                                    writer.WriteStartObject();
+                                    writer.WriteString("format", number.Format);
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Select)] = Writer.GetWriter<Property>("select", (writer, property, options) =>
+                                {
+                                    var select = property as Property.Select;
+
+                                    writer.WriteStartObject();
+                                    writer.WritePropertyName("options");
+                                    JsonSerializer.Serialize(writer, select.Options, options);
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.MultiSelect)] = Writer.GetWriter<Property>("multi_select", (writer, property, options) =>
+                                {
+                                    var select = property as Property.MultiSelect;
+
+                                    writer.WriteStartObject();
+                                    writer.WritePropertyName("options");
+                                    JsonSerializer.Serialize(writer, select.Options, options);
+                                    writer.WriteEndObject();
+                                }),
+
+                                [typeof(Property.Date)] = Writer.GetWriter<Property>("date",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.People)] = Writer.GetWriter<Property>("people", (writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Files)] = Writer.GetWriter<Property>("files",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Checkbox)] = Writer.GetWriter<Property>("checkbox",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Url)] = Writer.GetWriter<Property>("url",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Email)] = Writer.GetWriter<Property>("email",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.PhoneNumber)] = Writer.GetWriter<Property>("phone_number",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Formula)] = Writer.GetWriter<Property>("formula", (writer, property, options) =>
+                                {
+                                    var formula = property as Property.Formula;
+
+                                    writer.WriteStartObject();
+                                    writer.WriteString("expression", formula.Expression);
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Relation)] = Writer.GetWriter<Property>("relation", (writer, property, options) =>
+                                {
+                                    var relation = property as Property.Relation;
+
+                                    writer.WriteStartObject();
+                                    writer.WriteString("database_id", relation.DatabaseId);
+                                    //writer.WriteString("synced_property_name", relation.SyncedPropertyName);
+                                    //writer.WriteString("synced_property_id", relation.SyncedPropertyId);
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.Rollup)] = Writer.GetWriter<Property>("rollup", (writer, property, options) =>
+                                {
+                                    var rollup = property as Property.Rollup;
+
+                                    writer.WriteStartObject();
+                                    writer.WriteString("rollup_property_name", rollup.RollupPropertyName);
+                                    writer.WriteString("relation_property_name", rollup.RelationPropertyName);
+                                    writer.WriteString("rollup_property_id", rollup.RollupPropertyId);
+                                    writer.WriteString("relation_property_id", rollup.RelationPropertyId);
+                                    writer.WriteString("function", rollup.Function);
+                                    writer.WriteEndObject();
+                                }),
+
+                                [typeof(Property.CreatedTime)] = Writer.GetWriter<Property>("created_time",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.CreatedBy)] = Writer.GetWriter<Property>("created_by",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.LastEditedTime)] = Writer.GetWriter<Property>("last_edited_time",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Property.LastEditedBy)] = Writer.GetWriter<Property>("last_edited_by",(writer, property, options) =>
+                                {
+                                    writer.WriteStartObject();
+                                    writer.WriteEndObject();
+                                }),
+                            }
+                        },
                         new PropertyValueConverter
                         {
                             Writers = new Dictionary<Type, IWriter<PropertyValue>>
