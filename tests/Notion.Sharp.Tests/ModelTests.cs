@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Xunit;
 using System.Threading.Tasks;
 using System;
-using System.Text.Json;
-using System.Linq;
 using Notion.Model;
 using System.Collections.Generic;
 
@@ -27,6 +25,8 @@ namespace Notion.Sharp.Tests
 
         private Guid PageFromDatabase { get; }
 
+        private Guid SimpleDatabase { get; }
+
         #endregion
 
         public ModelTests()
@@ -41,6 +41,7 @@ namespace Notion.Sharp.Tests
             ValidPageId = Guid.Parse(configuration["pageId"]);
             ValidBlockId = Guid.Parse(configuration["blockId"]);
             PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
+            SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
         }
 
         #region Users
@@ -81,19 +82,18 @@ namespace Notion.Sharp.Tests
         [Fact]
         public async Task UpdateDatabase_Succeds()
         {
-            await SUT.UpdateDatabaseAsync(ValidDatabaseId, new
+            var database = await SUT.GetDatabaseAsync(SimpleDatabase);
+            database = database with
             {
-                title = new object[]
+                Title = new RichText[]
                 {
-                    new
+                    new RichText.Text
                     {
-                        text = new
-                        {
-                            content = "some new title"
-                        }
+                        Content = "some new title"
                     }
                 }
-            });
+            };
+            await SUT.UpdateDatabaseAsync(database);
         }
 
         [Fact]
@@ -119,7 +119,6 @@ namespace Notion.Sharp.Tests
                     }
                 }
             };
-            //var database = await SUT.GetDatabaseAsync(ValidDatabaseId);
             database = database with { Parent = new Parent.Page { Id = ValidPageId } };
             await SUT.CreateDatabaseAsync(database);
         }
@@ -301,31 +300,7 @@ namespace Notion.Sharp.Tests
                new List<Block>
                {
                    block
-               }
-
-                //    new
-                //{
-                //    children = new object[]
-                //    {
-                //        new
-                //        {
-                //            heading_2 = new
-                //            {
-                //                text = new object[]
-                //                {
-                //                    new
-                //                    {
-                //                        text = new
-                //                        {
-                //                            content = "Brave new world!"
-                //                        }
-                //                    }
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-                );
+               });
             result.Should().NotBeNull();
         }
 

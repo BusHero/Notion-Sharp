@@ -17,8 +17,17 @@ namespace Notion
         Task<Database> CreateDatabaseAsync(Database database);
 
         [Patch("/databases/{id}")]
-        Task<Database> UpdateDatabaseAsync(Guid id, [Body]object database);
+        internal Task<Database> UpdateDatabaseAsync(Guid id, [Body]object database);
         
+        public async Task<Database> UpdateDatabaseAsync(Database database)
+        {
+            return await UpdateDatabaseAsync(database.Id, new
+            {
+                title = database.Title,
+                properties = database.Properties,
+            });
+        }
+
         [Obsolete]
         [Get("/databases")]
         Task<string> GetDatabasesAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
