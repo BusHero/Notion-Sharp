@@ -325,44 +325,20 @@ namespace Notion.Sharp.Tests
         [Fact]
         public async Task UpdateBlock_Succeds()
         {
-            var result = await SUT.UpdateBlockAsync(ValidBlockId, new
-            {
-                paragraph = new
-                {
-                    text = new object[]
-                    {
-                        new
-                        {
-                            text = new
-                            {
-                                content = "hello to you"
-                            }
-                        }
-                    }
-                }
-            });
+            var block = await SUT.GetBlockAsync(ValidBlockId);
+            var result = await SUT.UpdateBlockAsync(block);
             result.Should().NotBeNull();
         }
 
         [Fact]
         public async Task UpdateBlock_Fails_OnInvalidId()
         {
-            await SUT.Awaiting(sut => sut.UpdateBlockAsync(Guid.NewGuid(), new
+            var block = await SUT.GetBlockAsync(ValidBlockId);
+            block = block with
             {
-                paragraph = new
-                {
-                    text = new object[]
-                    {
-                        new
-                        {
-                            text = new
-                            {
-                                content = "hello to you"
-                            }
-                        }
-                    }
-                }
-            })).Should().ThrowAsync<NotionException>();
+                Id = Guid.NewGuid()
+            };
+            await SUT.Awaiting(sut => sut.UpdateBlockAsync(block)).Should().ThrowAsync<NotionException>();
         }
 
         [Fact]
