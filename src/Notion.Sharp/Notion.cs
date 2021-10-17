@@ -14,7 +14,13 @@ namespace Notion
 {
     public static class Notion
     {
-        public static INotion NewClient(string bearerToken, string version)
+        /// <summary>
+        /// Creates a new notion client by specifiing the bearer token and the version of the 
+        /// </summary>
+        /// <param name="bearerToken">The token used for authorization purposes.</param>
+        /// <param name="version">The version of the API. Default is 2021-08-16</param>
+        /// <returns></returns>
+        public static INotion NewClient(string bearerToken, string version = "2021-08-16")
         {
             return RestService.For<INotion>("https://api.notion.com/v1/", new RefitSettings
             {
