@@ -13,6 +13,8 @@ namespace Notion.Converters
 {
     internal class BlockConverter : JsonConverter<Block>
     {
+        public override bool CanConvert(Type typeToConvert) => typeof(Block).IsAssignableFrom(typeToConvert);
+
         public override Block Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             return Parser.ParseObject(property => property switch

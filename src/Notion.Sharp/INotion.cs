@@ -30,26 +30,16 @@ namespace Notion
 
         [Obsolete]
         [Get("/databases")]
-        Task<string> GetDatabasesAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
+        Task<PaginationList<Database>> GetDatabasesAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
         [Get("/databases/{database_id}")]
         Task<Database> GetDatabaseAsync([AliasAs("database_id")] Guid databaseId);
 
-        #endregion
-
-        #region Users
-
-        [Get("/users")]
-        Task<PaginationList<User>> GetUsersAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
-
-        [Get("/users/{user_id}")]
-        Task<User> GetUserAsync([AliasAs("user_id")] Guid userId);
-
-        [Get("/users/me")]
-        Task<User> GetMeAsync();
+        [Post("/databases/{id}/query")]
+        Task<PaginationList<Page>> QueryDatabaseAsync(Guid id, [Body] object p);
 
         #endregion
-
+        
         #region Pages
 
         [Get("/pages/{page_id}")]
@@ -105,18 +95,24 @@ namespace Notion
 
         #endregion
 
+        #region Users
+
+        [Get("/users")]
+        Task<PaginationList<User>> GetUsersAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
+
+        [Get("/users/{user_id}")]
+        Task<User> GetUserAsync([AliasAs("user_id")] Guid userId);
+
+        [Get("/users/me")]
+        Task<User> GetMeAsync();
+
+        #endregion
+
         #region Search
+
         [Post("/search")]
         [Headers("Content-Type: application/json")]
         Task<PaginationList<PageOrDatabase>> SearchAsync([Body] SearchPayload query);
-
-        //public async Task<PaginationList<PageOrDatabase>> SearchAsync(string query)
-        //{
-        //    return await SearchAsync(new SearchPayload(query));
-        //}
-        
-        [Post("/databases/{id}/query")]
-        Task<PaginationList<Page>> QueryDatabaseAsync(Guid id, [Body]object p);
         
         
         #endregion
