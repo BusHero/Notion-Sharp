@@ -7,7 +7,7 @@ on:
     paths-ignore:
     - '**/README.md'
 env:
-  DOTNET_VERSION: 5.0.*
+  DOTNET_VERSION: 6.0.*
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   
@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          include-prerelease: true
       - name: Store Secrets
         run: |
           dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 

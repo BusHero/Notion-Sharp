@@ -12,7 +12,8 @@ namespace Notion.Sharp.Tests
 {
     public class ModelTests
     {
-        #region Ids
+        #region Setup
+
         private INotion SUT { get; }
 
         private Guid ValidUserId { get; }
@@ -26,8 +27,6 @@ namespace Notion.Sharp.Tests
         private Guid PageFromDatabase { get; }
 
         private Guid SimpleDatabase { get; }
-
-        #endregion
 
         public ModelTests()
         {
@@ -43,6 +42,8 @@ namespace Notion.Sharp.Tests
             PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
             SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
         }
+
+        #endregion
 
         #region Users
 
@@ -371,6 +372,8 @@ namespace Notion.Sharp.Tests
 
         #endregion
 
+        #region Search
+
         [Fact]
         public async Task Search_Succeds_OnValidParameter()
         {
@@ -385,6 +388,10 @@ namespace Notion.Sharp.Tests
                 );
             result.Should().NotBeNull();
         }
+        
+        #endregion
+
+        #region Data
 
         public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
         {
@@ -586,5 +593,7 @@ namespace Notion.Sharp.Tests
                 Expression = "1 + 1"
             }
         };
+        
+        #endregion
     }
 }

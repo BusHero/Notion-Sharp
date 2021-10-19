@@ -6,7 +6,7 @@ on:
       - published
 env:
   # Stop wasting time caching packages
-  DOTNET_VERSION: 5.0.*
+  DOTNET_VERSION: 6.0.*
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   # Disable sending usage data to Microsoft
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -30,6 +30,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          include-prerelease: true
       - name: Restore
         run: dotnet restore
       - name: Build
