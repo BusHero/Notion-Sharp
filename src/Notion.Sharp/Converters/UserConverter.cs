@@ -26,7 +26,7 @@ namespace Notion.Converters
                     _ => Parser.FailUpdate<Person>()
                 }, (User user) => user.Cast<Person>()),
                 "bot" => Ignored.Updater((Void _, User user) => user.Cast<Bot>()),
-                _ => Parser.FailUpdate<User>()
+                var key => Parser.FailUpdate<User>($"Unknown key '{key}'")
             }), ref reader, options); ;
         }
 

@@ -64,7 +64,7 @@ namespace Notion.Model
         }
         public record NumberFormula : Formula
         {
-            public decimal Value { get; init; }
+            public decimal? Value { get; init; }
         }
 
         public record BooleanFormula : Formula

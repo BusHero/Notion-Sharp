@@ -28,17 +28,17 @@ namespace Notion.Converters
                 "number" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "format" => Parser.String.Updater((string numberFormat, Property.Number number) => number with { Format = numberFormat }),
-                    _ => Parser.FailUpdate<Property.Number>()
+                    var key => Parser.FailUpdate<Property.Number>($"Unknown key '{key}'")
                 }, (Property property) => property.Copy<Property.Number>()),
                 "select" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "options" => Parser.ParseType<Option[]>().Updater((Option[] options, Property.Select select) => select with { Options = options }),
-                    _ => Parser.FailUpdate<Property.Select>()
+                    var key => Parser.FailUpdate<Property.Select>($"Unknown key '{key}'")
                 }, (Property property) => property.Copy<Property.Select>()),
                 "multi_select" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "options" => Parser.ParseType<Option[]>().Updater((Option[] options, Property.MultiSelect multiSelect) => multiSelect with { Options = options }),
-                    _ => Parser.FailUpdate<Property.MultiSelect>()
+                    var key => Parser.FailUpdate<Property.MultiSelect>($"Unknown key '{key}'")
                 }, (Property property) => property.Copy<Property.MultiSelect>()),
                 "date" => Parser.EmptyObject.Updater((Void _, Property property) => property.Copy<Property.Date>()),
                 "people" => Parser.EmptyObject.Updater((Void _, Property property) => property.Copy<Property.People>()),
@@ -50,14 +50,14 @@ namespace Notion.Converters
                 "formula" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "expression" => Parser.OptionalString.Updater((string expression, Property.Formula Formula) => Formula with { Expression = expression }),
-                    _ => Parser.FailUpdate<Property.Formula>()
+                    var key => Parser.FailUpdate<Property.Formula>($"Unknown key '{key}'")
                 }, (Property property) => property.Copy<Property.Formula>()),
                 "relation" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "database_id" => Parser.Guid.Updater((Guid databaseId, Property.Relation relation) => relation with { DatabaseId = databaseId }),
                     "synced_property_name" => Parser.String.Updater((string syncedPropertyName, Property.Relation relation) => relation with { SyncedPropertyName = syncedPropertyName }),
                     "synced_property_id" => Parser.String.Updater((string syncedPropertyId, Property.Relation relation) => relation with { SyncedPropertyId = syncedPropertyId }),
-                    _ => Parser.FailUpdate<Property.Relation>()
+                    var key => Parser.FailUpdate<Property.Relation>($"Unknown key '{key}'")
                 }, (Property property) => property.Copy<Property.Relation>()),
                 "rollup" => Parser.ParseObject(propertyName => propertyName switch
                 {
@@ -66,13 +66,13 @@ namespace Notion.Converters
                     "rollup_property_id" => Parser.String.Updater((string rollupPropertyId, Property.Rollup multiSelect) => multiSelect with { RollupPropertyId = rollupPropertyId }),
                     "relation_property_id" => Parser.String.Updater((string relationPropertyId, Property.Rollup multiSelect) => multiSelect with { RelationPropertyId = relationPropertyId }),
                     "function" => Parser.String.Updater((string function, Property.Rollup multiSelect) => multiSelect with { Function = function }),
-                    _ => Parser.FailUpdate<Property.Rollup>()
+                    var key => Parser.FailUpdate<Property.Rollup>($"Unknown key '{key}'")
                 }, (Property property) => property.Copy<Property.Rollup>()),
                 "created_time" => Parser.EmptyObject.Updater((Void _, Property property) => property.Copy<Property.CreatedTime>()),
                 "created_by" => Parser.EmptyObject.Updater((Void _, Property property) => property.Copy<Property.CreatedBy>()),
                 "last_edited_time" => Parser.EmptyObject.Updater((Void _, Property property) => property.Copy<Property.LastEditedTime>()),
                 "last_edited_by" => Parser.EmptyObject.Updater((Void _, Property property) => property.Copy<Property.LastEditedBy>()),
-                _ => Parser.FailUpdate<Property>()
+                var key => Parser.FailUpdate<Property>($"Unknown key '{key}'")
             }).Parse(ref reader, options);
         }
 

@@ -17,6 +17,9 @@ namespace Notion.Converters
     {
         public override PropertyValue Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            try
+            {
+
             return Parser.ParseObject(propertyName => propertyName switch
             {
                 "id" => Parser.String.Updater((string id, PropertyValue propertyValue) => propertyValue with { Id = id }),
@@ -31,7 +34,7 @@ namespace Notion.Converters
                     {
                         "start" => Parser.OptionalDateTime.Updater((DateTime? start, PropertyValue.Date date) => date with { Start = start }),
                         "end" => Parser.OptionalDateTime.Updater((DateTime? end, PropertyValue.Date date) => date with { Start = end }),
-                        _ => Parser.FailUpdate<PropertyValue.Date>()
+                        var key => Parser.FailUpdate<PropertyValue.Date>($"Unknown key '{key}'")
                     }, (PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Date>())),
                 "people" => Parser.ParseType<User[]>().Updater((User[] users, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.People>() with { Value = users }),
                 "files" => Parser.ParseType<File[]>().Updater((File[] files, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Files>() with { Value = files }),
@@ -46,11 +49,11 @@ namespace Notion.Converters
                 "formula" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "type" => Parser.String.Updater<string, PropertyValue.Formula>(),
-                    "string" => Parser.String.Updater((string value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.SrtingFormula>() with { Value = value }),
-                    "number" => Parser.Decimal.Updater((decimal value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.NumberFormula>() with { Value = value }),
-                    "boolean" => Parser.Bool.Updater((bool value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.BooleanFormula>() with { Value = value }),
+                    "string" => Parser.OptionalString.Updater((string value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.SrtingFormula>() with { Value = value }),
+                    "number" => Parser.OptionalDecimal.Updater((decimal? value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.NumberFormula>() with { Value = value }),
+                    "boolean" => Parser.OptionalBool.Updater((bool? value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.BooleanFormula>() with { Value = value }),
                     "date" => Parser.OptionalDateTime.Updater((DateTime? value, Formula formula) => formula.Copy<PropertyValue.DateFormula>() with { Value = value }),
-                    _ => Parser.FailUpdate<PropertyValue.Formula>()
+                    var key => Parser.FailUpdate<PropertyValue.Formula>($"Unknown key '{key}'")
                 }, (PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Formula>()),
                 "relation" => Parser.ParseType<PageReference[]>().Updater((PageReference[] pages, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Relation>() with { Pages = pages }),
                 "rollup" => Parser.ParseObject(propertyName => propertyName switch
@@ -60,14 +63,19 @@ namespace Notion.Converters
                     "date" => Parser.OptionalDateTime.Updater((DateTime? value, PropertyValue.Rollup rollup) => rollup.Copy<PropertyValue.DateRollup>() with { Value = value }),
                     "array" => Parser.ParseType<PropertyValue[]>().Updater((PropertyValue[] value, PropertyValue.Rollup rollup) => rollup.Copy<PropertyValue.ArrayRollup>() with { Value = value }),
                     "function" => Parser.String.Updater((string? function, PropertyValue.Rollup rollup) => rollup with { Function = function }),
-                    _ => Parser.FailUpdate<Rollup>()
+                    var key => Parser.FailUpdate<Rollup>($"Unknown key '{key}'")
                 }, (PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Rollup>()),
                 "created_time" => Parser.DateTime.Updater((DateTime createdTime, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.CreatedTime>() with { Value = createdTime }),
                 "created_by" => Parser.ParseType<User>().Updater((User createdBy, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.CreatedBy>() with { Value = createdBy }),
                 "last_edited_time" => Parser.DateTime.Updater((DateTime lastEditedTime, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.LastEditedTime>() with { Value = lastEditedTime }),
                 "last_edited_by" => Parser.ParseType<User>().Updater((User lastEditedBy, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.LastEditedBy>() with { Value = lastEditedBy }),
-                var x => Parser.FailUpdate<PropertyValue>()
+                var key => Parser.FailUpdate<PropertyValue>($"Unknown key '{key}'")
             }).Parse(ref reader, options);
+            }
+                catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public override void Write(Utf8JsonWriter writer, PropertyValue value, JsonSerializerOptions options)

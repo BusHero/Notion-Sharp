@@ -21,7 +21,7 @@ namespace Notion.Converters
                 "workspace" => Parser.TrueToken.Updater((Void _, Parent _) => new Parent.Workspace()),
                 "page_id" => Parser.Guid.Updater((Guid id, Parent _) => new Parent.Page() { Id = id }),
                 "database_id" => Parser.Guid.Updater((Guid id, Parent _) => new Parent.Database() { Id = id }),
-                _ => Parser.FailUpdate<Parent>()
+                var key => Parser.FailUpdate<Parent>($"Unknown key '{key}'")
             }).Parse(ref reader, options);
         }
 
