@@ -17,9 +17,6 @@ namespace Notion.Converters
     {
         public override PropertyValue Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            try
-            {
-
             return Parser.ParseObject(propertyName => propertyName switch
             {
                 "id" => Parser.String.Updater((string id, PropertyValue propertyValue) => propertyValue with { Id = id }),
@@ -39,11 +36,7 @@ namespace Notion.Converters
                 "people" => Parser.ParseType<User[]>().Updater((User[] users, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.People>() with { Value = users }),
                 "files" => Parser.ParseType<File[]>().Updater((File[] files, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Files>() with { Value = files }),
                 "checkbox" => Parser.Bool.Updater((bool @checked, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Checkbox>() with { Checked = @checked }),
-                "url" => Parser.OptionalString.Select(uri =>
-                {
-                    Uri.TryCreate(uri, UriKind.RelativeOrAbsolute, out var @return);
-                    return @return;
-                }).Updater((Uri link, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Url>() with { Link = link }),
+                "url" => Parser.OptionalUri.Updater((Uri link, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Url>() with { Link = link }),
                 "email" => Parser.OptionalString.Updater((string email, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Email>() with { Value = email }),
                 "phone_number" => Parser.OptionalString.Updater((string phoneNumber, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.PhoneNumber>() with { Value = phoneNumber }),
                 "formula" => Parser.ParseObject(propertyName => propertyName switch
@@ -71,11 +64,6 @@ namespace Notion.Converters
                 "last_edited_by" => Parser.ParseType<User>().Updater((User lastEditedBy, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.LastEditedBy>() with { Value = lastEditedBy }),
                 var key => Parser.FailUpdate<PropertyValue>($"Unknown key '{key}'")
             }).Parse(ref reader, options);
-            }
-                catch(Exception e)
-            {
-                throw e;
-            }
         }
 
         public override void Write(Utf8JsonWriter writer, PropertyValue value, JsonSerializerOptions options)
