@@ -1,25 +1,24 @@
-﻿namespace Notion.Model
+﻿namespace Notion.Model;
+
+public enum Color
 {
-    public enum Color
-    {
-        Default,
-        Gray,
-        Brown,
-        Orange,
-        Yellow,
-        Green,
-        Blue,
-        Purple,
-        Pink,
-        Red,
-        GrayBackground,
-        BrownBackground,
-        OrangeBackground,
-        YellowBackground,
-        GreenBackground,
-        BlueBackground,
-        PurpleBackground,
-        PinkBackground,
-        RedBackground,
-    }
+    Default,
+    Gray,
+    Brown,
+    Orange,
+    Yellow,
+    Green,
+    Blue,
+    Purple,
+    Pink,
+    Red,
+    GrayBackground,
+    BrownBackground,
+    OrangeBackground,
+    YellowBackground,
+    GreenBackground,
+    BlueBackground,
+    PurpleBackground,
+    PinkBackground,
+    RedBackground,
 }

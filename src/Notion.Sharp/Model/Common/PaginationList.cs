@@ -3,20 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Notion.Model
+namespace Notion.Model;
+
+public record PaginationList<TItem>
 {
-    public record PaginationList<TItem>
-    {
-        [JsonPropertyName("object")]
-        public const string Object = "list";
+    [JsonPropertyName("object")]
+    public const string Object = "list";
 
-        [JsonPropertyName("results")]
-        public TItem[] Results { get; set; }
+    [JsonPropertyName("results")]
+    public TItem[] Results { get; set; }
 
-        [JsonPropertyName("next_cursor")]
-        public Guid? NextCursor { get; set; }
+    [JsonPropertyName("next_cursor")]
+    public Guid? NextCursor { get; set; }
 
-        [JsonPropertyName("has_more")]
-        public bool HasMore { get; set; }
-    }
+    [JsonPropertyName("has_more")]
+    public bool HasMore { get; set; }
 }

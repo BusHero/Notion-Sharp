@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Notion.Model
+namespace Notion.Model;
+
+public record Link
 {
-    public record Link
-    {
-        public Uri Url { get; init; }
-    }
+    public Uri Url { get; init; }
 }

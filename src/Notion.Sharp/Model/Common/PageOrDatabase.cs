@@ -1,7 +1,6 @@
-﻿namespace Notion.Model
-{
-    public record PageOrDatabase
-    {
+﻿namespace Notion.Model;
 
-    }
+public record PageOrDatabase
+{
+
 }

@@ -10,25 +10,25 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Notion
+namespace Notion;
+
+public static class Notion
 {
-    public static class Notion
+    /// <summary>
+    /// Creates a new notion client by specifiing the bearer token and the version of the 
+    /// </summary>
+    /// <param name="bearerToken">The token used for authorization purposes.</param>
+    /// <param name="version">The version of the API. Default is 2021-08-16</param>
+    /// <returns></returns>
+    public static INotion NewClient(string bearerToken, string version = "2021-08-16")
     {
-        /// <summary>
-        /// Creates a new notion client by specifiing the bearer token and the version of the 
-        /// </summary>
-        /// <param name="bearerToken">The token used for authorization purposes.</param>
-        /// <param name="version">The version of the API. Default is 2021-08-16</param>
-        /// <returns></returns>
-        public static INotion NewClient(string bearerToken, string version = "2021-08-16")
+        return RestService.For<INotion>("https://api.notion.com/v1/", new RefitSettings
         {
-            return RestService.For<INotion>("https://api.notion.com/v1/", new RefitSettings
+            AuthorizationHeaderValueGetter = () => Task.FromResult(bearerToken),
+            ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions
             {
-                AuthorizationHeaderValueGetter = () => Task.FromResult(bearerToken),
-                ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions
-                {
-                    IgnoreNullValues = true,
-                    Converters =
+                IgnoreNullValues = true,
+                Converters =
                     {
                         new UserConverter(),
                         new BlockConverter
@@ -432,50 +432,49 @@ namespace Notion
                         },
                         new PageOrDatabaseConverter()
                     }
-                }),
-                ExceptionFactory = GetException,
-                HttpMessageHandlerFactory = () => new AuthHeaderHandler(version)
-                {
-                    InnerHandler = new HttpClientHandler()
-                }
-            });
+            }),
+            ExceptionFactory = GetException,
+            HttpMessageHandlerFactory = () => new AuthHeaderHandler(version)
+            {
+                InnerHandler = new HttpClientHandler()
+            }
+        });
+    }
+
+    private record ErrorDTO(string message, string code, int status);
+
+    private static async Task<Exception> GetException(HttpResponseMessage httpResponseMessage)
+    {
+        if (httpResponseMessage.IsSuccessStatusCode)
+            return await Task.FromResult(default(Exception));
+
+        var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
+        var error = await JsonSerializer.DeserializeAsync<ErrorDTO>(stream, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+        var exception = new NotionException(error.message)
+        {
+            Code = error.code,
+            Status = error.status,
+        };
+        return await Task.FromResult(exception);
+    }
+
+    private class AuthHeaderHandler : DelegatingHandler
+    {
+        public AuthHeaderHandler(string version)
+        {
+            Version = version ?? throw new ArgumentNullException(nameof(version));
         }
 
-        private record ErrorDTO(string message, string code, int status);
+        private string Version { get; }
 
-        private static async Task<Exception> GetException(HttpResponseMessage httpResponseMessage)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return await Task.FromResult(default(Exception));
-
-            var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
-            var error = await JsonSerializer.DeserializeAsync<ErrorDTO>(stream, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-            var exception = new NotionException(error.message)
-            {
-                Code = error.code,
-                Status = error.status,
-            };
-            return await Task.FromResult(exception);
-        }
-
-        private class AuthHeaderHandler : DelegatingHandler
-        {
-            public AuthHeaderHandler(string version)
-            {
-                Version = version ?? throw new ArgumentNullException(nameof(version));
-            }
-
-            private string Version { get; }
-
-            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                request.Headers.Add("Notion-Version", Version);
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            }
+            request.Headers.Add("Notion-Version", Version);
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

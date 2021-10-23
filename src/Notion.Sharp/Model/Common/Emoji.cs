@@ -1,7 +1,6 @@
-﻿namespace Notion.Model
+﻿namespace Notion.Model;
+
+public class Emoji
 {
-    public class Emoji
-    {
-        public string Value { get; init; }
-    }
+    public string Value { get; init; }
 }

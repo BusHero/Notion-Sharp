@@ -1,20 +1,19 @@
 ﻿using System;
 
-namespace Notion.Model
+namespace Notion.Model;
+
+public record File
 {
-    public record File
+    public RichText[] Caption { get; init; }
+
+    public record External : File
     {
-        public RichText[] Caption { get; init; }
+        public Uri Uri { get; init; }
+    }
 
-        public record External : File
-        {
-            public Uri Uri { get; init; }
-        }
-
-        public record Internal : File
-        {
-            public Uri Uri { get; set; }
-            public DateTime ExpireTime { get; set; }
-        }
+    public record Internal : File
+    {
+        public Uri Uri { get; set; }
+        public DateTime ExpireTime { get; set; }
     }
 }
