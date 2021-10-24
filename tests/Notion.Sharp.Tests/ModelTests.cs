@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System;
 using Notion.Model;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Notion.Sharp.Tests;
 
