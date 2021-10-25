@@ -11,10 +11,8 @@ using Void = Pevac.Void;
 
 namespace Notion.Converters;
 
-internal class BlockConverter : JsonConverter<Block>
+internal class BlockConverter : MyJsonConverter<Block>
 {
-    public override bool CanConvert(Type typeToConvert) => typeof(Block).IsAssignableFrom(typeToConvert);
-
     public override Block Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return Parser.ParseObject(property => property switch
@@ -122,20 +120,9 @@ internal class BlockConverter : JsonConverter<Block>
             }, (Block block) => block.Copy<Block.Equation>()),
             "divider" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Divider>()),
             "table_of_contents" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.TableOfContents>()),
+            "breadcrumb" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Breadcrumb>()),
             "unsupported" => Parser.Bool.Updater((bool archived, Block block) => block with { Archived = archived }),
             var key => Parser.FailUpdate<Block>($"Unknown key {key}")
         }).Parse(ref reader, options);
     }
-
-    public override void Write(Utf8JsonWriter writer, Block value, JsonSerializerOptions options)
-    {
-        writer.WriteStartObject();
-        if (!Writers.TryGetValue(value.GetType(), out var blockWriter))
-            throw new JsonException($"Cannot serialize {value.GetType().Name}");
-        writer.WritePropertyName(blockWriter.Property);
-        blockWriter.Write(writer, value, options);
-        writer.WriteEndObject();
-    }
-
-    public Dictionary<Type, IWriter<Block>> Writers { get; init; }
 }

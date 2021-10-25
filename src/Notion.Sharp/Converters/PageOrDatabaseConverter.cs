@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Notion.Converters;
 
-internal class PageOrDatabaseConverter : JsonConverter<PageOrDatabase>
+internal class PageOrDatabaseConverter : MyJsonConverter<PageOrDatabase>
 {
     public override PageOrDatabase Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

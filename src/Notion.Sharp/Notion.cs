@@ -72,6 +72,27 @@ public static class Notion
                                     JsonSerializer.Serialize(writer, heading3.Text, options);
                                     writer.WriteEndObject();
                                 }),
+                                [typeof(Block.Callout)] = Writer.GetWriter<Block>("callout", (writer, value, options) =>
+                                {
+                                    var callout = value as Block.Callout;
+                                    writer.WriteStartObject();
+                                    writer.WritePropertyName("text");
+                                    JsonSerializer.Serialize(writer, callout.Text, options);
+                                    if (callout.Icon is not null)
+                                    {
+                                        writer.WritePropertyName("icon");
+                                        JsonSerializer.Serialize(writer, callout.Icon, options);
+                                    }
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Block.Quote)] = Writer.GetWriter<Block>("quote", (writer, value, options) =>
+                                {
+                                    var quote = value as Block.Quote;
+                                    writer.WriteStartObject();
+                                    writer.WritePropertyName("text");
+                                    JsonSerializer.Serialize(writer, quote.Text, options);
+                                    writer.WriteEndObject();
+                                }),
                                 [typeof(Block.BulletedListItem)] = Writer.GetWriter<Block>("bulleted_list_item", (writer, value, options) =>
                                 {
                                     var bulletedListItem = value as Block.BulletedListItem;
@@ -133,13 +154,47 @@ public static class Notion
                                     writer.WriteString("language", code.Language);
                                     writer.WriteEndObject();
                                 }),
-                                [typeof(Block.Quote)] = Writer.GetWriter<Block>("quote", (writer, value, options) =>
+                                [typeof(Block.ChildPage)] = Writer.GetWriter<Block>("child_page", (writer, value, options) =>
                                 {
-                                    var quote = value as Block.Quote;
+                                    var child_page = value as Block.ChildPage;
                                     writer.WriteStartObject();
-                                    writer.WritePropertyName("text");
-                                    JsonSerializer.Serialize(writer, quote.Text, options);
+                                    writer.WriteString("title", child_page.Title);
                                     writer.WriteEndObject();
+                                }),
+                                [typeof(Block.ChildDatabase)] = Writer.GetWriter<Block>("child_database", (writer, value, options) =>
+                                {
+                                    var child_database = value as Block.ChildDatabase;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("title", child_database.Title);
+                                    writer.WriteEndObject();
+                                }),
+
+                                [typeof(Block.Embed)] = Writer.GetWriter<Block>("embed", (writer, value, options) =>
+                                {
+                                    var embed = value as Block.Embed;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("url", embed.Url.ToString());
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(Block.Image)] = Writer.GetWriter<Block>("image", (writer, value, options) =>
+                                {
+                                    var image = value as Block.Image;
+                                    JsonSerializer.Serialize(writer, image.File, options);
+                                }),
+                                [typeof(Block.Video)] = Writer.GetWriter<Block>("video", (writer, value, options) =>
+                                {
+                                    var image = value as Block.Video;
+                                    JsonSerializer.Serialize(writer, image.File, options);
+                                }),
+                                [typeof(Block.FileBlock)] = Writer.GetWriter<Block>("file", (writer, value, options) =>
+                                {
+                                    var file = value as Block.FileBlock;
+                                    JsonSerializer.Serialize(writer, file.File, options);
+                                }),
+                                [typeof(Block.Pdf)] = Writer.GetWriter<Block>("pdf", (writer, value, options) =>
+                                {
+                                    var pdf = value as Block.Pdf;
+                                    JsonSerializer.Serialize(writer, pdf.File, options);
                                 }),
                                 [typeof(Block.Bookmark)] = Writer.GetWriter<Block>("bookmark", (writer, value, options) =>
                                 {
@@ -150,17 +205,11 @@ public static class Notion
                                     writer.WriteString("url", bookmark.Url.ToString());
                                     writer.WriteEndObject();
                                 }),
-                                [typeof(Block.Callout)] = Writer.GetWriter<Block>("callout", (writer, value, options) =>
+                                [typeof(Block.Equation)] = Writer.GetWriter<Block>("equation", (writer, value, options) =>
                                 {
-                                    var callout = value as Block.Callout;
+                                    var equation = value as Block.Equation;
                                     writer.WriteStartObject();
-                                    writer.WritePropertyName("text");
-                                    JsonSerializer.Serialize(writer, callout.Text, options);
-                                    if (callout.Icon is not null)
-                                    {
-                                        writer.WritePropertyName("icon");
-                                        JsonSerializer.Serialize(writer, callout.Icon, options);
-                                    }
+                                    writer.WriteString("expression", equation.Expression);
                                     writer.WriteEndObject();
                                 }),
                                 [typeof(Block.Divider)] = Writer.GetWriter<Block>("divider", (writer, value, options) =>
@@ -173,16 +222,27 @@ public static class Notion
                                     writer.WriteStartObject();
                                     writer.WriteEndObject();
                                 }),
-                                [typeof(Block.Equation)] = Writer.GetWriter<Block>("equation", (writer, value, options) =>
+                                [typeof(Block.Breadcrumb)] = Writer.GetWriter<Block>("breadcrumb", (writer, value, options) =>
                                 {
-                                    var equation = value as Block.Equation;
                                     writer.WriteStartObject();
-                                    writer.WriteString("expression", equation.Expression);
+                                    writer.WriteEndObject();
+                                }),
+
+                            }
+                        },
+                        new RichTextConverter
+                        {
+                            Writers = new Dictionary<Type, IWriter<RichText>>
+                            {
+                                [typeof(RichText.Text)] = Writer.GetWriter<RichText>("text", (writer, rich_text, options) =>
+                                {
+                                    var text = rich_text as RichText.Text;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("content", text.Content);
                                     writer.WriteEndObject();
                                 }),
                             }
                         },
-                        new RichTextConverter(),
                         new ParentConverter
                         {
                             Writers = new Dictionary<Type, IWriter<Parent>>
@@ -430,7 +490,20 @@ public static class Notion
                                 }),
                             }
                         },
-                        new PageOrDatabaseConverter()
+                        new PageOrDatabaseConverter(),
+                        new FileConverter()
+                        {
+                            Writers = new Dictionary<Type, IWriter<File>>
+                            {
+                                [typeof(File.External)] = Writer.GetWriter<File>("external", (writer, file, options) =>
+                                {
+                                    var externalFile = file as File.External;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("url", externalFile.Uri.ToString());
+                                    writer.WriteEndObject();
+                                })
+                            }
+                        }
                     }
             }),
             ExceptionFactory = GetException,

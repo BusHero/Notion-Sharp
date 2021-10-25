@@ -226,5 +226,6 @@ public record Block
 
     public record Unsupported : Block { }
 
+    public record Breadcrumb : Block { }
     #endregion
 }

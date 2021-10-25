@@ -1,46 +1,19 @@
 ﻿using FluentAssertions;
 
-using Microsoft.Extensions.Configuration;
+using Notion.Model;
 
 using Xunit;
-using System.Threading.Tasks;
-using System;
-using Notion.Model;
-using System.Collections.Generic;
 
 namespace Notion.Sharp.Tests;
 
-public class ModelTests
+public class ModelTests : NotionTestsBase
 {
+
     #region Setup
-
-    private INotion SUT { get; }
-
-    private Guid ValidUserId { get; }
-
-    private Guid ValidDatabaseId { get; }
-
-    private Guid ValidPageId { get; }
-
-    private Guid ValidBlockId { get; }
-
-    private Guid PageFromDatabase { get; }
-
-    private Guid SimpleDatabase { get; }
 
     public ModelTests()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<ModelTests>()
-            .Build();
-
-        SUT = Notion.NewClient(bearerToken: configuration["Notion"], "2021-08-16");
-        ValidUserId = Guid.Parse(configuration["userId"]);
-        ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
-        ValidPageId = Guid.Parse(configuration["pageId"]);
-        ValidBlockId = Guid.Parse(configuration["blockId"]);
-        PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
-        SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
+        
     }
 
     #endregion
@@ -293,17 +266,7 @@ public class ModelTests
         block.Should().NotBeNull();
     }
 
-    [Theory]
-    [MemberData(nameof(Blocks))]
-    public async Task AppendChildren_Succeds(Block block)
-    {
-        var result = await SUT.AppendBlockChildrenAsync(ValidPageId,
-           new List<Block>
-           {
-                   block
-           });
-        result.Should().NotBeNull();
-    }
+    
 
     [Fact]
     public async Task AppendChildren_Fails_OnInvalidId()
@@ -393,206 +356,6 @@ public class ModelTests
 
     #region Data
 
-    public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
-        {
-            new Block.Heading1
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Heading 1"
-                    }
-                }
-            },
-            new Block.Heading2
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Heading 2"
-                    }
-                }
-            },
-            new Block.Heading3
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Heading 3"
-                    }
-                }
-            },
-            new Block.Paragraph
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Paragraph"
-                    }
-                },
-                Children = new Block[]
-                {
-                    new Block.Paragraph
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child paragraph"
-                            }
-                        }
-                    }
-                }
-            },
-            new Block.BulletedListItem
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Bulleted list item"
-                    }
-                },
-                Children = new Block[]
-                {
-                    new Block.BulletedListItem
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child content"
-                            }
-                        }
-                    }
-                }
-            },
-            new Block.NumberedListItem
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Numbered list item"
-                    }
-                },
-                Children = new Block[]
-                {
-                    new Block.BulletedListItem
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child content"
-                            }
-                        }
-                    }
-                }
-            },
-            new Block.ToDo
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "to do"
-                    }
-                },
-                Children = new Block[]
-                {
-                    new Block.BulletedListItem
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child content"
-                            }
-                        }
-                    }
-                }
-            },
-            new Block.Toggle
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "toggle"
-                    }
-                },
-                Children = new Block[]
-                {
-                    new Block.BulletedListItem
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child content"
-                            }
-                        }
-                    }
-                },
-            },
-            new Block.Code
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "var x = 1 + 1;"
-                    }
-                },
-                Language = "c#"
-            },
-            new Block.Bookmark
-            {
-                Caption = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Caption text"
-                    }
-                },
-                Url = new Uri("https://google.com")
-            },
-            new Block.Quote
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Quote text"
-                    }
-                }
-            },
-            new Block.Callout
-            {
-                Text = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "Callout"
-                    }
-                }
-            },
-            new Block.Divider
-            {
-            },
-            new Block.TableOfContents
-            {
-            },
-            new Block.Equation
-            {
-                Expression = "1 + 1"
-            }
-        };
-
+    
     #endregion
 }

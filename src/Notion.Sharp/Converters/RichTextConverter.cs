@@ -3,12 +3,13 @@
 using Pevac;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Notion.Converters;
 
-internal class RichTextConverter : JsonConverter<RichText>
+internal class RichTextConverter : MyJsonConverter<RichText>
 {
     public override RichText Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -53,23 +54,5 @@ internal class RichTextConverter : JsonConverter<RichText>
             }, (RichText richText) => richText.Copy<RichText.Mention>()),
             var key => Parser.FailUpdate<RichText>()
         }).Parse(ref reader, options);
-    }
-
-    public override void Write(Utf8JsonWriter writer, RichText value, JsonSerializerOptions options)
-    {
-        var text = value as RichText.Text;
-        writer.WriteStartObject();
-        writer.WriteStartObject("text");
-        writer.WriteString("content", text.Content);
-        writer.WriteEndObject();
-        //new
-        //{
-        //    text = new
-        //    {
-        //        content = "Brave new world!"
-        //    }
-        //}
-
-        writer.WriteEndObject();
     }
 }

@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
 
     <UserSecretsId>02256519-807b-4124-9963-0b5353e766b0</UserSecretsId>
+
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,4 +30,8 @@
     <ProjectReference Include="..\..\src\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Import Include="Xunit"/>
+  </ItemGroup>
+	
 </Project>

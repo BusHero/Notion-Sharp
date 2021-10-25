@@ -11,7 +11,7 @@ using Void = Pevac.Void;
 
 namespace Notion.Converters;
 
-internal class PropertyConverter : JsonConverter<Property>
+internal class PropertyConverter : MyJsonConverter<Property>
 {
     public override Property Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -72,17 +72,4 @@ internal class PropertyConverter : JsonConverter<Property>
             var key => Parser.FailUpdate<Property>($"Unknown key '{key}'")
         }).Parse(ref reader, options);
     }
-
-    public override void Write(Utf8JsonWriter writer, Property value, JsonSerializerOptions options)
-    {
-        if (Writers is null || !Writers.TryGetValue(value.GetType(), out var propertyWriter))
-            throw new JsonException($"Cannot serialize {value.GetType().Name}");
-
-        writer.WriteStartObject();
-        writer.WritePropertyName(propertyWriter.Property);
-        propertyWriter.Write(writer, value, options);
-        writer.WriteEndObject();
-    }
-
-    public Dictionary<Type, IWriter<Property>> Writers { get; init; }
 }

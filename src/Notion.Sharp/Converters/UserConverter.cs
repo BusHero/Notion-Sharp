@@ -9,7 +9,7 @@ using Void = Pevac.Void;
 
 namespace Notion.Converters;
 
-internal class UserConverter : JsonConverter<User>
+internal class UserConverter : MyJsonConverter<User>
 {
     public override User Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
