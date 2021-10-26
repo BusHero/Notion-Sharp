@@ -67,28 +67,31 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task CreateDatabase_Succeds()
     {
-        var database = new Database
+        await Retry(async () =>
         {
-            Parent = new Parent.Page
+            var database = new Database
             {
-                Id = ValidPageId
-            },
-            Title = new RichText[]
-            {
+                Parent = new Parent.Page
+                {
+                    Id = ValidPageId
+                },
+                Title = new RichText[]
+                {
                     new RichText.Text
                     {
                         Content = "A new database is born"
                     }
-            },
-            Properties = new Dictionary<string, Property>
-            {
-                ["Name"] = new Property.Title
+                },
+                Properties = new Dictionary<string, Property>
                 {
+                    ["Name"] = new Property.Title
+                    {
+                    }
                 }
-            }
-        };
-        database = database with { Parent = new Parent.Page { Id = ValidPageId } };
-        await SUT.CreateDatabaseAsync(database);
+            };
+            database = database with { Parent = new Parent.Page { Id = ValidPageId } };
+            await SUT.CreateDatabaseAsync(database);
+        }, 3);
     }
 
     [Fact]
@@ -192,7 +195,7 @@ public class ModelTests : NotionTestsBase
     }
 
     [Fact]
-    public async Task CreatePageWithChildren_Succeds()
+    public async Task CreatePageWithChildren_Succeds() => await Retry(async () =>
     {
         var result = await SUT.CreatePageAsync(new Page
         {
@@ -206,29 +209,29 @@ public class ModelTests : NotionTestsBase
                 {
                     Content = new RichText[]
                     {
-                            new RichText.Text
-                            {
-                                Content = "Page with content"
-                            }
+                        new RichText.Text
+                        {
+                            Content = "Page with content"
+                        }
                     }
                 }
             }
         }, new Block[]
         {
-                new Block.Heading1
+            new Block.Heading1
+            {
+                Text = new RichText[]
                 {
-                    Text = new RichText[]
+                    new RichText.Text
                     {
-                        new RichText.Text
-                        {
-                            Content = "Heading 1"
-                        }
+                        Content = "Heading 1"
                     }
-                },
+                }
+            },
         });
         result.Should().NotBeNull();
+    }, 3);
 
-    }
 
     #endregion
 
@@ -310,7 +313,9 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task DeleteBlock_Succeds()
     {
-        var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
+        await Retry(async () =>
+        {
+            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
                {
                    new Block.Heading2
                    {
@@ -323,8 +328,9 @@ public class ModelTests : NotionTestsBase
                        }
                    }
                });
-        var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
-        result2.Should().NotBeNull();
+            var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
+            result2.Should().NotBeNull();
+        }, 3);
     }
 
     #endregion
