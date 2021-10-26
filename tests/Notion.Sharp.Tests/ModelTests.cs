@@ -1,10 +1,4 @@
-﻿using FluentAssertions;
-
-using Notion.Model;
-
-using Xunit;
-
-namespace Notion.Sharp.Tests;
+﻿namespace Notion.Sharp.Tests;
 
 public class ModelTests : NotionTestsBase
 {

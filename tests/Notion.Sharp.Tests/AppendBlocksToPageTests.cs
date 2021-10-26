@@ -10,16 +10,16 @@ public class AppendBlocksToPageTests : NotionTestsBase
 {
     [Theory]
     [MemberData(nameof(Blocks))]
-    public async Task AppendChildren_Succeds(Block block)
+    public async Task AppendChildren_Succeds(Block block) => await Retry(async () =>
     {
         var result = await SUT.AppendBlockChildrenAsync(ValidPageId,
-           new List<Block>
-           {
-                   block
-           });
+                new List<Block>
+                {
+                     block
+                });
         result.Should().NotBeNull();
         await SUT.DeleteBlockAsync(result.Results[0].Id);
-    }
+    }, 3);
 
     public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
     {

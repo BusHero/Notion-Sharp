@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-using System;
-
 namespace Notion.Sharp.Tests;
 
 public class NotionTestsBase
@@ -33,5 +31,23 @@ public class NotionTestsBase
         ValidBlockId = Guid.Parse(configuration["blockId"]);
         PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
         SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
+    }
+
+    public async Task Retry(Func<Task> action, int attempts)
+    {
+        for (var attempt = 0; attempt < attempts; attempt++)
+        {
+            try
+            {
+                await action();
+                break;
+            }
+            catch (NotionException ex)
+            {
+                if (ex.Message == "Conflict occurred while saving. Please try again.")
+                    continue;
+                throw;
+            }
+        }
     }
 }

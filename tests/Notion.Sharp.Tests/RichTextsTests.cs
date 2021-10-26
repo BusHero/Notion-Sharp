@@ -1,7 +1,4 @@
-﻿
-using Notion.Model;
-
-namespace Notion.Sharp.Tests;
+﻿namespace Notion.Sharp.Tests;
 
 public class RichTextsTests : NotionTestsBase
 {
@@ -22,7 +19,7 @@ public class RichTextsTests : NotionTestsBase
 
     [Theory]
     [MemberData(nameof(RichTexts))]
-    public async Task AppendRichText_Succed(RichText richText)
+    public async Task AppendRichText_Succed(RichText richText) => await Retry(async () =>
     {
         var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
         {
@@ -35,7 +32,7 @@ public class RichTextsTests : NotionTestsBase
             }
         });
         var block = await SUT.DeleteBlockAsync(result.Results[0].Id);
-    }
+    }, 3);
 
     public static TheoryData<RichText> RichTexts { get; } = new TheoryData<RichText>
     {
