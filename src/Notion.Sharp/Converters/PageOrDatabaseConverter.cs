@@ -2,12 +2,13 @@
 
 using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Notion.Converters;
 
 internal class PageOrDatabaseConverter : MyJsonConverter<PageOrDatabase>
 {
+    public override bool CanConvert(Type typeToConvert) => typeToConvert == typeof(PageOrDatabase);
+
     public override PageOrDatabase Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var tempReader = reader;
@@ -32,6 +33,9 @@ internal class PageOrDatabaseConverter : MyJsonConverter<PageOrDatabase>
 
     public override void Write(Utf8JsonWriter writer, PageOrDatabase value, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        if (value is Page page)
+            JsonSerializer.Serialize(writer, page, options);
+        else if (value is Database database)
+            JsonSerializer.Serialize(writer, database, options);
     }
 }

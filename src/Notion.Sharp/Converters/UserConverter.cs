@@ -32,7 +32,9 @@ internal class UserConverter : MyJsonConverter<User>
 
     public override void Write(Utf8JsonWriter writer, User value, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        writer.WriteStartObject();
+        writer.WriteString("id", value.Id);
+        writer.WriteEndObject();
     }
 
     private static Parser<Void>? ignored;

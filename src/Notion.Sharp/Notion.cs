@@ -241,6 +241,58 @@ public static class Notion
                                     writer.WriteString("content", text.Content);
                                     writer.WriteEndObject();
                                 }),
+                                [typeof(RichText.Equation)] = Writer.GetWriter<RichText>("equation", (writer, rich_text, options) =>
+                                {
+                                    var text = rich_text as RichText.Equation;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("expression", text.Expression);
+                                    writer.WriteEndObject();
+                                }),
+
+                                [typeof(RichText.PageMention)] = Writer.GetWriter<RichText>("mention", (writer, rich_text, options) =>
+                                {
+                                    var pageMention = rich_text as RichText.PageMention;
+                                    writer.WriteStartObject();
+                                    writer.WriteStartObject("page");
+                                    writer.WriteString("id", pageMention.Id.ToString());
+                                    writer.WriteEndObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(RichText.DatabaseMention)] = Writer.GetWriter<RichText>("mention", (writer, rich_text, options) =>
+                                {
+                                    var databaseMention = rich_text as RichText.DatabaseMention;
+                                    writer.WriteStartObject();
+                                    writer.WriteStartObject("database");
+                                    writer.WriteString("id", databaseMention.Id.ToString());
+                                    writer.WriteEndObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(RichText.DateMention)] = Writer.GetWriter<RichText>("mention", (writer, rich_text, options) =>
+                                {
+                                    var dateMention = rich_text as RichText.DateMention;
+                                    writer.WriteStartObject();
+                                    writer.WriteStartObject("date");
+                                    writer.WriteString("start", $"{dateMention.Start:o}");
+                                    if (dateMention.End is not null)
+                                        writer.WriteString("end", $"{dateMention.End:o}");
+                                    writer.WriteEndObject();
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(RichText.UserMention)] = Writer.GetWriter<RichText>("mention", (writer, rich_text, options) =>
+                                {
+                                    var userMention = rich_text as RichText.UserMention;
+                                    writer.WriteStartObject();
+                                    writer.WritePropertyName("user");
+                                    JsonSerializer.Serialize(writer, userMention.User, options);
+                                    writer.WriteEndObject();
+                                }),
+                                [typeof(RichText.Text)] = Writer.GetWriter<RichText>("text", (writer, rich_text, options) =>
+                                {
+                                    var text = rich_text as RichText.Text;
+                                    writer.WriteStartObject();
+                                    writer.WriteString("content", text.Content);
+                                    writer.WriteEndObject();
+                                }),
                             }
                         },
                         new ParentConverter

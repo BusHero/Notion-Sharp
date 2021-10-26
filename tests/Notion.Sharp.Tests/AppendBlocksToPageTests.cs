@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Notion.Sharp.Tests;
 
-public class AppendBlocksToPage : NotionTestsBase
+public class AppendBlocksToPageTests : NotionTestsBase
 {
     [Theory]
     [MemberData(nameof(Blocks))]
@@ -18,24 +18,7 @@ public class AppendBlocksToPage : NotionTestsBase
                    block
            });
         result.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task AppendImage_Succeds()
-    {
-        var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
-        {
-            new Block.Image
-            {
-                File = new Model.File.External
-                {
-                    Uri = new Uri("https://i.scdn.co/image/ab6761610000e5ebdef2f4887831f20c342d790e")
-
-                    //Uri = new Uri("https://images.unsplash.com/photo-1533551268962-824e232f7ee1?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb")
-                }
-            },
-        });
-        result.Should().NotBeNull();
+        await SUT.DeleteBlockAsync(result.Results[0].Id);
     }
 
     public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
