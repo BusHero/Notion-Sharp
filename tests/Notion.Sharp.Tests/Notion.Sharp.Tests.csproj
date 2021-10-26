@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <UserSecretsId>02256519-807b-4124-9963-0b5353e766b0</UserSecretsId>
-
-    <ImplicitUsings>enable</ImplicitUsings>
+	<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup >
+  	<Using Include="System.Text.Json" />
+  	<Using Include="Xunit" />
+  	<Using Include="FluentAssertions" />
+	<Using Include="Notion.Model"/>
+  </ItemGroup>
+  
   <ItemGroup>
 	<DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
 	<PackageReference Include="FluentAssertions" Version="6.1.0" />
@@ -30,8 +33,4 @@
     <ProjectReference Include="..\..\src\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Import Include="Xunit"/>
-  </ItemGroup>
-	
 </Project>
