@@ -19,7 +19,7 @@ public class RichTextsTests : NotionTestsBase
 
     [Theory]
     [MemberData(nameof(RichTexts))]
-    public async Task AppendRichText_Succed(RichText richText) => await Retry(async () =>
+    public async Task AppendRichText_Succed(RichText richText) => await RetryAsync(async () =>
     {
         var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
         {

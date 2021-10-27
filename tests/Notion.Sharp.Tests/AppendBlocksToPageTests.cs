@@ -1,16 +1,10 @@
-﻿using FluentAssertions;
-
-using Notion.Model;
-
-using Xunit;
-
-namespace Notion.Sharp.Tests;
+﻿namespace Notion.Sharp.Tests;
 
 public class AppendBlocksToPageTests : NotionTestsBase
 {
     [Theory]
     [MemberData(nameof(Blocks))]
-    public async Task AppendChildren_Succeds(Block block) => await Retry(async () =>
+    public async Task AppendChildren_Succeds(Block block) => await RetryAsync(async () =>
     {
         var result = await SUT.AppendBlockChildrenAsync(ValidPageId,
                 new List<Block>
@@ -240,16 +234,20 @@ public class AppendBlocksToPageTests : NotionTestsBase
             }
         },
         new Block.Bookmark
+        {
+            Caption = new RichText[]
             {
-                Caption = new RichText[]
+                new RichText.Text
                 {
-                    new RichText.Text
-                    {
-                        Content = "Caption text"
-                    }
-                },
-                Url = new Uri("https://google.com")
+                    Content = "Caption text"
+                }
             },
+            Url = new Uri("https://google.com")
+        },
+        new Block.Bookmark
+        {
+            Url = new Uri("https://google.com")
+        },
         new Block.Equation
         {
             Expression = "1 + 1"

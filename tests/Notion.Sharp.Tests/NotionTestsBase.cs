@@ -33,7 +33,7 @@ public class NotionTestsBase
         SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
     }
 
-    public async Task Retry(Func<Task> action, int attempts)
+    public async Task RetryAsync(Func<Task> action, int attempts)
     {
         for (var attempt = 0; attempt < attempts; attempt++)
         {

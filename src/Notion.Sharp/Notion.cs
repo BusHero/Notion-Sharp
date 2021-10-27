@@ -200,8 +200,11 @@ public static class Notion
                                 {
                                     var bookmark = value as Block.Bookmark;
                                     writer.WriteStartObject();
-                                    writer.WritePropertyName("caption");
-                                    JsonSerializer.Serialize(writer, bookmark.Caption, options);
+                                    if (bookmark.Caption is not null)
+                                    {
+                                        writer.WritePropertyName("caption");
+                                        JsonSerializer.Serialize(writer, bookmark.Caption, options);
+                                    }
                                     writer.WriteString("url", bookmark.Url.ToString());
                                     writer.WriteEndObject();
                                 }),

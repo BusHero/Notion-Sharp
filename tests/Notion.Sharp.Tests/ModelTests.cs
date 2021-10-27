@@ -48,51 +48,49 @@ public class ModelTests : NotionTestsBase
     #region Databases
 
     [Fact]
-    public async Task UpdateDatabase_Succeds()
+    public async Task UpdateDatabase_Succeds() => await RetryAsync(async () =>
     {
         var database = await SUT.GetDatabaseAsync(SimpleDatabase);
         database = database with
         {
             Title = new RichText[]
             {
-                    new RichText.Text
-                    {
-                        Content = "some new title"
-                    }
+                new RichText.Text
+                {
+                    Content = "some new title"
+                }
             }
         };
         await SUT.UpdateDatabaseAsync(database);
-    }
+    
+    }, 3);
 
     [Fact]
-    public async Task CreateDatabase_Succeds()
+    public async Task CreateDatabase_Succeds() => await RetryAsync(async () =>
     {
-        await Retry(async () =>
+        var database = new Database
         {
-            var database = new Database
+            Parent = new Parent.Page
             {
-                Parent = new Parent.Page
+                Id = ValidPageId
+            },
+            Title = new RichText[]
+            {
+                new RichText.Text
                 {
-                    Id = ValidPageId
-                },
-                Title = new RichText[]
-                {
-                    new RichText.Text
-                    {
-                        Content = "A new database is born"
-                    }
-                },
-                Properties = new Dictionary<string, Property>
-                {
-                    ["Name"] = new Property.Title
-                    {
-                    }
+                    Content = "A new database is born"
                 }
-            };
-            database = database with { Parent = new Parent.Page { Id = ValidPageId } };
-            await SUT.CreateDatabaseAsync(database);
-        }, 3);
-    }
+            },
+            Properties = new Dictionary<string, Property>
+            {
+                ["Name"] = new Property.Title
+                {
+                }
+            }
+        };
+        database = database with { Parent = new Parent.Page { Id = ValidPageId } };
+        await SUT.CreateDatabaseAsync(database);
+    }, 3);
 
     [Fact]
     public async Task GetDatabase_Fails_OnInvalidId()
@@ -110,43 +108,44 @@ public class ModelTests : NotionTestsBase
     }
 
     [Fact]
-    public async Task QueryDatabase_Succeds()
+    public async Task QueryDatabase_Succeds() => await RetryAsync(async () =>
     {
         PaginationList<Page> results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
         {
-
+    
         });
         results.Should().NotBeNull();
-    }
+    }, 3);
+
 
     [Fact]
-    public async Task QueryDatabase_Fails_OnInvalidId()
+    public async Task QueryDatabase_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
         await SUT.Awaiting(sut => sut.QueryDatabaseAsync(Guid.NewGuid(), new
         {
-
+    
         })).Should().ThrowAsync<NotionException>();
-    }
+    }, 3);
 
     #endregion
 
     #region Pages
 
     [Fact]
-    public async Task UpdatePage_Succeds_OnValidId()
+    public async Task UpdatePage_Succeds_OnValidId() => await RetryAsync(async () =>
     {
         var page = await SUT.GetPageAsync(ValidPageId);
         var result = SUT.UpdatePageAsync(page);
         result.Should().NotBeNull();
-    }
+    }, 3);
 
     [Fact]
-    public async Task UpdatePage_Fails_OnInvalidId()
+    public async Task UpdatePage_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
         var page = await SUT.GetPageAsync(ValidPageId);
         page = page with { Id = Guid.NewGuid() };
         await SUT.Awaiting(sut => sut.UpdatePageAsync(page)).Should().ThrowAsync<NotionException>();
-    }
+    }, 3);
 
     [Fact]
     public async Task GetPage_Fails_OnInvalidId()
@@ -169,7 +168,7 @@ public class ModelTests : NotionTestsBase
     }
 
     [Fact]
-    public async Task CreatePage_Succeds()
+    public async Task CreatePage_Succeds() => await RetryAsync(async () =>
     {
         var result = await SUT.CreatePageAsync(new Page
         {
@@ -183,19 +182,19 @@ public class ModelTests : NotionTestsBase
                 {
                     Content = new RichText[]
                     {
-                            new RichText.Text
-                            {
-                                Content = "Some content here and there"
-                            }
+                        new RichText.Text
+                        {
+                            Content = "Some content here and there"
+                        }
                     }
                 }
             }
         });
         result.Should().NotBeNull();
-    }
+    }, 3);
 
     [Fact]
-    public async Task CreatePageWithChildren_Succeds() => await Retry(async () =>
+    public async Task CreatePageWithChildren_Succeds() => await RetryAsync(async () =>
     {
         var result = await SUT.CreatePageAsync(new Page
         {
@@ -263,10 +262,10 @@ public class ModelTests : NotionTestsBase
         block.Should().NotBeNull();
     }
 
-    
+
 
     [Fact]
-    public async Task AppendChildren_Fails_OnInvalidId()
+    public async Task AppendChildren_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
         var result = await SUT.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new List<Block>
                {
@@ -281,18 +280,18 @@ public class ModelTests : NotionTestsBase
                        }
                    }
                })).Should().ThrowAsync<NotionException>();
-    }
+    }, 3);
 
     [Fact]
-    public async Task UpdateBlock_Succeds()
+    public async Task UpdateBlock_Succeds() => await RetryAsync(async () =>
     {
         var block = await SUT.GetBlockAsync(ValidBlockId);
         var result = await SUT.UpdateBlockAsync(block);
         result.Should().NotBeNull();
-    }
+    }, 3);
 
     [Fact]
-    public async Task UpdateBlock_Fails_OnInvalidId()
+    public async Task UpdateBlock_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
         var block = await SUT.GetBlockAsync(ValidBlockId);
         block = block with
@@ -300,45 +299,42 @@ public class ModelTests : NotionTestsBase
             Id = Guid.NewGuid()
         };
         await SUT.Awaiting(sut => sut.UpdateBlockAsync(block)).Should().ThrowAsync<NotionException>();
-    }
+    }, 3);
 
     [Fact]
-    public async Task DeleteBlock_Fails_OnInvalidId()
+    public async Task DeleteBlock_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
         await SUT.Awaiting(sut => sut.DeleteBlockAsync(Guid.NewGuid()))
             .Should()
             .ThrowAsync<NotionException>();
-    }
+    }, 3);
 
     [Fact]
-    public async Task DeleteBlock_Succeds()
+    public async Task DeleteBlock_Succeds() => await RetryAsync(async () =>
     {
-        await Retry(async () =>
-        {
-            var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
+        var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
+           {
+               new Block.Heading2
                {
-                   new Block.Heading2
+                   Text = new RichText[]
                    {
-                       Text = new RichText[]
+                       new RichText.Text
                        {
-                           new RichText.Text
-                           {
-                               Content = "Brave new world"
-                           }
+                           Content = "Brave new world"
                        }
                    }
-               });
-            var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
-            result2.Should().NotBeNull();
-        }, 3);
-    }
+               }
+           });
+        var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
+        result2.Should().NotBeNull();
+    }, 3);
 
     #endregion
 
     #region Search
 
     [Fact]
-    public async Task Search_Succeds_OnValidParameter()
+    public async Task Search_Succeds_OnValidParameter() => await RetryAsync(async () =>
     {
         //var result = await SUT.SearchAsync("foo");
         PaginationList<PageOrDatabase> result = await SUT.SearchAsync(
@@ -350,7 +346,7 @@ public class ModelTests : NotionTestsBase
             )
             );
         result.Should().NotBeNull();
-    }
+    }, 3);
 
     #endregion
 
