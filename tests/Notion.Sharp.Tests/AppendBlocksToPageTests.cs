@@ -80,6 +80,20 @@ public class AppendBlocksToPageTests : NotionTestsBase
                 }
             }
         },
+        new Block.Callout
+        {
+            Text = new RichText[]
+            {
+                new RichText.Text
+                {
+                    Content = "Callout"
+                }
+            },
+            Icon = new Emoji
+            {
+                Value = "🐶"
+            }
+        },
         new Block.Quote
         {
             Text = new RichText[]
