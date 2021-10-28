@@ -374,6 +374,4 @@ public class ModelTests : NotionTestsBase
             await SUT.GetPagePropertyAsync(Guid.NewGuid(), "invalid-property");
         }).Should().ThrowAsync<NotionException>();
     }
-
-
 }
