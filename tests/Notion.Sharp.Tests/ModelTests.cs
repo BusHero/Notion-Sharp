@@ -7,7 +7,7 @@ public class ModelTests : NotionTestsBase
 
     public ModelTests()
     {
-        
+
     }
 
     #endregion
@@ -62,7 +62,7 @@ public class ModelTests : NotionTestsBase
             }
         };
         await SUT.UpdateDatabaseAsync(database);
-    
+
     }, 3);
 
     [Fact]
@@ -112,7 +112,7 @@ public class ModelTests : NotionTestsBase
     {
         PaginationList<Page> results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
         {
-    
+
         });
         results.Should().NotBeNull();
     }, 3);
@@ -123,7 +123,7 @@ public class ModelTests : NotionTestsBase
     {
         await SUT.Awaiting(sut => sut.QueryDatabaseAsync(Guid.NewGuid(), new
         {
-    
+
         })).Should().ThrowAsync<NotionException>();
     }, 3);
 
@@ -350,8 +350,28 @@ public class ModelTests : NotionTestsBase
 
     #endregion
 
-    #region Data
+    [Fact]
+    public async Task GetPageProperty_Succeds_OnValidPageIdAndPropertyId()
+    {
+        string result = await SUT.GetPagePropertyAsync(ValidPageId, "title");
+        result.Should().NotBeNullOrEmpty();
+    }
 
-    
-    #endregion
+    [Fact]
+    public async Task GetPageProperty_Fails_OnInvalidPageId()
+    {
+        await new Func<Task>(async () =>
+        {
+            await SUT.GetPagePropertyAsync(Guid.NewGuid(), "title");
+        }).Should().ThrowAsync<NotionException>();
+    }
+
+    [Fact]
+    public async Task GetPageProperty_Fails_OnInvalidPropertyId()
+    {
+        await new Func<Task>(async () =>
+        {
+            await SUT.GetPagePropertyAsync(Guid.NewGuid(), "invalid-property");
+        }).Should().ThrowAsync<NotionException>();
+    }
 }

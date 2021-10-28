@@ -208,7 +208,10 @@ public interface INotion
     [Post("/search")]
     [Headers("Content-Type: application/json")]
     Task<PaginationList<PageOrDatabase>> SearchAsync([Body] SearchPayload query);
-
+    
+    [Get("/pages/{pageId}/properties/{propertyId}")]
+    [Headers("Content-Type: application/json")]
+    Task<string> GetPagePropertyAsync(Guid pageId, string propertyId);
 
     #endregion
 }
