@@ -66,16 +66,3 @@ internal class PropertyValueConverter : MyJsonConverter<PropertyValue>
         }).Parse(ref reader, options);
     }
 }
-
-public static class ParserExtenssions
-{
-    public static Parser<U> Then<T, U>(this Parser<T> parser, Parser<U> then)
-    {
-        ArgumentNullException.ThrowIfNull(parser);
-        ArgumentNullException.ThrowIfNull(then);
-
-        return from _ in parser
-               from x in then
-               select x;
-    }
-}

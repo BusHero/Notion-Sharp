@@ -157,7 +157,7 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task GetPage_Succeds_OnValidId()
     {
-        Page page = await SUT.GetPageAsync(ValidPageId);
+        Page page = await SUT.GetPageAsync(Guid.Parse("7da8cfa80de14b3685e141afe7ca4a1f"));
         page.Should().NotBeNull();
     }
 
