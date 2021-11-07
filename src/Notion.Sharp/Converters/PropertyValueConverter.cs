@@ -45,7 +45,7 @@ internal class PropertyValueConverter : MyJsonConverter<PropertyValue>
                 "string" => Parser.OptionalString.Updater((string value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.SrtingFormula>() with { Value = value }),
                 "number" => Parser.OptionalDecimal.Updater((decimal? value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.NumberFormula>() with { Value = value }),
                 "boolean" => Parser.OptionalBool.Updater((bool? value, PropertyValue.Formula formula) => formula.Copy<PropertyValue.BooleanFormula>() with { Value = value }),
-                "date" => Parser.OptionalDateTime.Updater((DateTime? value, Formula formula) => formula.Copy<PropertyValue.DateFormula>() with { Value = value }),
+                "date" => Parser.ParseType<Date1>().Updater((Date1 date, PropertyValue.Formula forumula) => forumula.Copy<DateFormula>() with { Value = date }),
                 var key => Parser.FailUpdate<PropertyValue.Formula>($"Unknown key '{key}'")
             }, (PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Formula>()),
             "relation" => Parser.ParseType<PageReference[]>().Updater((PageReference[] pages, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Relation>() with { Pages = pages }),
@@ -64,5 +64,18 @@ internal class PropertyValueConverter : MyJsonConverter<PropertyValue>
             "last_edited_by" => Parser.ParseType<User>().Updater((User lastEditedBy, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.LastEditedBy>() with { Value = lastEditedBy }),
             var key => Parser.FailUpdate<PropertyValue>($"Unknown key '{key}'")
         }).Parse(ref reader, options);
+    }
+}
+
+public static class ParserExtenssions
+{
+    public static Parser<U> Then<T, U>(this Parser<T> parser, Parser<U> then)
+    {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(then);
+
+        return from _ in parser
+               from x in then
+               select x;
     }
 }

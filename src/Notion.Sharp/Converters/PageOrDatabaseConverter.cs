@@ -2,13 +2,12 @@
 
 using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Notion.Converters;
 
-internal class PageOrDatabaseConverter : MyJsonConverter<PageOrDatabase>
+internal class PageOrDatabaseConverter : JsonConverter<PageOrDatabase>
 {
-    public override bool CanConvert(Type typeToConvert) => typeToConvert == typeof(PageOrDatabase);
-
     public override PageOrDatabase Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var tempReader = reader;
@@ -17,7 +16,10 @@ internal class PageOrDatabaseConverter : MyJsonConverter<PageOrDatabase>
             if (tempReader.TokenType != JsonTokenType.PropertyName)
                 throw new JsonException($"Unexpected token type. Expected PropertyName, Actual {Enum.GetName(reader.TokenType)}");
             if (tempReader.GetString() != "object")
+            {
                 tempReader.Skip();
+                continue;
+            }
             tempReader.Read();
             if (tempReader.TokenType != JsonTokenType.String)
                 throw new JsonException($"Unexpected token type. Expected String, Actual {Enum.GetName(reader.TokenType)}");

@@ -1,8 +1,9 @@
 ﻿namespace Notion.Sharp.Tests;
 
+using System.Reflection;
+
 public class ModelTests : NotionTestsBase
 {
-
     #region Setup
 
     public ModelTests()
@@ -350,11 +351,68 @@ public class ModelTests : NotionTestsBase
 
     #endregion
 
-    [Fact]
-    public async Task GetPageProperty_Succeds_OnValidPageIdAndPropertyId()
+    [Theory]
+    [InlineData("AVTB", "date")]
+    [InlineData("Ki=]", "date")]
+    [InlineData("kb;E", "date")]
+    [InlineData("djkn", "date")]
+    [InlineData("DVQN", "formula")]
+    [InlineData("Gqpt", "formula")]
+    [InlineData("U|OM", "formula")]
+    [InlineData("Zfk]", "formula")]
+    [InlineData("kC]\\", "formula")]
+    [InlineData("G=~V", "multi_select")]
+    [InlineData("}Bf`", "multi_select")]
+    [InlineData("LqOn", "multi_select")]
+    [InlineData("JHTr", "number")]
+    [InlineData("Kxm}", "select")]
+    [InlineData("O>||", "files")]
+    [InlineData("TJeJ", "files")]
+    [InlineData("ZjRa", "number")]
+    [InlineData("i;<u", "url")]
+    [InlineData("uX|q", "email")]
+    [InlineData("_x|k", "phone_number")]
+    [InlineData("BADZ", "created_time")]
+    [InlineData("jIE]", "created_by")]
+    [InlineData("L|rs", "last_edited_time")]
+    [InlineData("t}ga", "last_edited_by")]
+    public async Task GetPageProperty_Succeds_OnValidPageIdAndPropertyId(string id, string propertyName)
     {
-        string result = await SUT.GetPagePropertyAsync(ValidPageId, "title");
-        result.Should().NotBeNullOrEmpty();
+        var result = await SUT.GetPagePropertyAsync(PageFromDatabase, id);
+        var property = result.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+        property.GetValue(result).Should().NotBeNull();
+    }
+
+    [Theory]
+    [InlineData("title", "title")]
+    [InlineData("hiyf", "rich_text")]
+    [InlineData("oOIv", "rich_text")]
+    [InlineData("}?[O", "people")]
+    [InlineData("D?BR", "people")]
+    [InlineData("nt@E", "relation")]
+    [InlineData(":uV>", "relation")]
+    public async Task GetPagePropery_Succeds_OnPaginatedList(string id, string propertyName)
+    {
+        var result = await SUT.GetPagePropertyAsync(PageFromDatabase, id);
+        if (result.results.Length == 0)
+            return;
+        var property = result
+            .results[0]
+            .GetType()
+            .GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+
+        property.Should().NotBeNull();
+    }
+
+    [Theory]
+    //[InlineData("JsFc")]
+    [InlineData("Hgj{")]
+    [InlineData("{tT>")]
+    public async Task GetPageProperty_Succeds_OnRollupProperty(string id)
+    {
+        var result = await SUT.GetPagePropertyAsync(PageFromDatabase, id);
+        result.rollup.Should().NotBeNull();
+        result.results.Should().NotBeNull();
     }
 
     [Fact]

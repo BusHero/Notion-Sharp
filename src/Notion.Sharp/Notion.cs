@@ -28,6 +28,7 @@ public static class Notion
             ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions
             {
                 IgnoreNullValues = true,
+                
                 Converters =
                     {
                         new UserConverter(),
@@ -558,7 +559,7 @@ public static class Notion
                                     writer.WriteEndObject();
                                 })
                             }
-                        }
+                        },
                     }
             }),
             ExceptionFactory = GetException,

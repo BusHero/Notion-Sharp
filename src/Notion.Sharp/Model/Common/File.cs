@@ -6,6 +6,8 @@ public record File
 {
     public RichText[] Caption { get; init; }
 
+    public string Name { get; init; }
+
     public record External : File
     {
         public Uri Uri { get; init; }

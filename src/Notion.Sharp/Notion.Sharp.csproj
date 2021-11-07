@@ -24,8 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pevac" Version="0.5.1" />
     <PackageReference Include="Refit" Version="6.1.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Pevac\src\Pevac\Pevac.csproj" />
   </ItemGroup>
 
 </Project>

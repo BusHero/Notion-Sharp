@@ -211,7 +211,8 @@ public interface INotion
     
     [Get("/pages/{pageId}/properties/{propertyId}")]
     [Headers("Content-Type: application/json")]
-    Task<string> GetPagePropertyAsync(Guid pageId, string propertyId);
+    Task<Foo> GetPagePropertyAsync(Guid pageId, string propertyId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
     #endregion
 }
+

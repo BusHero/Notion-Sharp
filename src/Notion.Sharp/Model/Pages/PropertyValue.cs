@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Notion.Model;
 
@@ -52,7 +53,9 @@ public record PropertyValue
 
     public record Date : PropertyValue
     {
+        [JsonPropertyName("start")]
         public DateTime? Start { get; init; }
+        [JsonPropertyName("end")]
         public DateTime? End { get; init; }
     }
 
@@ -75,7 +78,7 @@ public record PropertyValue
 
     public record DateFormula : Formula
     {
-        public DateTime? Value { get; init; }
+        public Date1 Value { get; init; }
     }
 
     public record Formula : PropertyValue
