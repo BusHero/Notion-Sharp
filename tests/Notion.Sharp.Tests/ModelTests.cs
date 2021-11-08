@@ -1,6 +1,7 @@
 ﻿namespace Notion.Sharp.Tests;
 
 using System.Reflection;
+using System.Threading.Tasks;
 
 public class ModelTests : NotionTestsBase
 {
@@ -246,7 +247,7 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task GetBlocks_Succeds_OnValidId()
     {
-        var blocks = await SUT.GetBlocksChildrenAsync(ValidPageId);
+        var blocks = await SUT.GetBlocksChildrenAsync(Guid.Parse("7da8cfa80de14b3685e141afe7ca4a1f"));
         blocks.Should().NotBeNull();
     }
 

@@ -121,7 +121,8 @@ internal class BlockConverter : MyJsonConverter<Block>
             "divider" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Divider>()),
             "table_of_contents" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.TableOfContents>()),
             "breadcrumb" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Breadcrumb>()),
-            "unsupported" => Parser.Bool.Updater((bool archived, Block block) => block with { Archived = archived }),
+            "unsupported" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Unsupported>()),
+            "column_list" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.ColumnList>()),
             var key => Parser.FailUpdate<Block>($"Unknown key {key}")
         }).Parse(ref reader, options);
     }
