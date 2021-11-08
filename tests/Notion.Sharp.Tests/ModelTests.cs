@@ -244,10 +244,13 @@ public class ModelTests : NotionTestsBase
         await SUT.Awaiting(sut => sut.GetBlocksChildrenAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
     }
 
-    [Fact]
-    public async Task GetBlocks_Succeds_OnValidId()
+    [Theory]
+    [InlineData("85387287-61bb-4913-a93c-76f7d8d074dd")]
+    [InlineData("7da8cfa80de14b3685e141afe7ca4a1f")]
+    [InlineData("e392eaec-2dae-47ca-b24f-c0e72783ffe5")]
+    public async Task GetBlocks_Succeds_OnValidId(string id)
     {
-        var blocks = await SUT.GetBlocksChildrenAsync(Guid.Parse("7da8cfa80de14b3685e141afe7ca4a1f"));
+        var blocks = await SUT.GetBlocksChildrenAsync(Guid.Parse(id));
         blocks.Should().NotBeNull();
     }
 

@@ -123,6 +123,7 @@ internal class BlockConverter : MyJsonConverter<Block>
             "breadcrumb" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Breadcrumb>()),
             "unsupported" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Unsupported>()),
             "column_list" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.ColumnList>()),
+            "column" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.ColumnList>()),
             var key => Parser.FailUpdate<Block>($"Unknown key {key}")
         }).Parse(ref reader, options);
     }

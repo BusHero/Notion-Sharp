@@ -227,8 +227,10 @@ public record Block
     public record Unsupported : Block { }
 
     public record Breadcrumb : Block { }
-    
+
     public record ColumnList : Block { }
+
+    public record Column : Block { }
 
     #endregion
 }
