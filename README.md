@@ -33,7 +33,7 @@ Each notion api endpoint has a corresponding method associated with it
 | [Retrieve a page](https://developers.notion.com/reference/retrieve-a-page) | `GetPageAsync` |
 | [Create a page](https://developers.notion.com/reference/post-page) | `CreatePageAsync` |
 | [Update page](https://developers.notion.com/reference/patch-page) | `UpdatePageAsync` |
-| [Retrieve a page property item](https://developers.notion.com/reference/retrieve-a-page-property) |  |
+| [Retrieve a page property item](https://developers.notion.com/reference/retrieve-a-page-property) | `GetPagePropertyAsync` |
 | [Retrieve a block](https://developers.notion.com/reference/retrieve-a-block) | `GetBlockAsync` |
 | [Update a block](https://developers.notion.com/reference/update-a-block) | `UpdateBlockAsync` |
 | [Retrieve block children](https://developers.notion.com/reference/get-block-children) | `GetBlocksChildrenAsync` |
