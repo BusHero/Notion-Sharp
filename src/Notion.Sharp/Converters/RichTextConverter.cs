@@ -50,6 +50,11 @@ internal class RichTextConverter : MyJsonConverter<RichText>
                     "id" => Parser.Guid.Updater((Guid id, RichText.DatabaseMention databaseMention) => databaseMention with { Id = id }),
                     var key => Parser.FailUpdate<RichText.DatabaseMention>($"Unknown key '{key}'")
                 }, (RichText.Mention mention) => mention.Copy<RichText.DatabaseMention>()),
+                "link_preview" => Parser.ParseObject(propertyName => propertyName switch
+                {
+                    "url" => Parser.Uri.Updater((Uri url, RichText.LinkPreviewMention linkPreview) => linkPreview with { Url = url }),
+                    var key => Parser.FailUpdate<RichText.LinkPreviewMention>($"Unknown key '{key}'")
+                }, (RichText.Mention mention) => mention.Copy<RichText.LinkPreviewMention>()),
                 var key => Parser.FailUpdate<RichText.Mention>($"Unknown key '{key}'")
             }, (RichText richText) => richText.Copy<RichText.Mention>()),
             var key => Parser.FailUpdate<RichText>()

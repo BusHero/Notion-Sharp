@@ -124,6 +124,11 @@ internal class BlockConverter : MyJsonConverter<Block>
             "unsupported" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Unsupported>()),
             "column_list" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.ColumnList>()),
             "column" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.ColumnList>()),
+            "link_preview" => Parser.ParseObject(propertyName => propertyName switch
+            {
+                "url" => Parser.Uri.Updater((Uri uri, Block.LinkPreview linkPreview) => linkPreview with { Url = uri }),
+                var key => Parser.FailUpdate<Block.LinkPreview>($"Unknown key link_preview.{key}")
+            }, (Block block) => block.Copy<Block.LinkPreview>()),
             var key => Parser.FailUpdate<Block>($"Unknown key {key}")
         }).Parse(ref reader, options);
     }

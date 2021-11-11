@@ -40,6 +40,11 @@ public record RichText
         public Guid Id { get; init; }
     }
 
+    public record LinkPreviewMention: Mention
+    {
+        public Uri Url { get; init; }
+    }
+
     public record DateMention : Mention
     {
         public DateTimeOffset? Start { get; init; }
