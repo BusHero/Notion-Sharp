@@ -24,7 +24,7 @@ public record RichText
         public string Content { get; init; }
         public Link Link { get; init; }
 
-        public static Text Copy(RichText richText) => new Text
+        public static Text Copy(RichText richText) => new()
         {
             PlainText = richText.PlainText,
             Href = richText.Href,
