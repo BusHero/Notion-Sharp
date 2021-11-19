@@ -8,7 +8,7 @@ namespace MarkdownExporter.Tests;
 
 public class MarkdownExporterTests
 {
-    public MarkdownExporter SUT { get; }
+    public Exporter SUT { get; }
 
     public MarkdownExporterTests ()
     {
@@ -16,7 +16,7 @@ public class MarkdownExporterTests
             .AddUserSecrets<MarkdownExporterTests>()
             .Build();
 
-        SUT = new MarkdownExporter(configuration["Notion"]);
+        SUT = Exporters.MarkdownExporter(configuration["Notion"]);
     }
 
     [Fact]
