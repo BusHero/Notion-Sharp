@@ -10,4 +10,9 @@ public static class Formatters
     public static string FormatColor(Color color, string text) => $"<span style=\"color: {Enum.GetName(color).ToLower()}\">{text}</span>";
     public static string FormatCode(string text) => $"`{text}`";
     public static string FormatUnderline(string text) => $"<u>{text}</u>";
+
+    public static string FormatParagraph(string text) => text;
+
+    public static string FormatHeading1(string text) => $"# {text}";
+    public static string FormatHeading2(string text) => $"## {text}";
 }

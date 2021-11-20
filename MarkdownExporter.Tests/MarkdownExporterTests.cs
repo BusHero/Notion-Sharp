@@ -19,26 +19,12 @@ public class MarkdownExporterTests
         SUT = Exporters.MarkdownExporter(configuration["Notion"]);
     }
 
-    [Fact]
-    public void CanConvertHeading1()
+    [Theory]
+    [MemberData(nameof(Blocks))]
+    public void CanConvert_Block(Block block, string expectedText)
     {
-        var heading = new Block.Heading1
-        {
-            Text = new RichText[]
-            {
-                new RichText.Text
-                {
-                    Content = "Some text here and there"
-                },
-                new RichText.Text
-                {
-                    Content = "Some text here and there"
-                }
-            }
-        };
-
-        string actualResult = SUT.Convert(heading);
-        Assert.Equal("# Some text here and there", actualResult);
+        string actualResult = SUT.Convert(block);
+        Assert.Equal(expectedText, actualResult);
     }
 
     [Theory]
@@ -115,5 +101,47 @@ public class MarkdownExporterTests
         },
 
         { new RichText.Equation { Expression = "1 + 1" }, "`1 + 1`" }
+    };
+
+    public static TheoryData<Block, string> Blocks { get; } = new()
+    {
+        {
+            new Block.Heading1
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there"
+                    }
+                }
+            }, "# Some text here and there"
+        },
+        {
+            new Block.Heading2
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there"
+                    }
+                }
+            },
+            "## Some text here and there"
+        },
+        {
+            new Block.Paragraph
+            {
+                Text = new RichText[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there"
+                    }
+                }
+            },
+            "Some text here and there"
+        }
     };
 }
