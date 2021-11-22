@@ -13,4 +13,10 @@ public class RichTextTextConverter : IConverter<RichText>
         RichText.Text text => Applier.Apply(richText, text.Content).ToOption(),
         _ => default(string).ToOption()
     };
+
+    public Option<string> Convert(RichText richText, Converter1 backup) => richText switch
+    {
+        RichText.Text text => Applier.Apply(richText, text.Content).ToOption(),
+        _ => default(string).ToOption()
+    };
 }

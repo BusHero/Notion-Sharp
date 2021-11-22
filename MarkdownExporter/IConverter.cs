@@ -1,7 +1,32 @@
-﻿namespace MarkdownExporter;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-public interface IConverter<in T>
+namespace MarkdownExporter;
+
+public abstract class Converter1
 {
+    public abstract Option<string> Convert(object value);
+}
+
+public abstract class Converter1<T> : Converter1
+{
+    public abstract Option<string> Convert(T value);
+
+    public override Option<string> Convert(object value) => value switch
+    {
+        T t => Convert(t),
+        _ => new()
+    };
+}
+
+public interface IConverter
+{
+    public virtual Option<string> Convert(object value) => new();
+}
+
+public interface IConverter<in T> : IConverter
+{
+    public virtual Option<string> Convert(T input, Converter1 backup) => Convert(input);
     Option<string> Convert(T input);
 
     public static IConverter<T> operator +(IConverter<T> first, IConverter<T> second) => new AggregateConverter<T>(first, second);

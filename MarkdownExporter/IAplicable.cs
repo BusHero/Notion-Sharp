@@ -42,10 +42,10 @@ public static class Applicable
     public static IAplicable Underline(Func<string, string> formatter) =>
         ToApplicable(PropertyAccessor.IsUnderline, formatter, Id<string>);
 
-    internal static IAplicable FormatCode(Func<string, string> formatter) =>
+    public static IAplicable FormatCode(Func<string, string> formatter) =>
         ToApplicable(PropertyAccessor.IsCode, formatter, Id<string>);
 
-    internal static IAplicable FormatColor(Func<Color, string, string> formatter) =>
+    public static IAplicable FormatColor(Func<Color, string, string> formatter) =>
         ToApplicable(
             PropertyAccessor.IsColored,
             richText => text => formatter(richText.Annotations.Color, text),
