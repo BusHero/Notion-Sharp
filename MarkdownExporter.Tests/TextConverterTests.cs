@@ -6,25 +6,8 @@ using Xunit;
 
 namespace MarkdownExporter.Tests;
 
-public class TextConverterTests
+public class TextConverterTests : ConverterTestsBase
 {
-    public ConverterSettings Settings { get; }
-
-    public TextConverterTests()
-    {
-        Settings = new ConverterSettings
-        {
-            Converter = new TextConverter(
-                Applicable.Bold(Formatters.FormatBold)
-                + Applicable.Italic(Formatters.FormatItalic)
-                + Applicable.Strikethrough(Formatters.FormatStike)
-                + Applicable.Underline(Formatters.FormatUnderline)
-                + Applicable.FormatCode(Formatters.FormatCode)
-                + Applicable.FormatColor(Formatters.FormatColor))
-                + new UserMentionConverter()
-        };
-    }
-
     [Fact]
     public void UserMention_Convert_Succeds()
     {

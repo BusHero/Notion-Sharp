@@ -6,27 +6,8 @@ using Xunit;
 
 namespace MarkdownExporter.Tests;
 
-public class ParagraphConverterTests
+public class ParagraphConverterTests : ConverterTestsBase
 {
-    public ConverterSettings Settings { get; }
-
-    public ParagraphConverterTests()
-    {
-        Settings = new ConverterSettings
-        {
-            Converter = 
-                new TextConverter(
-                    Applicable.Bold(Formatters.FormatBold)
-                    + Applicable.Italic(Formatters.FormatItalic)
-                    + Applicable.Strikethrough(Formatters.FormatStike)
-                    + Applicable.Underline(Formatters.FormatUnderline)
-                    + Applicable.FormatCode(Formatters.FormatCode)
-                    + Applicable.FormatColor(Formatters.FormatColor))
-                + new ParagraphConverter()
-                + new UserMentionConverter()
-        };
-    }
-
     [Theory]
     [MemberData(nameof(Paragraphs))]
     public void Foo(Block.Paragraph block, string expectedText)
