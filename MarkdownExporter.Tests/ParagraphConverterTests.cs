@@ -23,6 +23,7 @@ public class ParagraphConverterTests
                     + Applicable.FormatCode(Formatters.FormatCode)
                     + Applicable.FormatColor(Formatters.FormatColor))
                 + new ParagraphConverter()
+                + new UserMentionConverter()
         };
     }
 

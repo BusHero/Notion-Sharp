@@ -21,12 +21,28 @@ public class TextConverterTests
                 + Applicable.Underline(Formatters.FormatUnderline)
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor))
+                + new UserMentionConverter()
         };
+    }
+
+    [Fact]
+    public void UserMention_Convert_Succeds()
+    {
+        var userMention = new RichText.UserMention
+        {
+            User = new User.Person
+            {
+                Name = "Cervac Petru",
+                Email = "petru.cervac@gmail.com"
+            }
+        };
+        var actualText = Converter.Convert(userMention, Settings).ValueOrDefault(string.Empty);
+        actualText.Should().Be("[@Cervac Petru](mailto:petru.cervac@gmail.com)");
     }
 
     [Theory]
     [MemberData(nameof(Texts))]
-    public void Export_Passes(RichText.Text richText, string expectedString)
+    public void Text_Convert_Succeds(RichText.Text richText, string expectedString)
     {
         var actualString = Converter.Convert(richText, Settings).ValueOrDefault(string.Empty);
         actualString.Should().Be(expectedString);
