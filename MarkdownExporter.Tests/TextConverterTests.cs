@@ -6,28 +6,29 @@ using Xunit;
 
 namespace MarkdownExporter.Tests;
 
-public class RichTextTextExporterTextTests
+public class TextConverterTests
 {
-    public RichTextTextConverter SUT { get; }
+    public ConverterSettings Settings { get; }
 
-    public IConverter<object> ParentConverter { get; }
-
-    public RichTextTextExporterTextTests()
+    public TextConverterTests()
     {
-        SUT = new RichTextTextConverter(
-            Applicable.Bold(Formatters.FormatBold)
-            + Applicable.Italic(Formatters.FormatItalic)
-            + Applicable.Strikethrough(Formatters.FormatStike)
-            + Applicable.Underline(Formatters.FormatUnderline)
-            + Applicable.FormatCode(Formatters.FormatCode)
-            + Applicable.FormatColor(Formatters.FormatColor));
+        Settings = new ConverterSettings
+        {
+            Converter = new TextConverter(
+                Applicable.Bold(Formatters.FormatBold)
+                + Applicable.Italic(Formatters.FormatItalic)
+                + Applicable.Strikethrough(Formatters.FormatStike)
+                + Applicable.Underline(Formatters.FormatUnderline)
+                + Applicable.FormatCode(Formatters.FormatCode)
+                + Applicable.FormatColor(Formatters.FormatColor))
+        };
     }
 
     [Theory]
     [MemberData(nameof(Texts))]
     public void Export_Passes(RichText.Text richText, string expectedString)
     {
-        var actualString = SUT.Convert(richText).ValueOrDefault(string.Empty);
+        var actualString = Converter.Convert(richText, Settings).ValueOrDefault(string.Empty);
         actualString.Should().Be(expectedString);
     }
 

@@ -2,9 +2,9 @@
 
 namespace MarkdownExporter;
 
-public class RichTextEquationConverter : IConverter<RichText>
+public class RichTextEquationConverter : Converter<RichText>
 {
-    public Option<string> Convert(RichText richText) => richText switch
+    public override Option<string> Convert(RichText richText, ConverterSettings settings) => richText switch
     {
         RichText.Equation equation => $"`{equation.Expression}`".ToOption(),
         _ => default(string).ToOption()
