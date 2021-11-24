@@ -30,7 +30,7 @@ public class ParagraphConverterTests : ConverterTestsBase
                     }
                 }
             },
-            "Some text here and there"
+            "Some text here and there\n"
         },
         {
             new Block.Paragraph
@@ -49,7 +49,7 @@ public class ParagraphConverterTests : ConverterTestsBase
                     }
                 }
             },
-            "Some text here and there"
+            "Some text here and there\n"
         },
         {
             new Block.Paragraph
@@ -77,7 +77,7 @@ public class ParagraphConverterTests : ConverterTestsBase
                     }
                 }
             },
-            "*Some text ***here and there**"
+            "*Some text ***here and there**\n"
         },
     };
 }

@@ -9,25 +9,25 @@ namespace MarkdownExporter.Tests;
 public class RichTextConverterTests
 {
     private Converter<RichText> Converter { get; } = new RichTextConverter(
-        Applicable.Link(Formatters.FormatLink)
-        + Applicable.Bold(Formatters.FormatBold)
+        Applicable.Bold(Formatters.FormatBold)
         + Applicable.Italic(Formatters.FormatItalic)
         + Applicable.Strikethrough(Formatters.FormatStike)
         + Applicable.Underline(Formatters.FormatUnderline)
         + Applicable.FormatCode(Formatters.FormatCode)
-        + Applicable.FormatColor(Formatters.FormatColor));
+        + Applicable.FormatColor(Formatters.FormatColor)
+        + Applicable.Link(Formatters.FormatLink));
 
     private ConverterSettings? Settings { get; } = default;
 
     [Theory]
     [MemberData(nameof(Texts))]
-    public void Text_Convert_Succeds(RichText.Text richText, string expectedString)
-    {
-        var actualString = Converter.Convert(richText, Settings).ValueOrDefault(string.Empty);
-        actualString.Should().Be(expectedString);
-    }
+    public void Text_Convert_Succeds(RichText richText, string expectedString) => Converter
+        .Convert(richText, Settings)
+        .ValueOrDefault(string.Empty)
+        .Should()
+        .Be(expectedString);
 
-    public static TheoryData<RichText.Text, string> Texts { get; } = new()
+    public static TheoryData<RichText, string> Texts { get; } = new()
     {
         { 
             new RichText.Text 
@@ -42,7 +42,14 @@ public class RichTextConverterTests
             }, 
             "[Some text here and there](https://google.com/)" 
         },
-        { new RichText.Text { Content = "Some text here and there", PlainText = "Some text here and there" }, "Some text here and there" },
+        { 
+            new RichText.Text 
+            { 
+                Content = "Some text here and there", 
+                PlainText = "Some text here and there" 
+            }, 
+            "Some text here and there" 
+        },
         { new RichText.Text { Content = "Some text here and there", Annotations = new Annotations
             {
                 Bold = true
@@ -110,5 +117,25 @@ public class RichTextConverterTests
             },
             "***Some text here and there***"
         },
+        {
+            new RichText.UserMention
+            {
+                User = new User.Person
+                {
+                    Name = "Cervac Petru",
+                    Email = "petru.cervac@gmail.com"
+                },
+                PlainText = "@Cervac Petru"
+            },
+            "@Cervac Petru"
+        },
+        {
+            new RichText.DateMention
+            {
+                Start = new System.DateTimeOffset(new System.DateTime(2021, 10, 26)),
+                PlainText = "2021-10-26 →"
+            },
+            "2021-10-26 →"
+        }
     };
 }
