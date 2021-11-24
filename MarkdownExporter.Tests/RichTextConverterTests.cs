@@ -6,9 +6,9 @@ using Xunit;
 
 namespace MarkdownExporter.Tests;
 
-public class TextConverterTests
+public class RichTextConverterTests
 {
-    private Converter<RichText.Text> Converter { get; } = new TextConverter(
+    private Converter<RichText> Converter { get; } = new RichTextConverter(
         Applicable.Link(Formatters.FormatLink)
         + Applicable.Bold(Formatters.FormatBold)
         + Applicable.Italic(Formatters.FormatItalic)
@@ -37,16 +37,17 @@ public class TextConverterTests
                 { 
                     Url = new System.Uri("https://google.com") 
                 },
+                PlainText = "Some text here and there",
                 Href = new System.Uri("https://google.com")
             }, 
             "[Some text here and there](https://google.com/)" 
         },
-
-        { new RichText.Text { Content = "Some text here and there" }, "Some text here and there" },
+        { new RichText.Text { Content = "Some text here and there", PlainText = "Some text here and there" }, "Some text here and there" },
         { new RichText.Text { Content = "Some text here and there", Annotations = new Annotations
             {
                 Bold = true
-            }
+            },
+            PlainText = "Some text here and there"
         }, "*Some text here and there*" },
         {
             new RichText.Text
@@ -55,7 +56,8 @@ public class TextConverterTests
                 Annotations = new Annotations
                 {
                     Strikethrough = true
-                }
+                },
+                PlainText = "Some text here and there",
             },
             "~~Some text here and there~~"
         },
@@ -66,7 +68,8 @@ public class TextConverterTests
                 Annotations = new Annotations
                 {
                     Underline = true
-                }
+                },
+                PlainText = "Some text here and there",
             },
             "<u>Some text here and there</u>"
         },
@@ -77,7 +80,8 @@ public class TextConverterTests
                 Annotations = new Annotations
                 {
                     Code = true
-                }
+                },
+                PlainText = "Some text here and there",
             },
             "`Some text here and there`"
         },
@@ -88,7 +92,8 @@ public class TextConverterTests
                 Annotations = new Annotations
                 {
                     Color = Color.Blue
-                }
+                },
+                PlainText = "Some text here and there",
             },
             "<span style=\"color: blue\">Some text here and there</span>"
         },
@@ -100,7 +105,8 @@ public class TextConverterTests
                 {
                     Italic = true,
                     Bold = true,
-                }
+                },
+                PlainText = "Some text here and there",
             },
             "***Some text here and there***"
         },

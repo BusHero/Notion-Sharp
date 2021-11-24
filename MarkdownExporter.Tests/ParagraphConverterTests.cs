@@ -25,7 +25,8 @@ public class ParagraphConverterTests : ConverterTestsBase
                 {
                     new RichText.Text
                     {
-                        Content = "Some text here and there"
+                        Content = "Some text here and there",
+                        PlainText = "Some text here and there"
                     }
                 }
             },
@@ -38,11 +39,13 @@ public class ParagraphConverterTests : ConverterTestsBase
                 {
                     new RichText.Text
                     {
-                        Content = "Some text "
+                        Content = "Some text ",
+                        PlainText = "Some text "
                     },
                     new RichText.Text
                     {
-                        Content = "here and there"
+                        Content = "here and there",
+                        PlainText = "here and there"
                     }
                 }
             },
@@ -59,7 +62,9 @@ public class ParagraphConverterTests : ConverterTestsBase
                         Annotations = new Annotations
                         {
                             Bold = true
-                        }
+                        },
+                        PlainText = "Some text ",
+
                     },
                     new RichText.Text
                     {
@@ -67,7 +72,8 @@ public class ParagraphConverterTests : ConverterTestsBase
                         Annotations = new Annotations
                         {
                             Italic = true
-                        }
+                        },
+                        PlainText = "here and there",
                     }
                 }
             },

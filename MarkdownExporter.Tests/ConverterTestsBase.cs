@@ -5,7 +5,7 @@ public abstract class ConverterTestsBase
     internal ConverterSettings Settings { get; } = new ConverterSettings
     {
         Converter =
-                new TextConverter(
+                new RichTextConverter(
                     Applicable.Link(Formatters.FormatLink)
                     + Applicable.Bold(Formatters.FormatBold)
                     + Applicable.Italic(Formatters.FormatItalic)
