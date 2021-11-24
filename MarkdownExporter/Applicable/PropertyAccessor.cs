@@ -10,4 +10,5 @@ public static class PropertyAccessor
     public static bool IsCode(RichText richText) => richText?.Annotations?.Code is not null and true;
     public static bool IsColored(RichText richText) => richText?.Annotations?.Color is not null and not Color.Default;
     public static bool IsUnderline(RichText richText) => richText?.Annotations?.Underline is not null and true;
+    public static bool Link(RichText richText) => richText?.Href is not null;
 }

@@ -2,7 +2,7 @@
 
 public abstract partial class Converter
 {
-    public abstract Option<string> Convert(object? value, ConverterSettings settings);
+    public abstract Option<string> Convert(object? value, ConverterSettings? settings);
 
     public static Converter operator +(Converter first, Converter second) => new AggregateConverter(first, second);
 

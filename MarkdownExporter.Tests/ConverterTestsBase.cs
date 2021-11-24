@@ -6,7 +6,8 @@ public abstract class ConverterTestsBase
     {
         Converter =
                 new TextConverter(
-                    Applicable.Bold(Formatters.FormatBold)
+                    Applicable.Link(Formatters.FormatLink)
+                    + Applicable.Bold(Formatters.FormatBold)
                     + Applicable.Italic(Formatters.FormatItalic)
                     + Applicable.Strikethrough(Formatters.FormatStike)
                     + Applicable.Underline(Formatters.FormatUnderline)

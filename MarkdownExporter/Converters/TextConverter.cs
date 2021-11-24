@@ -2,15 +2,15 @@
 
 namespace MarkdownExporter;
 
-public class TextConverter : Converter<RichText>
+public class TextConverter : Converter<RichText.Text>
 {
     public IAplicable Applier { get; }
 
     public TextConverter(IAplicable aplicable) => Applier = aplicable ?? throw new ArgumentNullException(nameof(aplicable));
 
-    public override Option<string> Convert(RichText richText, ConverterSettings? settings) => richText switch
+    public override Option<string> Convert(RichText.Text text, ConverterSettings? settings) => text switch
     {
-        RichText.Text text => Applier.Apply(richText, text.Content).ToOption(),
+        not null => Applier.Apply(text, text.Content).ToOption(),
         _ => default(string).ToOption()
     };
 }

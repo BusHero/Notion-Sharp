@@ -6,22 +6,18 @@ using Xunit;
 
 namespace MarkdownExporter.Tests;
 
-public class TextConverterTests : ConverterTestsBase
+public class TextConverterTests
 {
-    [Fact]
-    public void UserMention_Convert_Succeds()
-    {
-        var userMention = new RichText.UserMention
-        {
-            User = new User.Person
-            {
-                Name = "Cervac Petru",
-                Email = "petru.cervac@gmail.com"
-            }
-        };
-        var actualText = Converter.Convert(userMention, Settings).ValueOrDefault(string.Empty);
-        actualText.Should().Be("[@Cervac Petru](mailto:petru.cervac@gmail.com)");
-    }
+    private Converter<RichText.Text> Converter { get; } = new TextConverter(
+        Applicable.Link(Formatters.FormatLink)
+        + Applicable.Bold(Formatters.FormatBold)
+        + Applicable.Italic(Formatters.FormatItalic)
+        + Applicable.Strikethrough(Formatters.FormatStike)
+        + Applicable.Underline(Formatters.FormatUnderline)
+        + Applicable.FormatCode(Formatters.FormatCode)
+        + Applicable.FormatColor(Formatters.FormatColor));
+
+    private ConverterSettings? Settings { get; } = default;
 
     [Theory]
     [MemberData(nameof(Texts))]
@@ -33,6 +29,19 @@ public class TextConverterTests : ConverterTestsBase
 
     public static TheoryData<RichText.Text, string> Texts { get; } = new()
     {
+        { 
+            new RichText.Text 
+            { 
+                Content = "Some text here and there" ,
+                Link = new Link 
+                { 
+                    Url = new System.Uri("https://google.com") 
+                },
+                Href = new System.Uri("https://google.com")
+            }, 
+            "[Some text here and there](https://google.com/)" 
+        },
+
         { new RichText.Text { Content = "Some text here and there" }, "Some text here and there" },
         { new RichText.Text { Content = "Some text here and there", Annotations = new Annotations
             {

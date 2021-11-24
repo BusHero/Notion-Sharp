@@ -30,6 +30,12 @@ public static class Applicable
 
     private static T Id<T>(T item) => item;
 
+    public static IAplicable Link(Func<Uri, string, string> formatter) =>
+        ToApplicable(
+            PropertyAccessor.Link, 
+            richText => text => formatter(richText.Href, text),
+            _ => Id<string>);
+
     public static IAplicable Italic(Func<string, string> formatter) =>
         ToApplicable(PropertyAccessor.IsItalic, formatter, Id<string>);
 

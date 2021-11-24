@@ -5,7 +5,7 @@ namespace Notion.Model;
 public record RichText
 {
     public string PlainText { get; init; }
-    public Uri Href { get; init; }
+    public Uri? Href { get; init; }
     public Annotations Annotations { get; init; }
 
     public T Copy<T>() where T : RichText, new() => new()
