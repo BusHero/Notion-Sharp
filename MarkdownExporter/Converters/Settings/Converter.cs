@@ -11,4 +11,14 @@ public partial class Converter
             _ => new Option<string>()
         }
     };
+
+    public static string? Convert<T>(T item, ConverterSettings? settings, string? defaultValue) => settings switch
+    {
+        { Converter: var converter and not null } => converter.Convert(item, settings).ValueOrDefault(defaultValue),
+        _ => item switch
+        {
+            not null => item.ToString(),
+            _ => default
+        }
+    };
 }

@@ -6,13 +6,13 @@ public interface IAplicable
 {
     string Apply(RichText richText, string result);
 
-    public static IAplicable operator +(IAplicable first, IAplicable second) => Applicable.ToApplicable((richText, result) => second
+    public static IAplicable operator +(IAplicable first, IAplicable second) => Applicable.ToAplicable((richText, result) => second
         .Apply(richText, first.Apply(richText, result)));
 }
 
 public static class Applicable
 {
-    public static IAplicable ToApplicable(Func<RichText, string, string> func) => new RelayAplicable(func);
+    public static IAplicable ToAplicable(Func<RichText, string, string> func) => new RelayAplicable(func);
 
     public static IAplicable ToAplicable(Func<RichText, string> func) => new RelayAplicable((richText, _) => func(richText));
 

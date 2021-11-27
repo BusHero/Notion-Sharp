@@ -23,10 +23,7 @@ public class Option<T>
         HasValue = true;
     }
 
-    public T ValueOrDefault(T @default)
-    {
-        return HasValue ? Value : @default;
-    }
+    public T? ValueOrDefault(T? @default) => HasValue ? Value : @default;
 
     public Option<T> Blah(Func<Option<T>> @default) => HasValue ? this : @default();
 

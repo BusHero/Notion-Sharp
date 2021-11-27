@@ -25,7 +25,7 @@ public abstract partial class Converter
 
 public abstract class Converter<T> : Converter
 {
-    public override Option<string> Convert(object? value, ConverterSettings settings) => value switch
+    public override Option<string> Convert(object? value, ConverterSettings? settings) => value switch
     {
         T t => Convert(t, settings),
         _ => new Option<string>()

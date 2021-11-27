@@ -29,6 +29,10 @@
     <PackageReference Include="Refit" Version="6.1.15" />
   </ItemGroup>
 
- 
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 
 </Project>

@@ -22,7 +22,7 @@ public interface INotion
     Task<Database> CreateDatabaseAsync(Database database);
 
     [Patch("/databases/{id}")]
-    internal Task<Database> UpdateDatabaseAsync(Guid id, [Body] object database);
+     Task<Database> UpdateDatabaseAsync(Guid id, [Body] object database);
 
     /// <summary>
     /// Updates an existing database as specified by the parameters.
