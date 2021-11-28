@@ -2,7 +2,9 @@
 
 public abstract partial class Converter
 {
-    public abstract Option<string> Convert(object? value, ConverterSettings? settings);
+    public abstract IOption<List<string>> Convert2(object? value, ConverterSettings? settings);
+
+    public abstract IOption<string> Convert(object? value, ConverterSettings? settings);
 
     public static Converter operator +(Converter first, Converter second) => new AggregateConverter(first, second);
 
@@ -17,19 +19,33 @@ public abstract partial class Converter
             Second = second;
         }
 
-        public override Option<string> Convert(object? value, ConverterSettings settings) => First
+        public override IOption<string> Convert(object? value, ConverterSettings? settings) => First
             .Convert(value, settings)
             .Blah(() => Second.Convert(value, settings));
+
+        public override IOption<List<string>> Convert2(object? value, ConverterSettings? settings) => First.Convert2(value, settings) switch
+        {
+            ISome<List<string>> foo => foo,
+            _ => Second.Convert2(value, settings)
+        };
     }
 }
 
 public abstract class Converter<T> : Converter
 {
-    public override Option<string> Convert(object? value, ConverterSettings? settings) => value switch
+    public override IOption<string> Convert(object? value, ConverterSettings? settings) => value switch
     {
         T t => Convert(t, settings),
-        _ => new Option<string>()
+        _ => Option.None<string>()
     };
 
-    public abstract Option<string> Convert(T input, ConverterSettings? settings);
+    public override IOption<List<string>> Convert2(object? value, ConverterSettings? settings) => value switch
+    {
+        T t => Convert2(t, settings),
+        _ => Option.None<List<string>>()
+    };
+
+    public abstract IOption<List<string>> Convert2(T t, ConverterSettings? settings);
+
+    public abstract IOption<string> Convert(T input, ConverterSettings? settings);
 }

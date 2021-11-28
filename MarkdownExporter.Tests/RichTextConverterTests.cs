@@ -2,6 +2,8 @@
 
 using Notion.Model;
 
+using System.Collections.Generic;
+
 using Xunit;
 
 namespace MarkdownExporter.Tests;
@@ -19,13 +21,20 @@ public class RichTextConverterTests
 
     private ConverterSettings? Settings { get; } = default;
 
+    private IEqualityComparer<IOption<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+
+
     [Theory]
     [MemberData(nameof(Texts))]
-    public void Text_Convert_Succeds(RichText richText, string expectedString) => Converter
-        .Convert(richText, Settings)
-        .ValueOrDefault(string.Empty)
-        .Should()
-        .Be(expectedString);
+    public void Text_Convert_Succeds(RichText richText, string expectedString)
+    {
+        var actualResult = Converter
+            .Convert2(richText, Settings);
+
+        var expectedResult = new List<string> { expectedString }.ToOption();
+
+        Assert.Equal(expectedResult, actualResult, Comparer);
+    }
 
     public static TheoryData<RichText, string> Texts { get; } = new()
     {

@@ -2,6 +2,8 @@
 
 using Notion.Model;
 
+using System.Collections.Generic;
+
 using Xunit;
 
 namespace MarkdownExporter.Tests;
@@ -11,7 +13,6 @@ public class Heading1ConverterTests
     private ConverterSettings? Settings { get; } = new ConverterSettings
     {
         Converter =
-            new Heading1Converter() + 
             new RichTextConverter(
                         Applicable.Link(Formatters.FormatLink)
                         + Applicable.Bold(Formatters.FormatBold)
@@ -22,13 +23,20 @@ public class Heading1ConverterTests
                         + Applicable.FormatColor(Formatters.FormatColor))
     };
 
+    private Converter<Block.Heading1> Converter { get; } = new Heading1Converter(text => $"# {text}");
+
+    private IEqualityComparer<IOption<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+
     [Theory]
     [MemberData(nameof(Blocks))]
-    public void Convert_Passes(Block.Heading1 block, string expectedText) => Converter
-        .Convert(block, Settings)
-        .ValueOrDefault(string.Empty)
-        .Should()
-        .Be(expectedText);
+    public void Convert_Passes(Block.Heading1 block, string expectedText)
+    {
+        var result = Converter.Convert2(block, Settings);
+
+        var expectedResult = new List<string> { expectedText }.ToOption();
+
+        Assert.Equal(expectedResult, result, Comparer);
+    }
 
     public static TheoryData<Block.Heading1, string> Blocks { get; } = new()
     {
@@ -44,7 +52,7 @@ public class Heading1ConverterTests
                     } as RichText
                 }
             }, 
-            "# Some text here and there\n"
+            "# Some text here and there"
         },
         {
             new Block.Heading1
@@ -62,7 +70,7 @@ public class Heading1ConverterTests
                     } as RichText
                 }
             },
-            "# *Some text here and there*\n"
+            "# *Some text here and there*"
         },
     };
 }
