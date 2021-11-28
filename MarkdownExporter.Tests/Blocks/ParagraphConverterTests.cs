@@ -1,6 +1,4 @@
-﻿using Moq;
-
-using Notion;
+﻿using Notion;
 using Notion.Model;
 
 using System;
@@ -9,6 +7,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Xunit;
+using NSubstitute;
+using System.Linq;
 
 namespace MarkdownExporter.Tests;
 
@@ -35,7 +35,7 @@ public class ParagraphConverterTests
     [MemberData(nameof(Paragraphs))]
     public void ParseParagraph_Passes(Block.Paragraph block, string expectedText)
     {
-        var converter = new ParagraphConverter(Mock.Of<INotion>());
+        var converter = new ParagraphConverter(Substitute.For<INotion>());
         var expectedResult = new List<string> { expectedText }.ToOption().Select(list => JsonSerializer.Serialize(list));
 
         var actualResult = converter.Convert2(block, Settings).Select(list => JsonSerializer.Serialize(list));
@@ -71,10 +71,8 @@ public class ParagraphConverterTests
                 }
             }
         };
-        var mock = new Mock<INotion>();
-        mock.Setup(notion => notion.GetBlocksChildrenAsync(parentId, 100, default))
-            .Returns(Task.FromResult<PaginationList<Block>>(new() { Results = new[] { child } }));
-        var notion = mock.Object;
+        var notion = Substitute.For<INotion>();
+        notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
         var converter = new ParagraphConverter(notion);
         var settings = new ConverterSettings
         {
@@ -133,12 +131,10 @@ public class ParagraphConverterTests
                 }
             }
         };
-        var mock = new Mock<INotion>();
-        mock.Setup(notion => notion.GetBlocksChildrenAsync(parentId, 100, default))
-            .Returns(Task.FromResult<PaginationList<Block>>(new() { Results = new[] { child } }));
-        mock.Setup(notion => notion.GetBlocksChildrenAsync(childId, 100, default))
-            .Returns(Task.FromResult<PaginationList<Block>>(new() { Results = new[] { grandChild } }));
-        var notion = mock.Object;
+        var notion = Substitute.For<INotion>();
+        notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
+        notion.GetBlocksChildrenAsync(childId, 100, default).Returns(Arrays.Of<Block>(grandChild).Paginated().ToTask());
+        
         var converter = new ParagraphConverter(notion);
         var settings = new ConverterSettings
         {
@@ -219,4 +215,24 @@ public class ParagraphConverterTests
             "*Some text ***here and there**"
         },
     };
+}
+
+public static class TaskExtenssions
+{
+    public static Task<T> ToTask<T>(this T t) => Task.FromResult(t);
+}
+
+public static class PaginationListExtensions
+{
+    public static PaginationList<T> Paginated<T>(this T[] results) => new PaginationList<T> { Results = results };
+}
+
+public static class Lists
+{
+    public static List<T> Of<T>(params T[] items) => items.ToList();
+}
+
+public static class Arrays
+{
+    public static T[] Of<T>(params T[] items) => items;
 }
