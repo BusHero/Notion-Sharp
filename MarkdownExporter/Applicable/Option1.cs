@@ -57,6 +57,12 @@ public static class Option
         _ => None<V>()
     };
 
+    public static IOption<T> Binary<T>(this IOption<T> first, IOption<T> second, Func<T, T, T> map) => first.Map2(second, map);
+
+    public static Func<IOption<T>, IOption<U>, IOption<V>> Map2<T, U, V>(Func<T, U, V> map) => (first, second) => first.Map2(second, map);
+
+    public static Func<IOption<T>, IOption<T>, IOption<T>> Binary<T>(Func<T, T, T> map) => Map2(map);
+
     public static T? ValueOrDefault<T>(this IOption<T> option, T @default) => option switch
     {
         null => throw new ArgumentNullException(nameof(option)),

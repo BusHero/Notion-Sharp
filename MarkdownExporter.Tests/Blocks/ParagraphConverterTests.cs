@@ -4,11 +4,7 @@ using Notion.Model;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
-
-using Xunit;
 using NSubstitute;
-using System.Linq;
 
 namespace MarkdownExporter.Tests;
 
@@ -216,22 +212,3 @@ public class ParagraphConverterTests
     };
 }
 
-public static class TaskExtenssions
-{
-    public static Task<T> ToTask<T>(this T t) => Task.FromResult(t);
-}
-
-public static class PaginationListExtensions
-{
-    public static PaginationList<T> Paginated<T>(this T[] results) => new PaginationList<T> { Results = results };
-}
-
-public static class Lists
-{
-    public static List<T> Of<T>(params T[] items) => items.ToList();
-}
-
-public static class Arrays
-{
-    public static T[] Of<T>(params T[] items) => items;
-}
