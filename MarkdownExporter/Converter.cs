@@ -2,7 +2,7 @@
 
 public abstract partial class Converter
 {
-    public abstract IOption<List<string>> Convert2(object? value, ConverterSettings? settings);
+    public abstract Option<List<string>> Convert2(object? value, ConverterSettings? settings);
 
     public static Converter operator +(Converter first, Converter second) => new AggregateConverter(first, second);
 
@@ -17,9 +17,9 @@ public abstract partial class Converter
             Second = second;
         }
 
-        public override IOption<List<string>> Convert2(object? value, ConverterSettings? settings) => First.Convert2(value, settings) switch
+        public override Option<List<string>> Convert2(object? value, ConverterSettings? settings) => First.Convert2(value, settings) switch
         {
-            ISome<List<string>> foo => foo,
+            Some<List<string>> foo => foo,
             _ => Second.Convert2(value, settings)
         };
     }
@@ -27,10 +27,10 @@ public abstract partial class Converter
 
 public abstract class Converter<T> : Converter
 {
-    public override IOption<List<string>> Convert2(object? value, ConverterSettings? settings) => value switch
+    public override Option<List<string>> Convert2(object? value, ConverterSettings? settings) => value switch
     {
         T t => Convert(t, settings),
         _ => Option.None<List<string>>()
     };
-    public abstract IOption<List<string>> Convert(T t, ConverterSettings? settings);
+    public abstract Option<List<string>> Convert(T t, ConverterSettings? settings);
 }

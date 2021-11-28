@@ -21,7 +21,7 @@ public class RichTextConverterTests
 
     private ConverterSettings? Settings { get; } = default;
 
-    private IEqualityComparer<IOption<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+    private IEqualityComparer<Option<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
 
     [Theory]

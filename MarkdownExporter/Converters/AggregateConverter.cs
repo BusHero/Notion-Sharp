@@ -2,7 +2,7 @@
 
 public class AggregateConverter : Converter
 {
-    public override IOption<List<string>> Convert2(object? value, ConverterSettings? settings)
+    public override Option<List<string>> Convert2(object? value, ConverterSettings? settings)
     {
         throw new NotImplementedException();
     }

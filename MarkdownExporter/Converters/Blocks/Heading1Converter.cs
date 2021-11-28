@@ -10,7 +10,7 @@ public class Heading1Converter : Converter<Block.Heading1>
 
     private Func<string, string> Formatter { get; }
 
-    public override IOption<List<string>> Convert(Block.Heading1 heading1, ConverterSettings? settings) => heading1
+    public override Option<List<string>> Convert(Block.Heading1 heading1, ConverterSettings? settings) => heading1
         .Text
         .Select(text => Converter.Convert(text, settings))
         .Aggregate(Option.Binary<List<string>>(Lists.Add))

@@ -26,7 +26,7 @@ public class Heading1ConverterTests
 
     private Converter<Block.Heading1> Converter { get; } = new Heading1Converter(text => $"# {text}");
 
-    private IEqualityComparer<IOption<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+    private IEqualityComparer<Option<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
     [Theory]
     [MemberData(nameof(Blocks))]

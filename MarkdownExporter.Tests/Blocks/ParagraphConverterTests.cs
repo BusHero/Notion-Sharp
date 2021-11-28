@@ -25,7 +25,7 @@ public class ParagraphConverterTests
 
     public Converter<Block.Paragraph> Converter { get; } = new ParagraphConverter(Substitute.For<INotion>());
 
-    public IEqualityComparer<IOption<List<string>>> Comparer = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+    public IEqualityComparer<Option<List<string>>> Comparer = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
     [Theory]
     [MemberData(nameof(Paragraphs))]

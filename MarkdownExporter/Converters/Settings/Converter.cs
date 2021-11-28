@@ -2,7 +2,7 @@
 
 public partial class Converter
 {
-    public static IOption<List<string>> Convert<T>(T item, ConverterSettings? settings) => settings switch
+    public static Option<List<string>> Convert<T>(T item, ConverterSettings? settings) => settings switch
     {
         { Converter: var converter and not null } => converter.Convert2(item, settings),
         _ => item?.ToString() switch

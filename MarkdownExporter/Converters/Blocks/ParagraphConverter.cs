@@ -20,7 +20,7 @@ public class ParagraphConverter : Converter<Block.Paragraph>
     public INotion Notion { get; }
     public Func<string, string> ChildFormatter { get; }
 
-    public override IOption<List<string>> Convert(Block.Paragraph paragraph, ConverterSettings? settings)
+    public override Option<List<string>> Convert(Block.Paragraph paragraph, ConverterSettings? settings)
     {
         var result = paragraph
             .Text
