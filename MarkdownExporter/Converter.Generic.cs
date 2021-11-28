@@ -2,7 +2,7 @@
 
 public abstract class Converter<T> : Converter
 {
-    public override Option<List<string>> Convert2(object? value, ConverterSettings? settings) => value switch
+    public override Option<List<string>> Convert(object? value, ConverterSettings? settings) => value switch
     {
         T t => Convert(t, settings),
         _ => Option.None<List<string>>()
