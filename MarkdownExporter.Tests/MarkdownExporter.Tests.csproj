@@ -9,6 +9,11 @@
     <UserSecretsId>6245f61a-5eca-4039-9799-333f7c0a8e99</UserSecretsId>
   </PropertyGroup>
 
+	<ItemGroup>
+		<Using Include="Xunit" />
+		<Using Include="FluentAssertions" />
+	</ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />

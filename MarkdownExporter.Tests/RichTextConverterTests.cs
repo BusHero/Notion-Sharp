@@ -29,7 +29,7 @@ public class RichTextConverterTests
     public void Text_Convert_Succeds(RichText richText, string expectedString)
     {
         var actualResult = Converter
-            .Convert2(richText, Settings);
+            .Convert(richText, Settings);
 
         var expectedResult = new List<string> { expectedString }.ToOption();
 

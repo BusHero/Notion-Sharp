@@ -27,7 +27,7 @@ public class ParagraphConverterTests
                 + Applicable.FormatColor(Formatters.FormatColor))
     };
 
-    public Converter<Block.Paragraph> Converter { get; } = new ParagraphConverter(Mock.Of<INotion>());
+    public Converter<Block.Paragraph> Converter { get; } = new ParagraphConverter(Substitute.For<INotion>());
 
     public IEqualityComparer<IOption<List<string>>> Comparer = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
@@ -38,7 +38,7 @@ public class ParagraphConverterTests
         var converter = new ParagraphConverter(Substitute.For<INotion>());
         var expectedResult = new List<string> { expectedText }.ToOption().Select(list => JsonSerializer.Serialize(list));
 
-        var actualResult = converter.Convert2(block, Settings).Select(list => JsonSerializer.Serialize(list));
+        var actualResult = converter.Convert(block, Settings).Select(list => JsonSerializer.Serialize(list));
 
         Assert.Equal(expectedResult, actualResult, new OptionComparer<string>(EqualityComparer<string>.Default));
     }
@@ -83,7 +83,7 @@ public class ParagraphConverterTests
             .ToOption()
             .Select(text => JsonSerializer.Serialize(text));
         
-        var actualResult = converter.Convert2(parent, settings).Select(text => JsonSerializer.Serialize(text));
+        var actualResult = converter.Convert(parent, settings).Select(text => JsonSerializer.Serialize(text));
         
         Assert.Equal(expectedResult, actualResult, comparer);
 
@@ -145,14 +145,13 @@ public class ParagraphConverterTests
             .ToOption()
             .Select(text => JsonSerializer.Serialize(text));
 
-        var actual = converter.Convert2(parent, settings).Select(list => JsonSerializer.Serialize(list));
+        var actual = converter.Convert(parent, settings).Select(list => JsonSerializer.Serialize(list));
 
         Assert.Equal(expectedResult, actual, comparer);
     }
 
     public static TheoryData<Block.Paragraph, string> Paragraphs { get; } = new()
     {
-        
         {
             new Block.Paragraph
             {

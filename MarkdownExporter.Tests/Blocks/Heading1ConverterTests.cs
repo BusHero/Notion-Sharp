@@ -3,6 +3,7 @@
 using Notion.Model;
 
 using System.Collections.Generic;
+using System.Text.Json;
 
 using Xunit;
 
@@ -31,11 +32,11 @@ public class Heading1ConverterTests
     [MemberData(nameof(Blocks))]
     public void Convert_Passes(Block.Heading1 block, string expectedText)
     {
-        var result = Converter.Convert2(block, Settings);
+        var result = Converter.Convert(block, Settings).Select(list => JsonSerializer.Serialize(list));
 
-        var expectedResult = new List<string> { expectedText }.ToOption();
+        var expectedResult = new List<string> { expectedText }.ToOption().Select(list => JsonSerializer.Serialize(list));
 
-        Assert.Equal(expectedResult, result, Comparer);
+        Assert.Equal(expectedResult, result, new OptionComparer<string>());
     }
 
     public static TheoryData<Block.Heading1, string> Blocks { get; } = new()

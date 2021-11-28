@@ -18,10 +18,6 @@ public class Exporter
         BlockConverter = blockConverter ?? throw new ArgumentNullException(nameof(blockConverter));
         RichTextConverter = richTextConverter ?? throw new ArgumentNullException(nameof(richTextConverter));
     }
-
-    public string Convert(Block block, ConverterSettings? settings) => BlockConverter.Convert(block, settings).ValueOrDefault(string.Empty);
-
-    public string? Convert(RichText richText, ConverterSettings? settings) => RichTextConverter.Convert(richText, settings).ValueOrDefault(string.Empty);
 }
 
 public static class Expressions
