@@ -1,47 +1,91 @@
-﻿//using System.Linq;
+﻿namespace MarkdownExporter;
 
-//namespace MarkdownExporter;
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "I know what I am doing.")]
+public interface Option<out T> 
+{ }
 
-//public class Option<T>
-//{
-//    private T Value { get; }
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "I know what I am doing.")]
+public interface None<out T> : Option<T> { }
 
-//    public bool HasValue { get; }
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "I know what I am doing.")]
+public interface Some<out T>: Option<T> 
+{
+    public T Value { get; }
+}
 
-//#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-//    public Option()
-//#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-//    {
-//        HasValue = false;
-//    }
+public static class Option
+{
+    private record SomeInstance<T>(T Value) : Some<T> { }
+    private record NoneInstance<T>() : None<T> 
+    {
+        public static NoneInstance<T> Default { get; } = new NoneInstance<T>();
+    }
 
-//    public Option(T? value)
-//    {
-//        ArgumentNullException.ThrowIfNull(value);
+    public static Option<T> Some<T>(T item) => new SomeInstance<T>(item);
 
-//        Value = value;
-//        HasValue = true;
-//    }
+    public static Option<T> None<T>() => NoneInstance<T>.Default;
 
-//    public T? ValueOrDefault(T? @default) => HasValue ? Value : @default;
+    public static Option<T> ToOption<T>(this T? item) => item switch
+    {
+        null => None<T>(),
+        _ => Some<T>(item)
+    };
 
-//    public Option<T> Blah(Func<Option<T>> @default) => HasValue ? this : @default();
+    public static Option<U> Select<T, U>(this Option<T> option, Func<T, U> map) => option switch
+    {
+        Some<T> { Value: var value} => Some(map(value)),
+        _ => None<U>()
+    };
 
-//    public Option<U> Select<U>(Func<T, U> map) => HasValue switch
-//    {
-//        true => new Option<U>(map(Value)),
-//        false => new Option<U>()
-//    };
+    public static Option<U> SelectMany<T, U>(this Option<T> option, Func<T, Option<U>> selector) => option switch
+    {
+        Some<T> { Value: var value} => selector(value).Select(x => x),
+        _ => None<U>()
+    };
 
-//    public Option<U> SelectMany<U>(Func<T, Option<U>> selector) => HasValue switch
-//    {
-//        true => selector(Value).Select(x => x),
-//        false => new Option<U>()
-//    };
+    public static Option<V> SelectMany<T, U, V>(this Option<T> option, Func<T, Option<U>> selector, Func<T, U, V> projector) => option switch
+    {
+        Some<T> { Value: var value} => selector(value).Select(u => projector(value, u)),
+        _ => None<V>()
+    };
 
-//    public Option<V> SelectMany<U, V>(Func<T, Option<U>> selector, Func<T, U, V> projector) => HasValue switch
-//    {
-//        true => selector(Value).Select(u => projector(Value, u)),
-//        false => new Option<V>()
-//    };
-//}
+    public static Option<V> Map2<T, U, V>(this Option<T> first, Option<U> second, Func<T, U, V> map) => (first, second, map) switch
+    {
+        (null, _, _) => throw new ArgumentNullException(nameof(first)),
+        (_, null, _) => throw new ArgumentNullException(nameof(second)),
+        (_, _, null) => throw new ArgumentNullException(nameof(map)),
+        (Some<T> { Value: var firstValue }, Some<U> { Value: var secondValue }, _) => map(firstValue, secondValue).ToOption(),
+        _ => None<V>()
+    };
+
+    public static Option<T> Binary<T>(this Option<T> first, Option<T> second, Func<T, T, T> map) => first.Map2(second, map);
+
+    public static Func<Option<T>, Option<U>, Option<V>> Map2<T, U, V>(Func<T, U, V> map) => (first, second) => first.Map2(second, map);
+
+    public static Func<Option<T>, Option<T>, Option<T>> Binary<T>(Func<T, T, T> map) => Map2(map);
+
+    public static T? ValueOrDefault<T>(this Option<T> option, T @default) => option switch
+    {
+        null => throw new ArgumentNullException(nameof(option)),
+        Some<T> { Value: var value } => value,
+        _ => @default
+    };
+
+    public static Option<T> IfNone<T>(this Option<T> option, Func<Option<T>> @default) => option switch
+    {
+        Some<T> => option,
+        _ => @default()
+    };
+
+
+    public static Option<T> FirstIdentity<T>() => None<T>();
+
+    public static Option<T> FindFirst<T>(this Option<T> first, Option<T> second) => first switch
+    {
+        Some<T> => first,
+        _ => second
+    };
+
+    public static Option<T> Accumulate<T>(IEnumerable<Option<T>> options) => options
+        .Aggregate(FirstIdentity<T>(), FindFirst);
+}
