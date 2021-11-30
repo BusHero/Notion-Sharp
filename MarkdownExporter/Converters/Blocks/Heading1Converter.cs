@@ -18,8 +18,3 @@ public class Heading1Converter : Converter<Block.Heading1>
         .Select(Formatter)
         .Select(Lists.Of);
 }
-
-public static class Funcs
-{
-    public static Func<T, U, V> AsFunc<T, U, V>(Func<T, U, V> func) => func;
-}

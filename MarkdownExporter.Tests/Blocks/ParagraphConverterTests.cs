@@ -62,7 +62,7 @@ public class ParagraphConverterTests
             {
                 new RichText.Text
                 {
-                    Content = "Some text here and there",
+                    Content = "Child",
                     PlainText = "Child"
                 }
             }
