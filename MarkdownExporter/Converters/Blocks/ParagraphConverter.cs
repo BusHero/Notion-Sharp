@@ -7,7 +7,6 @@ public class ParagraphConverter : BlockConverter<Block.Paragraph>
 {
     private INotion Notion { get; }
 
-
     public ParagraphConverter(INotion notion) => Notion = notion ?? throw new ArgumentNullException(nameof(notion));
 
     public override string Format(string text) => text;
