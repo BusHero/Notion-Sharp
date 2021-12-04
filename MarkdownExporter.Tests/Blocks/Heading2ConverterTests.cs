@@ -19,7 +19,7 @@ public class Heading2ConverterTests
                 + Applicable.Underline(Formatters.FormatUnderline)
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor)),
-            new Heading2Converter())
+            new HeadingConverter<Block.Heading2>(h2 => h2.Text, text => $"## {text}"))
     };
 
     [Theory]

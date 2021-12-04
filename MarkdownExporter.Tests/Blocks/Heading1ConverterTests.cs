@@ -24,9 +24,7 @@ public class Heading1ConverterTests
                         + Applicable.FormatColor(Formatters.FormatColor))
     };
 
-    private Converter<Block.Heading1> Converter { get; } = new Heading1Converter(text => $"# {text}");
-
-    private IEqualityComparer<Option<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+    private Converter<Block.Heading1> Converter { get; } = new HeadingConverter<Block.Heading1> (h1 => h1.Text, text => $"# {text}");
 
     [Theory]
     [MemberData(nameof(Blocks))]

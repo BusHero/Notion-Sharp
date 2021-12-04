@@ -19,7 +19,7 @@ public class Heading3ConverterTests
                 + Applicable.Underline(Formatters.FormatUnderline)
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor)),
-            new Heading3Converter()
+            new HeadingConverter<Block.Heading3>(h3 => h3.Text, text => $"### {text}")
             )
     };
 
