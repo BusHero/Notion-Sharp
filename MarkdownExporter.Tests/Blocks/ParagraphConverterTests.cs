@@ -23,10 +23,7 @@ public class ParagraphConverterTests
                 + Applicable.FormatColor(Formatters.FormatColor))
     };
 
-    public Converter<Block.Paragraph> Converter { get; } = new RelayBlockConverter<Block.Paragraph>(
-         p => p.Text, _ => Array.Empty<Block>(), text => text, text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
-
-    public IEqualityComparer<Option<List<string>>> Comparer = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+    private Converter<Block.Paragraph> Converter { get; } = new ParagraphConverter(Substitute.For<INotion>());
 
     [Theory]
     [MemberData(nameof(Paragraphs))]
@@ -69,14 +66,8 @@ public class ParagraphConverterTests
         };
         var notion = Substitute.For<INotion>();
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
-        var converter = new RelayBlockConverter<Block.Paragraph>(
-                p => p.Text,
-                p => p.HasChildren switch
-                {
-                    true => notion.GetBlocksChildrenAsync(p.Id).Result.Results,
-                    false => Array.Empty<Block>(),
-                }, text => text,
-                text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
+        var converter = new ParagraphConverter(notion);
+
         var settings = new ConverterSettings
         {
             Converter = new CompositeConverter(
@@ -140,15 +131,7 @@ public class ParagraphConverterTests
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
         notion.GetBlocksChildrenAsync(childId, 100, default).Returns(Arrays.Of<Block>(grandChild).Paginated().ToTask());
 
-        var converter = new RelayBlockConverter<Block.Paragraph>(
-            p => p.Text,
-            p => p.HasChildren switch
-            {
-                true => notion.GetBlocksChildrenAsync(p.Id).Result.Results,
-                false => Array.Empty<Block>(),
-            }, 
-            text => text,
-            text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
+        var converter = new ParagraphConverter(notion);
 
         var settings = new ConverterSettings
         {

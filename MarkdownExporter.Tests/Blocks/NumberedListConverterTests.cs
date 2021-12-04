@@ -22,11 +22,7 @@ public class NumberedListConverterTests
                 + Applicable.Underline(Formatters.FormatUnderline)
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor)),
-            new RelayBlockConverter<Block.NumberedListItem>(
-                nli => nli.Text,
-                _ => Array.Empty<Block>(),
-                text => $"1. {text}",
-                text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}"))
+            new NumberedListItemConverter(Substitute.For<INotion>()))
     };
 
     [Fact]
@@ -60,15 +56,7 @@ public class NumberedListConverterTests
         };
         var notion = Substitute.For<INotion>();
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
-        var converter = new RelayBlockConverter<Block.NumberedListItem>(
-                nli => nli.Text,
-                block => block.HasChildren switch
-                {
-                    true => notion.GetBlocksChildrenAsync(block.Id).Result.Results,
-                    false => Array.Empty<Block>(),
-                },
-                text => $"1. {text}",
-                text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
+        var converter = new NumberedListItemConverter(notion);
         var settings = new ConverterSettings
         {
             Converter = 
@@ -135,15 +123,9 @@ public class NumberedListConverterTests
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
         notion.GetBlocksChildrenAsync(childId, 100, default).Returns(Arrays.Of<Block>(grandChild).Paginated().ToTask());
 
-        var converter = new RelayBlockConverter<Block.NumberedListItem>(
-                nli => nli.Text,
-                block => block.HasChildren switch
-                {
-                    true => notion.GetBlocksChildrenAsync(block.Id).Result.Results,
-                    false => Array.Empty<Block>(),
-                },
-                text => $"1. {text}",
-                text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}"); var settings = new ConverterSettings
+        var converter = new NumberedListItemConverter(notion);
+
+        var settings = new ConverterSettings
         {
             Converter =
                 new CompositeConverter(
