@@ -57,6 +57,17 @@ public static class Option
         _ => None<V>()
     };
 
+    public static Option<T> Combine<T>(this Option<T> first, Option<T> second, Func<T, T, T> map) => (first, second, map) switch
+    {
+        (null, _, _) => throw new ArgumentNullException(nameof(first)),
+        (_, null, _) => throw new ArgumentNullException(nameof(second)),
+        (_, _, null) => throw new ArgumentNullException(nameof(map)),
+        (Some<T> { Value: var firstValue }, Some<T> { Value: var secondValue }, _) => map(firstValue, secondValue).ToOption(),
+        (Some<T>, _, _) => first,
+        (_, Some<T>, _) => second,
+        _ => None<T>()
+    };
+
     public static Option<T> Binary<T>(this Option<T> first, Option<T> second, Func<T, T, T> map) => first.Map2(second, map);
 
     public static Func<Option<T>, Option<U>, Option<V>> Map2<T, U, V>(Func<T, U, V> map) => (first, second) => first.Map2(second, map);
