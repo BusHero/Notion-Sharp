@@ -1,5 +1,8 @@
 ﻿
+using Notion;
 using Notion.Model;
+
+using NSubstitute;
 
 using System.Collections.Generic;
 using System.Text.Json;
@@ -19,9 +22,9 @@ public class HeadingConverterTests
                 + Applicable.Underline(Formatters.FormatUnderline)
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor)),
-            new HeadingConverter<Block.Heading1>(h1 => h1.Text, text => $"# {text}"),
-            new HeadingConverter<Block.Heading2>(h1 => h1.Text, text => $"## {text}"),
-            new HeadingConverter<Block.Heading3>(h1 => h1.Text, text => $"### {text}"))
+            new FooConverter<Block.Heading1>(Substitute.For<INotion>(), h1 => h1.Text, text => $"# {text}", _ => _),
+            new FooConverter<Block.Heading2>(Substitute.For<INotion>(), h2 => h2.Text, text => $"## {text}", _ => _),
+            new FooConverter<Block.Heading3>(Substitute.For<INotion>(), h3 => h3.Text, text => $"### {text}", _ => _))
     };
 
     [Theory]

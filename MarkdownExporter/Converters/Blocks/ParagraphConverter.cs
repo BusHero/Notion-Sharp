@@ -1,9 +1,6 @@
 ﻿using Notion;
 using Notion.Model;
 
-using System.Text;
-using System.Linq;
-
 namespace MarkdownExporter;
 
 public class ParagraphConverter : Converter<Block.Paragraph>

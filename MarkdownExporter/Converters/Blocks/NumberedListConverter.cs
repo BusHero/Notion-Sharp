@@ -36,13 +36,10 @@ public class NumberedListConverter : Converter<Block.NumberedListItem>
         if (!numberedListItem.HasChildren)
             return result;
 
-        var foo = Notion.GetBlocksChildrenAsync(numberedListItem.Id)
+        var result2 = Notion.GetBlocksChildrenAsync(numberedListItem.Id)
             .Result
-            .Results;
-        var bar = foo
+            .Results
             .Select(block => Converter.Convert(block, settings))
-            .ToList();
-        var result2 = bar
             .Aggregate((first, second) => first.Map2(second, Lists.Add))
             .Select(list => list.Select(ChildFormatter).ToList());
 
