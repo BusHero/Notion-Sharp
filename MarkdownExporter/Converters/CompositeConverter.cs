@@ -1,4 +1,4 @@
-﻿namespace MarkdownExporter.Converters;
+﻿namespace MarkdownExporter;
 
 public class CompositeConverter : Converter
 {

@@ -1,6 +1,4 @@
-﻿using MarkdownExporter.Converters;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json;
 
 namespace MarkdownExporter.Tests;
