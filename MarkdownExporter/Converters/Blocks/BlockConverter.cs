@@ -3,9 +3,9 @@ using Notion.Model;
 
 namespace MarkdownExporter;
 
-public class FooConverter<T> : Converter<T> where T : Block
+public class BlockConverter<T> : Converter<T> where T : Block
 {
-    public FooConverter(
+    public BlockConverter(
         INotion notion,
         Func<T, RichText[]> richTextGetter, 
         Func<string, string> formatter,

@@ -22,9 +22,9 @@ public class HeadingConverterTests
                 + Applicable.Underline(Formatters.FormatUnderline)
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor)),
-            new FooConverter<Block.Heading1>(Substitute.For<INotion>(), h1 => h1.Text, text => $"# {text}", _ => _),
-            new FooConverter<Block.Heading2>(Substitute.For<INotion>(), h2 => h2.Text, text => $"## {text}", _ => _),
-            new FooConverter<Block.Heading3>(Substitute.For<INotion>(), h3 => h3.Text, text => $"### {text}", _ => _))
+            new BlockConverter<Block.Heading1>(Substitute.For<INotion>(), h1 => h1.Text, text => $"# {text}", _ => _),
+            new BlockConverter<Block.Heading2>(Substitute.For<INotion>(), h2 => h2.Text, text => $"## {text}", _ => _),
+            new BlockConverter<Block.Heading3>(Substitute.For<INotion>(), h3 => h3.Text, text => $"### {text}", _ => _))
     };
 
     [Theory]

@@ -23,7 +23,8 @@ public class ParagraphConverterTests
                 + Applicable.FormatColor(Formatters.FormatColor))
     };
 
-    public Converter<Block.Paragraph> Converter { get; } = new ParagraphConverter(Substitute.For<INotion>());
+    public Converter<Block.Paragraph> Converter { get; } = new BlockConverter<Block.Paragraph>(
+        Substitute.For<INotion>(), p => p.Text, text => text, text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
 
     public IEqualityComparer<Option<List<string>>> Comparer = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
@@ -31,10 +32,9 @@ public class ParagraphConverterTests
     [MemberData(nameof(Paragraphs))]
     public void ParseParagraph_Passes(Block.Paragraph block, string expectedText)
     {
-        var converter = new ParagraphConverter(Substitute.For<INotion>());
         var expectedResult = new List<string> { expectedText }.ToOption().Select(list => JsonSerializer.Serialize(list));
 
-        var actualResult = converter.Convert(block, Settings).Select(list => JsonSerializer.Serialize(list));
+        var actualResult = Converter.Convert(block, Settings).Select(list => JsonSerializer.Serialize(list));
 
         Assert.Equal(expectedResult, actualResult, new OptionComparer<string>(EqualityComparer<string>.Default));
     }
@@ -69,10 +69,16 @@ public class ParagraphConverterTests
         };
         var notion = Substitute.For<INotion>();
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
-        var converter = new ParagraphConverter(notion);
+        var converter = new BlockConverter<Block.Paragraph>(
+                notion,
+                p => p.Text,
+                text => text,
+                text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
         var settings = new ConverterSettings
         {
-            Converter = converter + new RichTextConverter(Applicable.ToAplicable((RichText _, string text) => text)) 
+            Converter = new CompositeConverter(
+                converter,
+                new RichTextConverter(Applicable.ToAplicable((RichText _, string text) => text)))
         };
         var comparer = new OptionComparer<string>(EqualityComparer<string>.Default);
         var expectedResult = new List<string> { "Parent", "&nbsp;&nbsp;&nbsp;&nbsp;Child" }
@@ -130,8 +136,12 @@ public class ParagraphConverterTests
         var notion = Substitute.For<INotion>();
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
         notion.GetBlocksChildrenAsync(childId, 100, default).Returns(Arrays.Of<Block>(grandChild).Paginated().ToTask());
-        
-        var converter = new ParagraphConverter(notion);
+
+        var converter = new BlockConverter<Block.Paragraph>(
+            notion,
+            p => p.Text,
+            text => text,
+            text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
         var settings = new ConverterSettings
         {
             Converter = converter + new RichTextConverter(Applicable.ToAplicable((RichText _, string text) => text))
