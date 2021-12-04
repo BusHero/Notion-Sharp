@@ -6,21 +6,21 @@ namespace MarkdownExporter;
 public class BlockConverter<T> : Converter<T> where T : Block
 {
     public BlockConverter(
-        INotion notion,
-        Func<T, RichText[]> richTextGetter, 
+        Func<T, RichText[]> richTextGetter,
+        Func<T, Block[]> childrenGetter,
         Func<string, string> formatter,
         Func<string, string> childFormatter)
     {
-        Notion = notion ?? throw new ArgumentNullException(nameof(notion));
         RichTextGetter = richTextGetter ?? throw new ArgumentNullException(nameof(richTextGetter));
+        ChildrenGetter = childrenGetter ?? throw new ArgumentNullException(nameof(childrenGetter));
         Formatter = formatter ?? throw new ArgumentNullException(nameof(formatter));
         ChildFormatter = childFormatter ?? throw new ArgumentNullException(nameof(childFormatter));
     }
 
-    public INotion Notion { get; }
     private Func<T, RichText[]> RichTextGetter { get; }
-    public Func<string, string> Formatter { get; }
-    public Func<string, string> ChildFormatter { get; }
+    private Func<T, Block[]> ChildrenGetter { get; }
+    private Func<string, string> Formatter { get; }
+    private Func<string, string> ChildFormatter { get; }
 
     public override Option<List<string>> Convert(T block, ConverterSettings? settings)
     {
@@ -34,10 +34,7 @@ public class BlockConverter<T> : Converter<T> where T : Block
         if (!block.HasChildren)
             return result;
 
-        var result2 = Notion
-            .GetBlocksChildrenAsync(block.Id)
-            .Result
-            .Results
+        var result2 = ChildrenGetter(block)
             .Select(block => Converter.Convert(block, settings))
             .Aggregate((first, second) => first.Map2(second, Lists.Add))
             .Select(list => list.Select(ChildFormatter))

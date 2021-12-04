@@ -23,8 +23,8 @@ public class NumberedListConverterTests
                 + Applicable.FormatCode(Formatters.FormatCode)
                 + Applicable.FormatColor(Formatters.FormatColor)),
             new BlockConverter<Block.NumberedListItem>(
-                Substitute.For<INotion>(),
                 nli => nli.Text,
+                _ => Array.Empty<Block>(),
                 text => $"1. {text}",
                 text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}"))
     };
@@ -61,8 +61,8 @@ public class NumberedListConverterTests
         var notion = Substitute.For<INotion>();
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
         var converter = new BlockConverter<Block.NumberedListItem>(
-                notion,
                 nli => nli.Text,
+                block => notion.GetBlocksChildrenAsync(block.Id).Result.Results,
                 text => $"1. {text}",
                 text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
         var settings = new ConverterSettings
@@ -132,8 +132,8 @@ public class NumberedListConverterTests
         notion.GetBlocksChildrenAsync(childId, 100, default).Returns(Arrays.Of<Block>(grandChild).Paginated().ToTask());
 
         var converter = new BlockConverter<Block.NumberedListItem>(
-                notion,
                 nli => nli.Text,
+                nli => notion.GetBlocksChildrenAsync(nli.Id).Result.Results,
                 text => $"1. {text}",
                 text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}"); var settings = new ConverterSettings
         {

@@ -24,7 +24,7 @@ public class ParagraphConverterTests
     };
 
     public Converter<Block.Paragraph> Converter { get; } = new BlockConverter<Block.Paragraph>(
-        Substitute.For<INotion>(), p => p.Text, text => text, text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
+         p => p.Text, _ => Array.Empty<Block>(), text => text, text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
 
     public IEqualityComparer<Option<List<string>>> Comparer = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
@@ -70,8 +70,8 @@ public class ParagraphConverterTests
         var notion = Substitute.For<INotion>();
         notion.GetBlocksChildrenAsync(parentId, 100, default).Returns(Arrays.Of<Block>(child).Paginated().ToTask());
         var converter = new BlockConverter<Block.Paragraph>(
-                notion,
                 p => p.Text,
+                p => notion.GetBlocksChildrenAsync(p.Id).Result.Results,
                 text => text,
                 text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
         var settings = new ConverterSettings
@@ -138,10 +138,11 @@ public class ParagraphConverterTests
         notion.GetBlocksChildrenAsync(childId, 100, default).Returns(Arrays.Of<Block>(grandChild).Paginated().ToTask());
 
         var converter = new BlockConverter<Block.Paragraph>(
-            notion,
             p => p.Text,
+            p => notion.GetBlocksChildrenAsync(p.Id).Result.Results,
             text => text,
             text => $"&nbsp;&nbsp;&nbsp;&nbsp;{text}");
+
         var settings = new ConverterSettings
         {
             Converter = converter + new RichTextConverter(Applicable.ToAplicable((RichText _, string text) => text))
