@@ -1,8 +1,7 @@
 ﻿namespace MarkdownExporter;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "I know what I am doing.")]
-public interface Option<out T> 
-{ }
+public interface Option<out T> { }
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "I know what I am doing.")]
 public interface None<out T> : Option<T> { }
@@ -15,8 +14,8 @@ public interface Some<out T>: Option<T>
 
 public static class Option
 {
-    private record SomeInstance<T>(T Value) : Some<T> { }
-    private record NoneInstance<T>() : None<T> 
+    internal record SomeInstance<T>(T Value) : Some<T> { }
+    internal record NoneInstance<T>() : None<T> 
     {
         public static NoneInstance<T> Default { get; } = new NoneInstance<T>();
     }
