@@ -54,8 +54,116 @@ public class BlockConverterTests
     private static Converter GetParagraphConverter(INotion notion) => new ParagraphConverter(notion);
     private static Converter GetNumberedListItemConverter(INotion notion) => new NumberedListItemConverter(notion);
 
+    private static Converter GetHeading1Converter(INotion notion) => new Heading1Converter();
+    private static Converter GetHeading2Converter(INotion notion) => new Heading2Converter();
+    private static Converter GetHeading3Converter(INotion notion) => new Heading3Converter();
+
     public static TheoryData<IEnumerable<Block>, List<string>, Func<INotion, Converter>> ParentAndChildren { get; } = new()
     {
+        {
+            Lists.Of<Block>(new Block.Heading1
+            {
+                Text = new[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there",
+                        PlainText = "Some text here and there"
+                    } as RichText
+                }
+            }),
+            Lists.Of("# Some text here and there"),
+            GetHeading1Converter
+        },
+        {
+            Lists.Of<Block>(new Block.Heading1
+            {
+                Text = new[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there",
+                        Annotations = new()
+                        {
+                            Bold = true
+                        },
+                        PlainText = "Some text here and there"
+                    } as RichText
+                }
+            }),
+            Lists.Of("# *Some text here and there*"),
+            GetHeading1Converter
+        },
+        {
+            Lists.Of<Block>(new Block.Heading2
+            {
+                Text = new[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there",
+                        PlainText = "Some text here and there"
+                    }
+                }
+            }),
+            Lists.Of("## Some text here and there"),
+            GetHeading2Converter
+        },
+        {
+            Lists.Of<Block>(new Block.Heading2
+            {
+                Text = new[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text",
+                        PlainText = "Some text"
+                    },
+                    new RichText.Text
+                    {
+                        Content = " here and there",
+                        PlainText = " here and there"
+                    }
+                }
+            }),
+            Lists.Of("## Some text here and there"),
+            GetHeading2Converter
+        },
+        {
+            Lists.Of<Block>(new Block.Heading3
+            {
+                Text = new[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text here and there",
+                        PlainText = "Some text here and there"
+                    }
+                }
+            }),
+            Lists.Of("### Some text here and there"),
+            GetHeading3Converter
+        },
+        {
+            Lists.Of<Block>(new Block.Heading3
+            {
+                Text = new[]
+                {
+                    new RichText.Text
+                    {
+                        Content = "Some text",
+                        PlainText = "Some text"
+                    },
+                    new RichText.Text
+                    {
+                        Content = " here and there",
+                        PlainText = " here and there"
+                    }
+                }
+            }),
+            Lists.Of("### Some text here and there"),
+            GetHeading3Converter
+        },
         {
             Lists.Of<Block>(new Block.Paragraph
             {
