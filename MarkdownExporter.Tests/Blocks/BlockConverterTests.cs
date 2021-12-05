@@ -53,6 +53,7 @@ public class BlockConverterTests
     
     private static Converter GetParagraphConverter(INotion notion) => new ParagraphConverter(notion);
     private static Converter GetNumberedListItemConverter(INotion notion) => new NumberedListItemConverter(notion);
+    private static Converter GetBulletedListItemConverter(INotion notion) => new BulletedListItemConverter(notion);
 
     private static Converter GetHeading1Converter(INotion notion) => new Heading1Converter();
     private static Converter GetHeading2Converter(INotion notion) => new Heading2Converter();
@@ -413,6 +414,19 @@ public class BlockConverterTests
             ),
             Lists.Of("1. Parent", "&nbsp;&nbsp;&nbsp;&nbsp;1. Child", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Grandchild"),
             GetNumberedListItemConverter
+        },
+        {
+            Lists.Of<Block>(new Block.BulletedListItem
+            {
+                Id = Guid.NewGuid(),
+                Text = Arrays.Of(new RichText.Text
+                {
+                    Content = "Some text here and there",
+                    PlainText = "Some text here and there"
+                })
+            }),
+            Lists.Of("* Some text here and there"),
+            GetBulletedListItemConverter
         }
     };
 }
