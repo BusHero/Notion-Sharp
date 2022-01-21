@@ -31,6 +31,7 @@ internal class PropertyValueConverter : MyJsonConverter<PropertyValue>
                 {
                     "start" => Parser.OptionalDateTime.Updater((DateTime? start, PropertyValue.Date date) => date with { Start = start }),
                     "end" => Parser.OptionalDateTime.Updater((DateTime? end, PropertyValue.Date date) => date with { Start = end }),
+                    "time_zone" => Parser.OptionalString.Updater((string? timeZone, PropertyValue.Date date) => date with {TimeZone = timeZone}),
                     var key => Parser.FailUpdate<PropertyValue.Date>($"Unknown key property_value.date.{key}")
                 }, (PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Date>())),
             "people" => Parser.ParseType<User[]>().Updater((User[] users, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.People>() with { Value = users }),

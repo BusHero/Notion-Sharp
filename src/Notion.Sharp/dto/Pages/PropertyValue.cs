@@ -57,6 +57,9 @@ public record PropertyValue
         public DateTime? Start { get; init; }
         [JsonPropertyName("end")]
         public DateTime? End { get; init; }
+        
+        [JsonPropertyName("time_zone")]
+        public string TimeZone { get; set; }
     }
 
     public record PageReference(Guid id);
