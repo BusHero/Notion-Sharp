@@ -70,7 +70,7 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.Toggle>()),
             "child_page" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "title" => Parser.String.Updater((string title, Block.ChildPage ChildPage) => ChildPage with { Title = title }),
+                "title" => Parser.String.Updater((string title, Block.ChildPage childPage) => childPage with { Title = title }),
                 var key => Parser.FailUpdate<Block.ChildPage>($"Unknown key block.child_page.{key}")
             }, (Block block) => block.Copy<Block.ChildPage>()),
             "embed" => Parser.ParseObject(propertyName => propertyName switch
@@ -109,6 +109,7 @@ internal class BlockConverter : MyJsonConverter<Block>
             {
                 "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Code code) => code with { Text = text }),
                 "language" => Parser.String.Updater((string language, Block.Code code) => code with { Language = language }),
+                "caption" => Parser.ParseType<RichText[]>().Updater((RichText[] caption, Block.Code code) => code with {Caption = caption}),
                 var key => Parser.FailUpdate<Block.Code>($"Unknown key block.code.{key}")
             }, (Block block) => block.Copy<Block.Code>()),
             "equation" => Parser.ParseObject(propertyName => propertyName switch
@@ -127,6 +128,13 @@ internal class BlockConverter : MyJsonConverter<Block>
                 "url" => Parser.Uri.Updater((Uri uri, Block.LinkPreview linkPreview) => linkPreview with { Url = uri }),
                 var key => Parser.FailUpdate<Block.LinkPreview>($"Unknown key block.link_preview.{key}")
             }, (Block block) => block.Copy<Block.LinkPreview>()),
+            "link_to_page" => Parser.ParseObject(propertyName => propertyName switch
+            {
+                "type" => Parser.String.Updater<string, Block.LinkToPage>(),
+                "page_id" => Parser.Guid.Updater((Guid pageId, Block.LinkToPage linkToPage) => linkToPage.Copy<Block.PagePageLink>() with { PageId = pageId }),
+                "database_id" => Parser.Guid.Updater((Guid databaseId, Block.LinkToPage linkToPage) => linkToPage.Copy<Block.DatabasePageLink>() with {DatabaseId = databaseId}),
+                var key => Parser.FailUpdate<Block.LinkToPage>($"Unknown key block.link_to_page.{key}")
+            }, (Block block) => block.Copy<Block.LinkToPage>()),
             var key => Parser.FailUpdate<Block>($"Unexpected key block.'{key}'")
         }).Parse(ref reader, options);
 }

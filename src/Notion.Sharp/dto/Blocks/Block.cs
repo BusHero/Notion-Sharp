@@ -154,6 +154,8 @@ public record Block
 
         public object Text { get; init; }
         public string Language { get; init; }
+        
+        public RichText[] Caption { get; init; }
     }
 
     public record ChildPage : Block
@@ -235,6 +237,21 @@ public record Block
     public record LinkPreview : Block
     {
         public Uri Url { get; init; }
+    }
+
+    public record LinkToPage: Block
+    {
+        
+    }
+
+    public record DatabasePageLink : LinkToPage
+    {
+        public Guid DatabaseId { get; set; } 
+    }
+
+    public record PagePageLink : LinkToPage
+    {
+        public Guid PageId { get; set; } 
     }
 
     #endregion

@@ -49,6 +49,8 @@ public record RichText
     {
         public DateTimeOffset? Start { get; init; }
         public DateTimeOffset? End { get; init; }
+
+        public string TimeZone { get; init; }
     }
 
     public record DatabaseMention : Mention

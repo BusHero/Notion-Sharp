@@ -38,6 +38,7 @@ internal class RichTextConverter : MyJsonConverter<RichText>
                 {
                     "start" => Parser.DateTime.Updater((DateTime start, RichText.DateMention dateMention) => dateMention with { Start = start }),
                     "end" => Parser.OptionalDateTime.Updater((DateTime? end, RichText.DateMention dateMention) => dateMention with { End = end }),
+                    "time_zone" => Parser.OptionalString.Updater((string? timeZone, RichText.DateMention dateMention) => dateMention with{TimeZone = timeZone}),
                     var key => Parser.FailUpdate<RichText.DateMention>($"Unknown key rich_text.mention.date.{key}")
                 }, (RichText.Mention mention) => mention.Copy<RichText.DateMention>()),
                 "page" => Parser.ParseObject(propertyName => propertyName switch
