@@ -16,18 +16,18 @@ internal class FileConverter : MyJsonConverter<File>
             "caption" => Parser.ParseType<RichText[]>().Updater((RichText[] caption, File file) => file with { Caption = caption }),
             "type" => Parser.String.Updater<string, File>(),
             "name" => Parser.String.Updater((string name, File file) => file with { Name = name }),
-            "external" => Parser.ParseObject(propertyName => propertyName switch
+            "external" => Parser.ParseObject(propertyName1 => propertyName1 switch
             {
                 "url" => Parser.OptionalUri.Updater((System.Uri uri, File.External file) => file with { Uri = uri }),
-                var x => Parser.FailUpdate<File.External>($"Unknown key '{x}'")
+                var key => Parser.FailUpdate<File.External>($"Unknown key external.'{key}'")
             }, (File file) => file.Copy<File.External>()),
-            "file" => Parser.ParseObject(propertyName => propertyName switch
+            "file" => Parser.ParseObject(propertyName1 => propertyName1 switch
             {
                 "url" => Parser.OptionalUri.Updater((System.Uri uri, File.Internal file) => file with { Uri = uri }),
                 "expiry_time" => Parser.DateTime.Updater((DateTime expiryTime, File.Internal file) => file with { ExpireTime = expiryTime }),
-                var x => Parser.FailUpdate<File.Internal>($"Unknown key '{x}'")
+                var key => Parser.FailUpdate<File.Internal>($"Unknown key file.'{key}'")
             }, (File file) => file.Copy<File.Internal>()),
-            var x => Parser.FailUpdate<File>($"Unknonwn property '{x}'")
+            var key => Parser.FailUpdate<File>($"File object does not have key '{key}'")
         }).Parse(ref reader, options);
     }
 }

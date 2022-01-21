@@ -9,9 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notion.Sharp.Tests", "tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{0D531223-75DF-403D-9A44-72FA8A7C4A44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownExporter", "MarkdownExporter\MarkdownExporter.csproj", "{04BF3C5C-3BF3-4519-A9A5-053A0176FB5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownExporter", "MarkdownExporter\MarkdownExporter.csproj", "{04BF3C5C-3BF3-4519-A9A5-053A0176FB5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownExporter.Tests", "MarkdownExporter.Tests\MarkdownExporter.Tests.csproj", "{7BCC6364-74C9-4DB2-9E8C-DF9D4ABBC84C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownExporter.Tests", "MarkdownExporter.Tests\MarkdownExporter.Tests.csproj", "{7BCC6364-74C9-4DB2-9E8C-DF9D4ABBC84C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pevac", "..\Pevac\src\Pevac\Pevac.csproj", "{ADC0899D-32E9-44D5-B0FB-4085DAAC2453}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pevac.Tests", "..\Pevac\tests\Pevac.Tests\Pevac.Tests.csproj", "{E67E32EC-8D3D-479E-9928-F8120ABEA05B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,14 @@ Global
 		{7BCC6364-74C9-4DB2-9E8C-DF9D4ABBC84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BCC6364-74C9-4DB2-9E8C-DF9D4ABBC84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BCC6364-74C9-4DB2-9E8C-DF9D4ABBC84C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC0899D-32E9-44D5-B0FB-4085DAAC2453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC0899D-32E9-44D5-B0FB-4085DAAC2453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC0899D-32E9-44D5-B0FB-4085DAAC2453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC0899D-32E9-44D5-B0FB-4085DAAC2453}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E67E32EC-8D3D-479E-9928-F8120ABEA05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E67E32EC-8D3D-479E-9928-F8120ABEA05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E67E32EC-8D3D-479E-9928-F8120ABEA05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E67E32EC-8D3D-479E-9928-F8120ABEA05B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

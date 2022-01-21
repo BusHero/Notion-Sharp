@@ -112,7 +112,7 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task QueryDatabase_Succeds() => await RetryAsync(async () =>
     {
-        PaginationList<Page> results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
+        var results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
         {
 
         });

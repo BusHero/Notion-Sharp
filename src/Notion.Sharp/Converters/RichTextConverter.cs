@@ -23,12 +23,12 @@ internal class RichTextConverter : MyJsonConverter<RichText>
             {
                 "content" => Parser.String.Updater((string content, RichText.Text text) => text with { Content = content }),
                 "link" => Parser.ParseType<Link>().Updater((Link link, RichText.Text text) => text with { Link = link }),
-                var key => Parser.FailUpdate<RichText.Text>($"Unknown key '{key}'")
+                var key => Parser.FailUpdate<RichText.Text>($"Unknown key rich_text.text.{key}")
             }, (RichText richText) => richText.Copy<RichText.Text>()),
             "equation" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "expression" => Parser.String.Updater((string expression, RichText.Equation equation) => equation with { Expression = expression }),
-                var key => Parser.FailUpdate<RichText.Equation>($"Unknown key '{key}'")
+                var key => Parser.FailUpdate<RichText.Equation>($"Unknown key rich_text.equation.{key}")
             }, (RichText richText) => richText.Copy<RichText.Equation>()),
             "mention" => Parser.ParseObject(propertyName => propertyName switch
             {
@@ -38,26 +38,26 @@ internal class RichTextConverter : MyJsonConverter<RichText>
                 {
                     "start" => Parser.DateTime.Updater((DateTime start, RichText.DateMention dateMention) => dateMention with { Start = start }),
                     "end" => Parser.OptionalDateTime.Updater((DateTime? end, RichText.DateMention dateMention) => dateMention with { End = end }),
-                    var key => Parser.FailUpdate<RichText.DateMention>($"Unknown key '{key}'")
+                    var key => Parser.FailUpdate<RichText.DateMention>($"Unknown key rich_text.mention.date.{key}")
                 }, (RichText.Mention mention) => mention.Copy<RichText.DateMention>()),
                 "page" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "id" => Parser.Guid.Updater((Guid id, RichText.PageMention pageMention) => pageMention with { Id = id }),
-                    var key => Parser.FailUpdate<RichText.PageMention>($"Unknown key '{key}'")
+                    var key => Parser.FailUpdate<RichText.PageMention>($"Unknown key rich_text.mention.page.{key}")
                 }, (RichText.Mention mention) => mention.Copy<RichText.PageMention>()),
                 "database" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "id" => Parser.Guid.Updater((Guid id, RichText.DatabaseMention databaseMention) => databaseMention with { Id = id }),
-                    var key => Parser.FailUpdate<RichText.DatabaseMention>($"Unknown key '{key}'")
+                    var key => Parser.FailUpdate<RichText.DatabaseMention>($"Unknown key rich_text.mention.database.{key}")
                 }, (RichText.Mention mention) => mention.Copy<RichText.DatabaseMention>()),
                 "link_preview" => Parser.ParseObject(propertyName => propertyName switch
                 {
                     "url" => Parser.Uri.Updater((Uri url, RichText.LinkPreviewMention linkPreview) => linkPreview with { Url = url }),
-                    var key => Parser.FailUpdate<RichText.LinkPreviewMention>($"Unknown key '{key}'")
+                    var key => Parser.FailUpdate<RichText.LinkPreviewMention>($"Unknown key rich_text.mention.link_preview.{key}")
                 }, (RichText.Mention mention) => mention.Copy<RichText.LinkPreviewMention>()),
-                var key => Parser.FailUpdate<RichText.Mention>($"Unknown key '{key}'")
+                var key => Parser.FailUpdate<RichText.Mention>($"Unknown key rich_text.mention.{key}")
             }, (RichText richText) => richText.Copy<RichText.Mention>()),
-            var key => Parser.FailUpdate<RichText>()
+            var key => Parser.FailUpdate<RichText>($"Unknown key rich_text.{key}")
         }).Parse(ref reader, options);
     }
 }

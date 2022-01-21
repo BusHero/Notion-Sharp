@@ -18,7 +18,7 @@ public class NotionTestsBase
 
     internal Guid SimpleDatabase { get; }
 
-    public NotionTestsBase()
+    protected NotionTestsBase()
     {
         var configuration = new ConfigurationBuilder()
         .AddUserSecrets<ModelTests>()
@@ -33,7 +33,7 @@ public class NotionTestsBase
         SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
     }
 
-    public async Task RetryAsync(Func<Task> action, int attempts)
+    protected static async Task RetryAsync(Func<Task> action, int attempts)
     {
         for (var attempt = 0; attempt < attempts; attempt++)
         {

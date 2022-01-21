@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pevac" Version="0.5.1" />
     <PackageReference Include="Refit" Version="6.1.15" />
   </ItemGroup>
 
@@ -33,6 +32,10 @@
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
 			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
 		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Pevac\src\Pevac\Pevac.csproj" />
 	</ItemGroup>
 
 </Project>

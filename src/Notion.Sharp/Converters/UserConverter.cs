@@ -23,10 +23,10 @@ internal class UserConverter : MyJsonConverter<User>
             "person" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "email" => Parser.String.Updater((string email, Person person) => person.Email = email),
-                _ => Parser.FailUpdate<Person>()
+                var key => Parser.FailUpdate<Person>($"Unknown key user.person.{key}")
             }, (User user) => user.Cast<Person>()),
             "bot" => Ignored.Updater((Void _, User user) => user.Cast<Bot>()),
-            var key => Parser.FailUpdate<User>($"Unknown key '{key}'")
+            var key => Parser.FailUpdate<User>($"Unknown key user.{key}")
         }), ref reader, options); ;
     }
 

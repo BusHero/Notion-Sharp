@@ -21,7 +21,7 @@ internal class ParentConverter : MyJsonConverter<Parent>
             "workspace" => Parser.TrueToken.Updater((Void _, Parent _) => new Parent.Workspace()),
             "page_id" => Parser.Guid.Updater((Guid id, Parent _) => new Parent.Page() { Id = id }),
             "database_id" => Parser.Guid.Updater((Guid id, Parent _) => new Parent.Database() { Id = id }),
-            var key => Parser.FailUpdate<Parent>($"Unknown key '{key}'")
+            var key => Parser.FailUpdate<Parent>($"Unexpected key parent.{key}")
         }).Parse(ref reader, options);
     }
 }

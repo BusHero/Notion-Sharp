@@ -35,9 +35,14 @@ internal class PageOrDatabaseConverter : JsonConverter<PageOrDatabase>
 
     public override void Write(Utf8JsonWriter writer, PageOrDatabase value, JsonSerializerOptions options)
     {
-        if (value is Page page)
-            JsonSerializer.Serialize(writer, page, options);
-        else if (value is Database database)
-            JsonSerializer.Serialize(writer, database, options);
+        switch (value)
+        {
+            case Page page:
+                JsonSerializer.Serialize(writer, page, options);
+                break;
+            case Database database:
+                JsonSerializer.Serialize(writer, database, options);
+                break;
+        }
     }
 }
