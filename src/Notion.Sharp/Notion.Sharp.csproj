@@ -35,7 +35,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Pevac\src\Pevac\Pevac.csproj" />
+	  <ProjectReference Include="..\Pevac\Pevac.csproj" />
 	</ItemGroup>
+
 
 </Project>

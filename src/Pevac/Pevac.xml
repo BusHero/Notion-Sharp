@@ -1,0 +1,732 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Pevac</name>
+    </assembly>
+    <members>
+        <member name="T:Pevac.ParseException">
+            <summary>
+            An exception that will be thrown in unexpected situations(aka. What a fuck?).
+            </summary>
+        </member>
+        <member name="T:Pevac.Utf8JsonReaderExtensions">
+            <summary>
+            Provides some extenssion methods for the <see cref="T:System.Text.Json.Utf8JsonReader"/> class.
+            </summary>
+        </member>
+        <member name="M:Pevac.Utf8JsonReaderExtensions.TryGetNullableDateTime(System.Text.Json.Utf8JsonReader@,System.Nullable{System.DateTime}@)">
+            <inheritdoc cref="M:System.Text.Json.Utf8JsonReader.TryGetDateTime(System.DateTime@)"/>
+        </member>
+        <member name="M:Pevac.Utf8JsonReaderExtensions.TryGetNullableGuid(System.Text.Json.Utf8JsonReader@,System.Nullable{System.Guid}@)">
+            <inheritdoc cref="M:System.Text.Json.Utf8JsonReader.TryGetGuid(System.Guid@)"/>
+        </member>
+        <member name="M:Pevac.Utf8JsonReaderExtensions.TryGetUri(System.Text.Json.Utf8JsonReader@,System.UriKind,System.Uri@)">
+            <inheritdoc cref="M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)"/>
+        </member>
+        <member name="T:Pevac.Void">
+            <summary>
+            Represents a type with a single value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Void.Default">
+            <summary>
+            Gets the single <see cref="T:Pevac.Void"/> value.
+            </summary>
+        </member>
+        <member name="M:Pevac.Void.op_Equality(Pevac.Void,Pevac.Void)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Pevac.Void.op_Inequality(Pevac.Void,Pevac.Void)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Pevac.Void.Equals(Pevac.Void)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Pevac.Void.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Pevac.Void.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:Pevac.Void.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Pevac.Parser">
+            <summary>
+            Contains a bunch of utilities.
+            </summary>
+        </member>
+        <member name="M:Pevac.Parser.ParseToken(System.Text.Json.JsonTokenType[])">
+            <summary>
+            Creates a parser that succeds if the current token is any of <paramref name="tokens"/>, otherwise fails.
+            </summary>
+            <param name="tokens"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseType``1">
+            <summary>
+            Creates a parser that succeds if a object of type <typeparamref name="T"/> 
+            can be obtained from the current position of the <see cref="T:System.Text.Json.Utf8JsonReader"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseString(System.String[])">
+            <summary>
+            Creates a parser that succeds if the current position of the reader contains a value that.
+            </summary>
+            <param name="expectedValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.TryParse``1(Pevac.Parser{``0},System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parser"></param>
+            <param name="reader"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Parse``1(Pevac.Parser{``0},System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parser"></param>
+            <param name="reader"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Failure``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Return``1(``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Return``2(Pevac.Parser{``0},``1)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="parser"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Select``2(Pevac.Parser{``0},System.Func{``0,``1})">
+            <summary>
+            Take the result of parsing, and project it ont a different domain.
+            </summary>
+            <typeparam name="TSource">The type of the element of <paramref name="source"/>.</typeparam>
+            <typeparam name="TResult">The type of the value returned by <paramref name="selector"/>.</typeparam>
+            <param name="source">A parser to invoke a transform function on.</param>
+            <param name="selector">A transform function to apply to the value of parser.</param>
+            <returns>A Parser whose result is the result of invokiung the transform function on the result of <paramref name="source"/>.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null.</exception>
+        </member>
+        <member name="M:Pevac.Parser.SelectMany``3(Pevac.Parser{``0},System.Func{``0,Pevac.Parser{``1}},System.Func{``0,``1,``2})">
+            <summary>
+            Monadic combinator Then, adapted for Linq comprehension syntax
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <typeparam name="V"></typeparam>
+            <param name="parser"></param>
+            <param name="selector"></param>
+            <param name="projector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Where``1(Pevac.Parser{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Succeds if the parsed value matches predicate
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parser"></param>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Updater``2(Pevac.Parser{``0},System.Func{``0,``1,``1})">
+            <summary>
+            Creates an updater.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Updater``2(Pevac.Parser{``0},System.Action{``0,``1})">
+            <summary>
+            Creates an updater.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="parser"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Updater``2(Pevac.Parser{``0},System.Func{``1,``1})">
+            <summary>
+            Creates an updater.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="parser"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Updater``2(Pevac.Parser{``0},System.Action{``1})">
+            <summary>
+            Creates an updater.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="parser"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Updater``2(Pevac.Parser{``0})">
+            <summary>
+            Creates an identity updater
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="parser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseObject``1(System.Func{System.String,Pevac.Parser{System.Func{``0,``0}}},``0)">
+            <summary>
+            Parses an object with fields
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parserSelector"></param>
+            <param name="default"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseObject``1(System.Func{System.String,Pevac.Parser{System.Func{``0,``0}}})">
+            <summary>
+            Parses an object with fields
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseObject``2(System.Func{System.String,Pevac.Parser{System.Func{``1,``1}}},System.Func{``0,``1})">
+            <summary>
+            Parses an object with fields.
+            </summary>
+            <typeparam name="TParent"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="parserSelector"></param>
+            <param name="cast"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Then``2(Pevac.Parser{``0},System.Func{``0,Pevac.Parser{``1}})">
+            <summary>
+            Parse first, and if successful, then parse the second.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Then``2(Pevac.Parser{``0},Pevac.Parser{``1})">
+            <summary>
+            Parse first and if succesful, the parse the second.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Or``1(Pevac.Parser{``0},Pevac.Parser{``0})">
+            <summary>
+            Parser first, if it succeds, return first, otherwise try second.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="first"></param>
+            <param name="second"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Many``1(Pevac.Parser{``0})">
+            <summary>
+            Parse a stream of elements.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="parser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.Between``3(Pevac.Parser{``0},Pevac.Parser{``1},Pevac.Parser{``2})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="Left"></typeparam>
+            <typeparam name="Right"></typeparam>
+            <param name="parser"></param>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Pevac.Parser.String">
+            <summary>
+            Parse a <see cref="T:System.String"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Bool">
+            <summary>
+            Parse a <see cref="T:System.Boolean"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Guid">
+            <summary>
+            Parse a <see cref="T:System.Guid"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Byte">
+            <summary>
+            Parse a <see cref="T:System.Byte"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.BytesFromBase64">
+            <summary>
+            Parse a bynary value codded as an array <see cref="T:System.Byte"/>.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.DateTime">
+            <summary>
+            Parse a <see cref="T:System.DateTime"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.DateTimeOffset">
+            <summary>
+            Parse a <see cref="T:System.DateTimeOffset"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Decimal">
+            <summary>
+            Parse a <see cref="T:System.Decimal"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Double">
+            <summary>
+            Parse a <see cref="T:System.Double"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Int16">
+            <summary>
+            Parse a <see cref="T:System.Int16"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Int32">
+            <summary>
+            Parse a <see cref="T:System.Int32"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Int64">
+            <summary>
+            Parse a <see cref="T:System.Int64"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.SByte">
+            <summary>
+            Parse a <see cref="T:System.SByte"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Single">
+            <summary>
+            Parse a <see cref="T:System.Single"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.UInt16">
+            <summary>
+            Parse a <see cref="T:System.UInt16"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.UInt32">
+            <summary>
+            Parse a <see cref="T:System.UInt32"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.UInt64">
+            <summary>
+            Parse a <see cref="T:System.UInt64"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.PropertyName">
+            <summary>
+            Parse a property name value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.Uri">
+            <summary>
+            Parse a <see cref="T:System.Uri"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.EmptyObject">
+            <summary>
+            Parses an empty object.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalString">
+            <summary>
+            Parse an optional <see cref="T:System.String"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalBool">
+            <summary>
+            Parse a nullable <see cref="T:System.Boolean"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalDateTime">
+            <summary>
+            Parse an optional <see cref="T:System.DateTime"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalUri">
+            <summary>
+            Parse an optional <see cref="T:System.Uri"/> value.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalGuid">
+            <summary>
+            Parse a nullable <see cref="P:Pevac.Parser.Guid"/> value.
+            </summary>
+        </member>
+        <member name="M:Pevac.Parser.ParsePropertyName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="expectedPropertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseStringProperty(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="expectedPropertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseStringProperty(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="expectedPropertyName"></param>
+            <param name="expectedStringValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Parser.ParseTypeProperty``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Pevac.Parser.StartObjectToken">
+            <summary>
+            Parser for <see cref="F:System.Text.Json.JsonTokenType.StartObject"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.EndObjectToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.EndObject"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.StartArrayToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.StartArray"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.EndArrayToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.EndArray"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.PropertyNameToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.PropertyName"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.StringToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.String"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.NumberToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.Number"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.TrueToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.True"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.FalseToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.False"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.BooleanToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.True"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.False"/> tokens.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.NullToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.Null"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalStringToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.String"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.None"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalNumber">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.Number"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.Null"/> token.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalTrueToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.True"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.Null"/> tokens.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalFalseToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.False"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.Null"/> tokens.
+            </summary>
+        </member>
+        <member name="P:Pevac.Parser.OptionalBoolToken">
+            <summary>
+            Parser for the <see cref="F:System.Text.Json.JsonTokenType.True"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.False"/> 
+            or <see cref="F:System.Text.Json.JsonTokenType.Null"/> tokens.
+            </summary>
+        </member>
+        <member name="T:Pevac.Parser`1">
+            <summary>
+            Represents a parser.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="input">The input to the parser.</param>
+            <param name="options">The options to the parser.</param>
+            <returns>The result of the parser.</returns>
+        </member>
+        <member name="T:Pevac.Result">
+            <summary>
+            Provides a set of static methods to simplify the interaction with the <see cref="T:Pevac.Result`1"/> class.
+            </summary>
+        </member>
+        <member name="M:Pevac.Result.Failure``1(System.String)">
+            <summary>
+            Generates a failed <see cref="T:Pevac.Result`1"/> with the message specified by the <paramref name="message"/>.
+            </summary>
+            <typeparam name="T">The type of the resulting <see cref="T:Pevac.Result`1"/>.</typeparam>
+            <param name="message">The message of the result.</param>
+            <returns>A result.</returns>
+        </member>
+        <member name="M:Pevac.Result.Success``1(``0)">
+            <summary>
+            Creates a succesfull <see cref="T:Pevac.Result`1"/> with the <paramref name="value"/> as the result.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <param name="value">The value of the result.</param>
+            <returns>A result.</returns>
+        </member>
+        <member name="M:Pevac.Result.Match``2(Pevac.IResult{``0},System.Func{``0,``1},System.Func{System.String,``1})">
+            <summary>
+            Matches a result
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+            <typeparam name="U">The output value.</typeparam>
+            <param name="result">The result on which to perform the match.</param>
+            <param name="success">Function to invoke when result is succesful.</param>
+            <param name="failure">Function to invoke when result is a failure.</param>
+            <returns></returns>
+            <example>
+            How to use the function
+            <code>
+                string foo = result.Match(success: (int value) => $"{value}",
+                                          failure: (string message) => "");
+            </code>
+            </example>
+        </member>
+        <member name="M:Pevac.Result.IfFailure``1(Pevac.IResult{``0},System.Func{System.String,``0})">
+            <summary>
+            Will try to get an alternative value in case the result is a failure
+            </summary>
+            <typeparam name="T">The type of the result</typeparam>
+            <param name="result">The result.</param>
+            <param name="alternative">A method that takes as input the error message and returns back an alternative value.</param>
+            <returns>The value of the result, in case the result is succesfull, otherwise the result of invoking <paramref name="alternative"/> function.</returns>
+        </member>
+        <member name="M:Pevac.Result.IfFailure``1(Pevac.IResult{``0},System.Func{``0})">
+            <param name="alternative">A method that returns an alternative value.</param>
+            <inheritdoc cref="!:IfFailure&lt;T&gt;(Result&lt;T?&gt;, Func&lt;string, T?&gt;)"/>
+        </member>
+        <member name="M:Pevac.Result.IfFailure``1(Pevac.IResult{``0},``0)">
+            <param name="alternative">The alternative value.</param>
+            <returns>The value of the result, in case the result is succesful, otherwise the <paramref name="alternative"/>.</returns>
+            <inheritdoc cref="!:IfFailure&lt;T&gt;(Result&lt;T?&gt;, Func&lt;string, T?&gt;)"/>
+        </member>
+        <member name="M:Pevac.Result.IfSuccess``2(Pevac.IResult{``0},System.Func{``0,Pevac.IResult{``1}})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="result"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pevac.Result.Success``2(Pevac.Result{``0},System.Func{``0,``1})">
+            <summary>
+            Specifies a transform function that will be invoked if the result is succesful. It's a part of the fluent interface. 
+            </summary>
+            <typeparam name="T">The type of the source.</typeparam>
+            <typeparam name="U">The type of the result.</typeparam>
+            <param name="result">The result object on which to invoke the the transform function.</param>
+            <param name="success">A transform function to be invoked if the result is succesfull.</param>
+            <example>
+            This shows how the method is supposed to be used.
+            <code>
+                string foo = bar
+                    .IsSuccess((int number) => $"{number}")
+                    .IsFailure((string message) => "");
+            </code>
+            </example>
+        </member>
+        <member name="M:Pevac.Result.Failure``2(Pevac.Result{``0},System.Func{System.String,``1})">
+            <summary>
+            Specifies a transform function that will be invoked if the result is failure. It's a part of the fluent interface. 
+            </summary>
+            <typeparam name="T">The type of the source.</typeparam>
+            <typeparam name="U">The type of the result.</typeparam>
+            <param name="result">The result object on which to invoke the the transform function.</param>
+            <param name="failure">A transform function to be invoked if the result is a failure.</param>
+            <example>
+            This shows how the method is supposed to be used.
+            <code>
+                string foo = bar
+                    .IsFailure((string message) => "");
+                    .IsSuccess((int number) => $"{number}")
+            </code>
+            </example>
+        </member>
+        <member name="T:Pevac.Result.ISuccess`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+        </member>
+        <member name="M:Pevac.Result.ISuccess`2.Failure(System.Func{System.String,`1})">
+            <summary>
+            A method to specify a failure method
+            </summary>
+            <param name="failure">A method that will be invoked if the result is a failure</param>
+            <returns>The result of the evaluation.</returns>
+        </member>
+        <member name="T:Pevac.Result.IFailure`2">
+            <summary>
+            Allows to specify the function to be invoked when the result is a success.
+            </summary>
+            <typeparam name="T">Type of the input.</typeparam>
+            <typeparam name="U">Type of the output.</typeparam>
+        </member>
+        <member name="M:Pevac.Result.IFailure`2.Success(System.Func{`0,`1})">
+            <summary>
+            Specifies a function to be invoked when the result is a success.
+            </summary>
+            <param name="success">The function to be invoked when the result is a success.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Pevac.IResult`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Pevac.ISuccess`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Pevac.ISuccess`1.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Pevac.IFailure`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Pevac.IFailure`1.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Pevac.IFailure`1.Repack``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="U"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Pevac.Result`1">
+            <summary>
+            Represents a result.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+        </member>
+        <member name="T:Pevac.Success`1">
+            <summary>
+            Represents a succesfull result.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+        </member>
+        <member name="M:Pevac.Success`1.#ctor(`0)">
+            <summary>
+            Represents a succesfull result.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+        </member>
+        <member name="T:Pevac.Failure`1">
+            <summary>
+            Represents a failed result.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+        </member>
+        <member name="M:Pevac.Failure`1.#ctor(System.String)">
+            <summary>
+            Represents a failed result.
+            </summary>
+            <typeparam name="T">The type of the result.</typeparam>
+        </member>
+        <member name="M:Pevac.Failure`1.Repack``1">
+            <summary>
+            Repack the failure.
+            </summary>
+        </member>
+    </members>
+</doc>

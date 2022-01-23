@@ -16,7 +16,7 @@ namespace Notion;
 public static class Notion
 {
     /// <summary>
-    /// Creates a new notion client by specifiing the bearer token and the version of the 
+    /// Creates a new notion client by specifying the bearer token and the version of the 
     /// </summary>
     /// <param name="bearerToken">The token used for authorization purposes.</param>
     /// <param name="version">The version of the API. Default is 2021-08-16</param>

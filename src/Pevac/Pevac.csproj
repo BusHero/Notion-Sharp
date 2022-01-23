@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>  
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <VersionPrefix>0.3.0</VersionPrefix>
+    <Authors>Cervac Petru</Authors>
+    <Company />
+    <Product>A parser combinator library around the System.Text.Json.Utf8JsonReader struct</Product>
+    <Description>A parser combinator library to simplify JSON deserialization using the System.Text.Json.UTF8JsonReader struct</Description>
+    <Copyright>2021</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/BusHero/Pevac</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BusHero/Pevac</RepositoryUrl>
+    <PackageTags>System.Text.Json, ParserCombinator, Utf8JsonReader, parser</PackageTags>
+    <PackageReleaseNotes>This is a prerelease version</PackageReleaseNotes>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <DebugType>embedded</DebugType>
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\petru\source\repos\Pevac\Pevac\Pevac.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
