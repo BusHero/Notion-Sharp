@@ -21,16 +21,16 @@ public class NotionTestsBase
     protected NotionTestsBase()
     {
         var configuration = new ConfigurationBuilder()
-        .AddUserSecrets<ModelTests>()
-        .Build();
+            .AddUserSecrets<ModelTests>()
+            .Build();
 
-        SUT = Notion.NewClient(bearerToken: configuration["Notion"], "2021-08-16");
-        ValidUserId = Guid.Parse(configuration["userId"]);
+        SUT = Notion.NewClient(bearerToken: configuration["Notion"], "2022-06-28");
+        // ValidUserId = Guid.Parse(configuration["userId"]);
         ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
         ValidPageId = Guid.Parse(configuration["pageId"]);
         ValidBlockId = Guid.Parse(configuration["blockId"]);
-        PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
-        SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
+        // PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
+        // SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
     }
 
     protected static async Task RetryAsync(Func<Task> action, int attempts)
@@ -42,10 +42,8 @@ public class NotionTestsBase
                 await action();
                 break;
             }
-            catch (NotionException ex)
+            catch (NotionException ex) when (ex.Message != "Conflict occured while saving. Please try again.")
             {
-                if (ex.Message == "Conflict occurred while saving. Please try again.")
-                    continue;
                 throw;
             }
         }

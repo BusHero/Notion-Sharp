@@ -17,7 +17,7 @@ public static partial class Result
     public static IResult<T> Failure<T>(string message = "Some default message") => new Failure<T>(message);
 
     /// <summary>
-    /// Creates a succesfull <see cref="Result{T}"/> with the <paramref name="value"/> as the result.
+    /// Creates a successful <see cref="Result{T}"/> with the <paramref name="value"/> as the result.
     /// </summary>
     /// <typeparam name="T">The type of the result.</typeparam>
     /// <param name="value">The value of the result.</param>
@@ -28,9 +28,9 @@ public static partial class Result
     /// Matches a result
     /// </summary>
     /// <typeparam name="T">The type of the result.</typeparam>
-    /// <typeparam name="U">The output value.</typeparam>
+    /// <typeparam name="TU">The output value.</typeparam>
     /// <param name="result">The result on which to perform the match.</param>
-    /// <param name="success">Function to invoke when result is succesful.</param>
+    /// <param name="success">Function to invoke when result is successful.</param>
     /// <param name="failure">Function to invoke when result is a failure.</param>
     /// <returns></returns>
     /// <example>
@@ -40,13 +40,13 @@ public static partial class Result
     ///                               failure: (string message) => "");
     /// </code>
     /// </example>
-    public static U? Match<T, U>(this IResult<T?> result, Func<T?, U?> success, Func<string, U?> failure) => (result, success, failure) switch
+    public static TU? Match<T, TU>(this IResult<T?> result, Func<T?, TU?> success, Func<string, TU?> failure) => (result, success, failure) switch
     {
         (null, _, _) => throw new ArgumentNullException(nameof(result)),
         (_, null, _) => throw new ArgumentNullException(nameof(success)),
         (_, _, null) => throw new ArgumentNullException(nameof(failure)),
-        (Success<T?> _success, _, _) => success(_success.Value),
-        (Failure<T?> _failure, _, _) => failure(_failure.Message),
+        (Success<T?> success1, _, _) => success(success1.Value),
+        (Failure<T?> failure1, _, _) => failure(failure1.Message),
         _ => throw new ParseException("You shouldn't see this"),
     };
 
@@ -56,13 +56,13 @@ public static partial class Result
     /// <typeparam name="T">The type of the result</typeparam>
     /// <param name="result">The result.</param>
     /// <param name="alternative">A method that takes as input the error message and returns back an alternative value.</param>
-    /// <returns>The value of the result, in case the result is succesfull, otherwise the result of invoking <paramref name="alternative"/> function.</returns>
-    public static T? IfFailure<T>(this IResult<T?> result, Func<string, T?> alternative) => (result, alternative) switch
+    /// <returns>The value of the result, in case the result is successful, otherwise the result of invoking <paramref name="alternative"/> function.</returns>
+    private static T? IfFailure<T>(this IResult<T?> result, Func<string, T?> alternative) => (result, alternative) switch
     {
         (null, _) => throw new ArgumentNullException(nameof(result)),
         (_, null) => throw new ArgumentNullException(nameof(alternative)),
-        (Success<T?> _sucess, _) => _sucess.Value,
-        (Failure<T?> _failure, _) => alternative(_failure.Message),
+        (Success<T?> success, _) => success.Value,
+        (Failure<T?> failure, _) => alternative(failure.Message),
         _ => throw new ParseException("You shouldn't see this"),
     };
 
@@ -78,7 +78,7 @@ public static partial class Result
 
 #pragma warning disable CS1574 // XML comment has cref attribute that could not be resolved
     /// <param name="alternative">The alternative value.</param>
-    /// <returns>The value of the result, in case the result is succesful, otherwise the <paramref name="alternative"/>.</returns>
+    /// <returns>The value of the result, in case the result is successful, otherwise the <paramref name="alternative"/>.</returns>
     /// <inheritdoc cref="IfFailure{T}(Result{T?}, Func{string, T?})"/>
 #pragma warning disable CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
     public static T? IfFailure<T>(this IResult<T?> result, T alternative) => result.IfFailure(_ => alternative);
@@ -89,16 +89,16 @@ public static partial class Result
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam name="TU"></typeparam>
     /// <param name="result"></param>
     /// <param name="next"></param>
     /// <returns></returns>
-    public static IResult<U?> IfSuccess<T, U>(this IResult<T?> result, Func<T?, IResult<U?>> next) => (result, next) switch
+    public static IResult<TU?> IfSuccess<T, TU>(this IResult<T?> result, Func<T?, IResult<TU?>> next) => (result, next) switch
     {
         (null, _) => throw new ArgumentNullException(nameof(result)),
         (_, null) => throw new ArgumentNullException(nameof(next)),
         (ISuccess<T?> success, _) => next(success.Value),
-        (IFailure<T?> failure, _) => Failure<U>(failure.Message),
+        (IFailure<T?> failure, _) => Failure<TU>(failure.Message),
         _ => throw new ParseException("You shouldn't see this")
     };
 }

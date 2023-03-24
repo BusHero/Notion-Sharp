@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>default</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit"/>
-    <Using Include="FluentAssertions"/>
-    <Using Include="Pevac"/>
+    <Using Include="Xunit" />
+    <Using Include="FluentAssertions" />
+    <Using Include="Pevac" />
     
   </ItemGroup>
 
