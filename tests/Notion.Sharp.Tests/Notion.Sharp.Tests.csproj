@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <UserSecretsId>02256519-807b-4124-9963-0b5353e766b0</UserSecretsId>
 	<ImplicitUsings>enable</ImplicitUsings>
+	<LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

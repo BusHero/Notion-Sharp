@@ -4,8 +4,8 @@ namespace Notion;
 
 public class NotionException : Exception
 {
-    public int Status { get; set; }
-    public string Code { get; set; }
+    public required int Status { get; init; }
+    public required string Code { get; init; }
 
     public NotionException(string message) : base(message) { }
 }

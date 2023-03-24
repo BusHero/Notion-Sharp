@@ -2,7 +2,6 @@
 
 using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Pevac;
 using static Notion.Model.User;
 using Void = Pevac.Void;
@@ -27,7 +26,7 @@ internal class UserConverter : MyJsonConverter<User>
             }, (User user) => user.Cast<Person>()),
             "bot" => Ignored.Updater((Void _, User user) => user.Cast<Bot>()),
             var key => Parser.FailUpdate<User>($"Unknown key user.{key}")
-        }), ref reader, options); ;
+        }), ref reader, options);
     }
 
     public override void Write(Utf8JsonWriter writer, User value, JsonSerializerOptions options)

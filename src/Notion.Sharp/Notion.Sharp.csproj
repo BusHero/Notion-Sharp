@@ -1,42 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>Notion</RootNamespace>
+        <Copyright>2021</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Authors>Cervac Petru</Authors>
+        <Product>Notion.Sdk</Product>
+        <Description>An unnoficial sdk for the Notion REST Api</Description>
+        <PackageProjectUrl>https://github.com/BusHero/Notion-SDK</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/BusHero/Notion-SDK</RepositoryUrl>
+        <PackageTags>Notion, Notion-api</PackageTags>
+        <PackageReleaseNotes>This is a prerelease version</PackageReleaseNotes>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <SignAssembly>False</SignAssembly>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <LangVersion>default</LangVersion>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\..\README.md">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>Notion</RootNamespace>
-    <Copyright>2021</Copyright>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Authors>Cervac Petru</Authors>
-    <Product>Notion.Sdk</Product>
-    <Description>An unnoficial sdk for the Notion REST Api</Description>
-    <PackageProjectUrl>https://github.com/BusHero/Notion-SDK</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/BusHero/Notion-SDK</RepositoryUrl>
-    <PackageTags>Notion, Notion-api</PackageTags>
-    <PackageReleaseNotes>This is a prerelease version</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <SignAssembly>False</SignAssembly>
-	<IncludeSymbols>true</IncludeSymbols>
-	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Refit" Version="6.1.15" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Refit" Version="6.1.15" />
-  </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Pevac\Pevac.csproj" />
-	</ItemGroup>
-
-
+    <ItemGroup>
+        <ProjectReference Include="..\Pevac\Pevac.csproj" />
+    </ItemGroup>
 </Project>

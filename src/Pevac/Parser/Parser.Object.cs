@@ -72,6 +72,12 @@ public static partial class Parser
         from _ in parser
         select new Func<U, U>(u => u);
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parser"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static Parser<Func<T, T>> Updater<T>(this Parser<object> parser) => parser.Then(Return((T t) => t));
 
     /// <summary>

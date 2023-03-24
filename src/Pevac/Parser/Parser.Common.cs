@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Text.Json;
 
-
 /// <summary>
 /// 
 /// </summary>
@@ -96,7 +95,9 @@ public static partial class Parser
 
     private static Parser<Void>? ignored;
     
-    
+    /// <summary>
+    /// Ignored pattern
+    /// </summary>
     public static Parser<Void> Ignored => ignored ??= (ref Utf8JsonReader reader, JsonSerializerOptions? options) =>
     {
         return reader.TrySkip() switch

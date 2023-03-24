@@ -1,8 +1,12 @@
-﻿
-using System;
+﻿using System;
 
 namespace Notion;
 
-public record Filter(string value, string property);
-public record Sort(string direction, string timestamp);
-public record SearchPayload(string query = default, Sort sort = default, Filter filter = default, Guid? start_cursor = default, int? page_size = default);
+public record Filter(string Value, string Property);
+public record Sort(string Direction, string Timestamp);
+public record SearchPayload(
+    string? Query = default, 
+    Sort? Sort = default, 
+    Filter? Filter = default,
+    Guid? StartCursor = default, 
+    int? PageSize = default);
