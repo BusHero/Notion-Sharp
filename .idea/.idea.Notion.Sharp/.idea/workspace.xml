@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34016e6e-497d-482f-93c2-81ff3855cc6b" name="Changes" comment="">
+    <list default="true" id="34016e6e-497d-482f-93c2-81ff3855cc6b" name="Changes" comment="chore: add test deleted page">
       <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +62,7 @@
       <updated>1677527859688</updated>
       <workItem from="1677527860914" duration="129000" />
       <workItem from="1677528013672" duration="316000" />
-      <workItem from="1679552708511" duration="8969000" />
+      <workItem from="1679552708511" duration="9102000" />
     </task>
     <task id="LOCAL-00001" summary="chore: update dotnet version">
       <created>1679688410517</created>
