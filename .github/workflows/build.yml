@@ -1,11 +1,9 @@
 name: Build
 on:
-  push:
-    paths-ignore:
-    - '**/README.md'
   pull_request:
     paths-ignore:
     - '**/README.md'
+    - '**/.gitignore'
 env:
   DOTNET_VERSION: 7.0.*
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
