@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34016e6e-497d-482f-93c2-81ff3855cc6b" name="Changes" comment="">
+    <list default="true" id="34016e6e-497d-482f-93c2-81ff3855cc6b" name="Changes" comment="chore: update dotnet version">
+      <change afterPath="$PROJECT_DIR$/tests/Notion.Sharp.Tests/RetrievePageTests.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/publish.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Notion.Sharp/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Notion.Sharp/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Notion.Sharp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Notion.Sharp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Notion.Sharp.Tests/NotionTestsBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Notion.Sharp.Tests/NotionTestsBase.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +44,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -64,11 +65,23 @@
       <updated>1677527859688</updated>
       <workItem from="1677527860914" duration="129000" />
       <workItem from="1677528013672" duration="316000" />
-      <workItem from="1679552708511" duration="4801000" />
+      <workItem from="1679552708511" duration="6774000" />
     </task>
+    <task id="LOCAL-00001" summary="chore: update dotnet version">
+      <created>1679688410517</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679688410517</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chore: update dotnet version" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: update dotnet version" />
   </component>
 </project>

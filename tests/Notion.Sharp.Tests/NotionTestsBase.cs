@@ -17,6 +17,7 @@ public class NotionTestsBase
     internal Guid PageFromDatabase { get; }
 
     internal Guid SimpleDatabase { get; }
+    internal Guid ParentPage { get; }
 
     protected NotionTestsBase()
     {
@@ -31,6 +32,7 @@ public class NotionTestsBase
         ValidBlockId = Guid.Parse(configuration["blockId"]);
         // PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
         // SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
+        ParentPage = Guid.Parse((configuration["ParentPage"]));
     }
 
     protected static async Task RetryAsync(Func<Task> action, int attempts)
