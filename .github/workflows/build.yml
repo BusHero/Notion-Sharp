@@ -7,7 +7,7 @@ on:
     paths-ignore:
     - '**/README.md'
 env:
-  DOTNET_VERSION: 6.0.*
+  DOTNET_VERSION: 7.0.*
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   
