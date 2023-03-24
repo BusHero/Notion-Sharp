@@ -33,6 +33,7 @@ jobs:
           dotnet user-secrets set "pageFromDatabase" "${{ secrets.DATABASE_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "simpleDatabase" "${{ secrets.SIMPLE_DATABASE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "ParentPage" "${{ secrets.PARENT_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
+          dotnet user-secrets set "DeletedPage" "${{ secrets.DELETED_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
       - name: Restore
         run: dotnet restore
       - name: Build
