@@ -21,6 +21,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D401600A-DF2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{55F0DD00-ADC7-4A93-BCDA-9401AE15E2F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "Playground\Playground.csproj", "{D52620B8-5A77-45AC-B035-71B9395CB855}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{726A4F86-D916-4B7F-92EC-857975115A71}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +61,10 @@ Global
 		{F3E6BC66-B789-4425-ADD2-A2F1830F922C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3E6BC66-B789-4425-ADD2-A2F1830F922C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3E6BC66-B789-4425-ADD2-A2F1830F922C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D52620B8-5A77-45AC-B035-71B9395CB855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D52620B8-5A77-45AC-B035-71B9395CB855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D52620B8-5A77-45AC-B035-71B9395CB855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D52620B8-5A77-45AC-B035-71B9395CB855}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

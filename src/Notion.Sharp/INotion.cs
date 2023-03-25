@@ -83,6 +83,14 @@ public interface INotion
     Task<Page> GetPageAsync([AliasAs("page_id")] Guid pageId);
 
     /// <summary>
+    /// Retrieves a Page object using the Id specified.
+    /// </summary>
+    /// <param name="pageId">The id of the page to be retrieved.</param>
+    /// <returns>A json string representation of the page.</returns>
+    [Get("/pages/{page_id}")]
+    Task<string> GetPageRawAsync([AliasAs("page_id")] Guid pageId);
+
+    /// <summary>
     /// Updates page property values for the specified page. Properties that are not set via the properties parameter will remain unchanged.
     /// </summary>
     /// <param name="page"></param>
