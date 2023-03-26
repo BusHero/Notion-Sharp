@@ -1,4 +1,6 @@
-﻿namespace Notion.Sharp.Tests;
+﻿using Notion.Sharp.Tests.Utils;
+
+namespace Notion.Sharp.Tests;
 
 public class RichTextsTests : NotionTestsBase
 {
@@ -21,7 +23,7 @@ public class RichTextsTests : NotionTestsBase
     [MemberData(nameof(RichTexts))]
     public async Task AppendRichText_Succed(RichText richText) => await RetryAsync(async () =>
     {
-        var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
+        var result = await SUT.AppendBlockChildrenAsync(Pages.Page.ToGuid(), new List<Block>
         {
             new Block.Paragraph
             {

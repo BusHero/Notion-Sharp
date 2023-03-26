@@ -1,0 +1,50 @@
+﻿{
+  "object": "page",
+  "id": "623dea60-eecc-4e5d-95e9-048941712e7d",
+  "created_time": "2023-03-25T22:45:00.000Z",
+  "last_edited_time": "2023-03-25T22:46:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "last_edited_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "cover": null,
+  "icon": {
+    "type": "emoji",
+    "emoji": "\uD83D\uDE00"
+  },
+  "parent": {
+    "type": "page_id",
+    "page_id": "b5d54483-4cb1-4fd3-a80e-897da4827770"
+  },
+  "archived": false,
+  "properties": {
+    "title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Page with Icon",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Page with Icon",
+          "href": null
+        }
+      ]
+    }
+  },
+  "url": "https://www.notion.so/Page-with-Icon-623dea60eecc4e5d95e9048941712e7d"
+}
