@@ -20,7 +20,7 @@ public record Page : PageOrDatabase
     [JsonPropertyName("icon")]
     public Icon Icon { get; set; }
     [JsonPropertyName("cover")]
-    public File Cover { get; set; }
+    public Cover Cover { get; set; }
     [JsonPropertyName("properties")]
     public Dictionary<string, PropertyValue> Properties { get; set; }
     [JsonPropertyName("parent")]
