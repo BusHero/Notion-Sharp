@@ -12,5 +12,7 @@ public static class Pages
     public const string PageWithCustomLinkCover = "5763357dd70c4437acb3100d5a7cbf9d";
     public const string PageWithUploadedCover = "d5293d2cdaaf419396e82b3d2b92f98e";
     public const string PageWithUnsplashCover = "da0a570566294afaabd0cf338fb768f2";
+    public const string PageFromDatabase = "694de2862d45417a84648cba94ce21eb";
+    public const string ParentPage = "b5d544834cb14fd3a80e897da4827770";
 }
 
