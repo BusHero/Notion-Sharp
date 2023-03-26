@@ -560,6 +560,7 @@ public static class Notion
                             })
                         }
                     },
+                    new IconConverter(),
                 }
             }),
             ExceptionFactory = GetException,

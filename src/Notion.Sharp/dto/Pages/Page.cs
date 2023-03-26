@@ -18,7 +18,7 @@ public record Page : PageOrDatabase
     [JsonPropertyName("archived")]
     public bool Archived { get; set; }
     [JsonPropertyName("icon")]
-    public File Icon { get; set; }
+    public Icon Icon { get; set; }
     [JsonPropertyName("cover")]
     public File Cover { get; set; }
     [JsonPropertyName("properties")]
