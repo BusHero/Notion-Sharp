@@ -15,4 +15,3 @@ public static class Pages
     public const string PageFromDatabase = "694de2862d45417a84648cba94ce21eb";
     public const string ParentPage = "b5d544834cb14fd3a80e897da4827770";
 }
-
