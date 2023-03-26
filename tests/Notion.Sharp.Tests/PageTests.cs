@@ -1,5 +1,6 @@
 ﻿using FluentAssertions.Execution;
 using Notion.Sharp.Tests.Utils;
+using File = Notion.Model.File;
 
 namespace Notion.Sharp.Tests;
 
@@ -42,9 +43,68 @@ public class PageTests: NotionTestsBase
     }
 
     [Fact]
+    public async Task GetPageWithEmojiIconWorks()
+    {
+        // act
+        var page = await SUT.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var emoji = page.Icon as File.Emoji;
+            emoji!.Value.Should().Be("😀");
+            emoji!.Name.Should().BeNull();
+            emoji!.Caption.Should().BeNull();
+        }
+    }
+    
+    [Fact]
     public async Task GetPageWithIconWorks()
     {
-        var action = async () => await SUT.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
-        await action.Should().NotThrowAsync();
+        // act
+        var page = await SUT.GetPageAsync(Pages.PageWithIcon.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var externalFile = page.Icon as File.External;
+            externalFile!.Name.Should().BeNull();
+            externalFile!.Caption.Should().BeNull();
+            externalFile.Uri.Should().Be("https://www.notion.so/icons/activity_gray.svg");
+        }
+    }
+
+    [Fact]
+    public async Task GetPageWithCustomLinkIconWorks()
+    {
+        // act
+        var page = await SUT.GetPageAsync(Pages.PageWithCustomLinkIcon.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var externalFile = page.Icon as File.External;
+            externalFile!.Name.Should().BeNull();
+            externalFile!.Caption.Should().BeNull();
+            externalFile.Uri.Should()
+                .Be("https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png");
+        }
+    }
+
+    [Fact]
+    public async Task GetPageWithUploadedIconWorks()
+    {
+        // act
+        var page = await SUT.GetPageAsync(Pages.PageWithUploadedIcon.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var externalFile = page.Icon as File.Internal;
+            externalFile!.Name.Should().BeNull();
+            externalFile!.Caption.Should().BeNull();
+            externalFile.Uri.Should().NotBeNull();
+            externalFile.ExpireTime.Should().BeSameDateAs(DateTime.Now);
+        }
     }
 }
