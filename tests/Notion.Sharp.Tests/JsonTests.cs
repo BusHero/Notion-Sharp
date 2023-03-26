@@ -7,7 +7,9 @@ public class JsonTests : NotionTestsBase
 {
     [Theory]
     [InlineData("Page.json", Pages.Page)]
+    [InlineData("PageWithEmojiIcon.json", Pages.PageWithEmojiIcon)]
     [InlineData("PageWithIcon.json", Pages.PageWithIcon)]
+    [InlineData("DeletedPage.json", Pages.DeletedPage)]
     public async Task JsonShouldMatch(string fileName, string pageId)
     {
         // arrange
