@@ -40,4 +40,11 @@ public class PageTests: NotionTestsBase
             page.Archived.Should().Be(true);
         }
     }
+
+    [Fact]
+    public async Task GetPageWithIconWorks()
+    {
+        var action = async () =>  await SUT.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
+        await action.Should().NotThrowAsync();
+    }
 }
