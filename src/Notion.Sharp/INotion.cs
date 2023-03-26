@@ -133,6 +133,14 @@ public interface INotion
     /// <returns></returns>
     [Get("/blocks/{block_id}")]
     Task<Block> GetBlockAsync([AliasAs("block_id")] Guid blockId);
+    
+    /// <summary>
+    /// Retrieves a Block object using the ID specified.
+    /// </summary>
+    /// <param name="blockId">The id of the block to get.</param>
+    /// <returns>The raw json representing the block.</returns>
+    [Get("/blocks/{block_id}")]
+    Task<string> GetBlockRawAsync([AliasAs("block_id")] Guid blockId);
 
     /// <summary>
     /// Updates the content for the specified block_id based on the block type. 
@@ -142,6 +150,7 @@ public interface INotion
     /// <returns></returns>
     [Patch("/blocks/{block.Id}")]
     Task<Block> UpdateBlockAsync(Block block);
+    
 
     /// <summary>
     /// Returns a paginated array of child block objects contained in the block using the ID specified. 
@@ -222,5 +231,6 @@ public interface INotion
     Task<Foo> GetPagePropertyAsync(Guid pageId, string propertyId, [AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
     #endregion
+
 }
 
