@@ -11,6 +11,11 @@ public class JsonTests : NotionTestsBase
     [InlineData("PageWithIcon.json", Pages.PageWithIcon)]
     [InlineData("DeletedPage.json", Pages.DeletedPage)]
     [InlineData("PageWithCustomLinkIcon.json", Pages.PageWithCustomLinkIcon)]
+    [InlineData("PageWithCover.json", Pages.PageWithCover)]
+    [InlineData("PageWithCustomLinkCover.json", Pages.PageWithCustomLinkCover)]
+    [InlineData("PageWithUnsplashCover.json", Pages.PageWithUnsplashCover)]
+    [InlineData("PageFromDatabase.json", Pages.PageFromDatabase)]
+    [InlineData("ParentPage.json", Pages.ParentPage)]
     public async Task JsonShouldMatch(string fileName, string pageId)
     {
         // arrange
