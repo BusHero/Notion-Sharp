@@ -51,10 +51,8 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var emoji = page.Icon as File.Emoji;
+            var emoji = page.Icon as Icon.Emoji;
             emoji!.Value.Should().Be("😀");
-            emoji!.Name.Should().BeNull();
-            emoji!.Caption.Should().BeNull();
         }
     }
     
@@ -67,10 +65,8 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var externalFile = page.Icon as File.External;
-            externalFile!.Name.Should().BeNull();
-            externalFile!.Caption.Should().BeNull();
-            externalFile.Uri.Should().Be("https://www.notion.so/icons/activity_gray.svg");
+            var externalFile = page.Icon as Icon.External;
+            externalFile!.Url.Should().Be("https://www.notion.so/icons/activity_gray.svg");
         }
     }
 
@@ -83,10 +79,8 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var externalFile = page.Icon as File.External;
-            externalFile!.Name.Should().BeNull();
-            externalFile!.Caption.Should().BeNull();
-            externalFile.Uri.Should()
+            var externalFile = page.Icon as Icon.External;
+            externalFile!.Url.Should()
                 .Be("https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png");
         }
     }
@@ -100,11 +94,9 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var externalFile = page.Icon as File.Internal;
-            externalFile!.Name.Should().BeNull();
-            externalFile!.Caption.Should().BeNull();
-            externalFile.Uri.Should().NotBeNull();
-            externalFile.ExpireTime.Should().BeSameDateAs(DateTime.Now);
+            var externalFile = page.Icon as Icon.File;
+            externalFile!.Url.Should().NotBeNull();
+            externalFile!.ExpiryTime.Should().BeSameDateAs(DateTime.Now);
         }
     }
 
