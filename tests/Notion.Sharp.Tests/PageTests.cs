@@ -44,7 +44,7 @@ public class PageTests: NotionTestsBase
     [Fact]
     public async Task GetPageWithIconWorks()
     {
-        var action = async () =>  await SUT.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
+        var action = async () => await SUT.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
         await action.Should().NotThrowAsync();
     }
 }
