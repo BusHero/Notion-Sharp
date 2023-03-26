@@ -18,6 +18,12 @@ public record File
         public Uri Uri { get; set; }
         public DateTime ExpireTime { get; set; }
     }
+
+    public record Emoji : File
+    {
+        public string Value { get; set; }
+    }
+    
     public T Copy<T>() where T : File, new() => new()
     {
         Caption = Caption

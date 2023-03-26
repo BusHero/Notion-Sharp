@@ -16,6 +16,14 @@ internal class FileConverter : MyJsonConverter<File>
             "caption" => Parser.ParseType<RichText[]>().Updater((RichText[] caption, File file) => file with { Caption = caption }),
             "type" => Parser.String.Updater<string, File>(),
             "name" => Parser.String.Updater((string name, File file) => file with { Name = name }),
+            "emoji" => Parser.String.Updater((string? value, File file) =>
+            {
+                var foo = value;
+                return file.Copy<File.Emoji>() with
+                {
+                    Value = value
+                };
+            }),
             "external" => Parser.ParseObject(propertyName1 => propertyName1 switch
             {
                 "url" => Parser.OptionalUri.Updater((System.Uri uri, File.External file) => file with { Uri = uri }),
