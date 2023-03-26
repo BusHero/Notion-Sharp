@@ -19,7 +19,7 @@ public class JsonTests : NotionTestsBase
     public async Task JsonShouldMatch(string fileName, string pageId)
     {
         // arrange
-        var path = Path.Combine("Json", fileName);
+        var path = Path.Combine("Resources", "Json", fileName);
         var expectedJson = await File.ReadAllTextAsync(path);
         
         // act
