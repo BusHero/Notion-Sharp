@@ -561,6 +561,7 @@ public static class Notion
                         }
                     },
                     new IconConverter(),
+                    new CoverConverter(),
                 }
             }),
             ExceptionFactory = GetException,
