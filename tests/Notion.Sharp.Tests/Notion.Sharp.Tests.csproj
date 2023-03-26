@@ -35,42 +35,46 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Json\PageWithEmojiIcon.json">
+    <None Update="Resources\Json\DeletedPage.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\Page.json">
+    <None Update="Resources\Json\Page.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithIcon.json">
+    <None Update="Resources\Json\PageFromDatabase.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\DeletedPage.json">
+    <None Update="Resources\Json\PageWithCover.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithCustomLinkIcon.json">
+    <None Update="Resources\Json\PageWithCustomLinkCover.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithUploadedIcon.json">
+    <None Update="Resources\Json\PageWithCustomLinkIcon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithUploadedCover.json">
+    <None Update="Resources\Json\PageWithEmojiIcon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithCustomLinkCover.json">
+    <None Update="Resources\Json\PageWithIcon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithCover.json">
+    <None Update="Resources\Json\PageWithUnsplashCover.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageWithUnsplashCover.json">
+    <None Update="Resources\Json\PageWithUploadedCover.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\PageFromDatabase.json">
+    <None Update="Resources\Json\PageWithUploadedIcon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\ParentPage.json">
+    <None Update="Resources\Json\ParentPage.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
