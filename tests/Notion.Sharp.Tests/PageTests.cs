@@ -1,4 +1,5 @@
 ﻿using FluentAssertions.Execution;
+using Notion.Sharp.Tests.Utils;
 
 namespace Notion.Sharp.Tests;
 
@@ -10,12 +11,12 @@ public class PageTests: NotionTestsBase
         //arrange
         
         //act 
-        var page = await SUT.GetPageAsync(ValidPageId);
+        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
         
         //assert
         using (new AssertionScope())
         {
-            page.Id.Should().Be(ValidPageId);
+            page.Id.Should().Be(Pages.Page.ToGuid());
             page.Archived.Should().Be(false);
             page.Properties.Should().ContainKey("title");
             page.Cover.Should().BeNull();
@@ -30,12 +31,12 @@ public class PageTests: NotionTestsBase
         //arrange
         
         //act 
-        var page = await SUT.GetPageAsync(DeletedPage);
+        var page = await SUT.GetPageAsync(Pages.DeletedPage.ToGuid());
         
         //assert
         using (new AssertionScope())
         {
-            page.Id.Should().Be(DeletedPage);
+            page.Id.Should().Be(Pages.DeletedPage.ToGuid());
             page.Archived.Should().Be(true);
         }
     }

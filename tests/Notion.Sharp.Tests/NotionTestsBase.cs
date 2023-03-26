@@ -10,7 +10,7 @@ public class NotionTestsBase
 
     internal Guid ValidDatabaseId { get; }
 
-    internal Guid ValidPageId { get; }
+    // internal Guid ValidPageId { get; }
 
     internal Guid ValidBlockId { get; }
 
@@ -19,9 +19,9 @@ public class NotionTestsBase
     internal Guid SimpleDatabase { get; }
     internal Guid ParentPage { get; }
 
-    internal Guid DeletedPage { get; }
+    // internal Guid DeletedPage { get; }
     
-    internal Guid PageWithIcon { get; }
+    // internal Guid PageWithIcon { get; }
     
     protected NotionTestsBase()
     {
@@ -32,13 +32,13 @@ public class NotionTestsBase
         SUT = Notion.NewClient(bearerToken: configuration["Notion"], "2022-06-28");
         // ValidUserId = Guid.Parse(configuration["userId"]);
         ValidDatabaseId = Guid.Parse(configuration["databaseId"]);
-        ValidPageId = Guid.Parse(configuration["pageId"]);
+        // ValidPageId = Guid.Parse(configuration["pageId"]);
         ValidBlockId = Guid.Parse(configuration["blockId"]);
         // PageFromDatabase = Guid.Parse(configuration["pageFromDatabase"]);
         // SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
         ParentPage = Guid.Parse((configuration["ParentPage"]));
-        DeletedPage = Guid.Parse(configuration["deletedPage"]);
-        PageWithIcon = Guid.Parse(configuration["PageWithIcon"]);
+        // DeletedPage = Guid.Parse(configuration["deletedPage"]);
+        // PageWithIcon = Guid.Parse(configuration["PageWithIcon"]);
     }
 
     protected static async Task RetryAsync(Func<Task> action, int attempts)

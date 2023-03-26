@@ -1,4 +1,6 @@
-﻿namespace Notion.Sharp.Tests;
+﻿using Notion.Sharp.Tests.Utils;
+
+namespace Notion.Sharp.Tests;
 
 using System.Reflection;
 using System.Threading.Tasks;
@@ -74,7 +76,7 @@ public class ModelTests : NotionTestsBase
         {
             Parent = new Parent.Page
             {
-                Id = ValidPageId
+                Id = Pages.Page.ToGuid()
             },
             Title = new RichText[]
             {
@@ -90,7 +92,7 @@ public class ModelTests : NotionTestsBase
                 }
             }
         };
-        database = database with { Parent = new Parent.Page { Id = ValidPageId } };
+        database = database with { Parent = new Parent.Page { Id = Pages.Page.ToGuid() } };
         await SUT.CreateDatabaseAsync(database);
     }, 3);
 
@@ -136,7 +138,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task UpdatePage_Succeds_OnValidId() => await RetryAsync(async () =>
     {
-        var page = await SUT.GetPageAsync(ValidPageId);
+        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
         var result = SUT.UpdatePageAsync(page);
         result.Should().NotBeNull();
     }, 3);
@@ -144,7 +146,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task UpdatePage_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
-        var page = await SUT.GetPageAsync(ValidPageId);
+        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
         page = page with { Id = Guid.NewGuid() };
         await SUT.Awaiting(sut => sut.UpdatePageAsync(page)).Should().ThrowAsync<NotionException>();
     }, 3);
@@ -158,7 +160,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task GetPage_Succeds_OnValidId()
     {
-        var page = await SUT.GetPageAsync(ValidPageId);
+        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
         page.Should().NotBeNull();
     }
 
@@ -176,7 +178,7 @@ public class ModelTests : NotionTestsBase
         {
             Parent = new Parent.Page
             {
-                Id = ValidPageId
+                Id = Pages.Page.ToGuid()
             },
             Properties = new Dictionary<string, PropertyValue>
             {
@@ -202,7 +204,7 @@ public class ModelTests : NotionTestsBase
         {
             Parent = new Parent.Page
             {
-                Id = ValidPageId
+                Id = Pages.Page.ToGuid()
             },
             Properties = new Dictionary<string, PropertyValue>
             {
@@ -317,7 +319,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task DeleteBlock_Succeds() => await RetryAsync(async () =>
     {
-        var result = await SUT.AppendBlockChildrenAsync(ValidPageId, new List<Block>
+        var result = await SUT.AppendBlockChildrenAsync(Pages.Page.ToGuid(), new List<Block>
            {
                new Block.Heading2
                {

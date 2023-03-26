@@ -1,4 +1,6 @@
-﻿namespace Notion.Sharp.Tests;
+﻿using Notion.Sharp.Tests.Utils;
+
+namespace Notion.Sharp.Tests;
 
 public class AppendBlocksToPageTests : NotionTestsBase
 {
@@ -6,7 +8,7 @@ public class AppendBlocksToPageTests : NotionTestsBase
     [MemberData(nameof(Blocks))]
     public async Task AppendChildren_Succeds(Block block) => await RetryAsync(async () =>
     {
-        var result = await SUT.AppendBlockChildrenAsync(ValidPageId,
+        var result = await SUT.AppendBlockChildrenAsync(Pages.Page.ToGuid(),
                 new List<Block>
                 {
                      block

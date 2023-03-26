@@ -6,8 +6,8 @@ using File = System.IO.File;
 public class JsonTests : NotionTestsBase
 {
     [Theory]
-    [InlineData("Page.json", "12f52fe311ae4c8ab7eb6b9ffb22c305")]
-    [InlineData("PageWithIcon.json", "623dea60eecc4e5d95e9048941712e7d")]
+    [InlineData("Page.json", Pages.Page)]
+    [InlineData("PageWithIcon.json", Pages.PageWithIcon)]
     public async Task JsonShouldMatch(string fileName, string pageId)
     {
         // arrange
