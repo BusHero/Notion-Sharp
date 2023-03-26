@@ -15,7 +15,7 @@ public class JsonTests : NotionTestsBase
     [InlineData("PageWithCustomLinkCover.json", Pages.PageWithCustomLinkCover)]
     [InlineData("PageWithUnsplashCover.json", Pages.PageWithUnsplashCover)]
     [InlineData("PageFromDatabase.json", Pages.PageFromDatabase)]
-    [InlineData("ParentPage.json", Pages.ParentPage)]
+    [InlineData("Parent.json", Pages.Parent)]
     public async Task JsonShouldMatch(string fileName, string pageId)
     {
         // arrange
