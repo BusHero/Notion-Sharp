@@ -34,4 +34,13 @@
     <ProjectReference Include="..\..\src\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Json\PageWithIcon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Json\Page.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

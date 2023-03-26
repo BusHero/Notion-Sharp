@@ -20,6 +20,9 @@ public class NotionTestsBase
     internal Guid ParentPage { get; }
 
     internal Guid DeletedPage { get; }
+    
+    internal Guid PageWithIcon { get; }
+    
     protected NotionTestsBase()
     {
         var configuration = new ConfigurationBuilder()
@@ -35,6 +38,7 @@ public class NotionTestsBase
         // SimpleDatabase = Guid.Parse(configuration["simpleDatabase"]);
         ParentPage = Guid.Parse((configuration["ParentPage"]));
         DeletedPage = Guid.Parse(configuration["deletedPage"]);
+        PageWithIcon = Guid.Parse(configuration["PageWithIcon"]);
     }
 
     protected static async Task RetryAsync(Func<Task> action, int attempts)
