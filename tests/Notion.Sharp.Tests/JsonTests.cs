@@ -16,7 +16,7 @@ public class JsonTests : NotionTestsBase
     [InlineData("PageWithUnsplashCover.json", Pages.PageWithUnsplashCover)]
     [InlineData("PageFromDatabase.json", Pages.PageFromDatabase)]
     [InlineData("Parent.json", Pages.Parent)]
-    public async Task JsonShouldMatch(string fileName, string pageId)
+    public async Task JsonPage(string fileName, string pageId)
     {
         // arrange
         var path = Path.Combine("Resources", "Json", fileName);
@@ -45,6 +45,25 @@ public class JsonTests : NotionTestsBase
     [InlineData("Divider.json", Blocks.Divider)]
     [InlineData("Callout.json", Blocks.Callout)]
     [InlineData("Table.json", Blocks.Table)]
+    [InlineData("Page.json", Blocks.Page)]
+    // [InlineData("Empty.json", Blocks.Empty)]
+    [InlineData("LinkToPage.json", Blocks.LinkToPage)]
+    [InlineData("ImageUnsplash.json", Blocks.ImageUnsplash)]
+    [InlineData("ImageLink.json", Blocks.ImageLink)]
+    // [InlineData("ImageUploaded.json", Blocks.ImageUploaded)]
+    [InlineData("ImageEmpty.json", Blocks.ImageEmpty)]
+    [InlineData("WebBookmark.json", Blocks.WebBookmark)]
+    [InlineData("WebBookmarkEmpty.json", Blocks.WebBookmarkEmpty)]
+    [InlineData("Video.json", Blocks.Video)]
+    [InlineData("VideoEmpty.json", Blocks.VideoEmpty)]
+    [InlineData("AudioEmpty.json", Blocks.AudioEmpty)]
+    [InlineData("Code.json", Blocks.Code)]
+    [InlineData("CodeWithCaption.json", Blocks.CodeWithCaption)]
+    [InlineData("CodeCSharp.json", Blocks.CodeCSharp)]
+    // [InlineData("FileUploaded.json", Blocks.FileUploaded)]
+    [InlineData("File.json", Blocks.File)]
+    [InlineData("FileEmpty.json", Blocks.FileEmpty)]
+    [InlineData("FileWithCaption.json", Blocks.FileWithCaption)]
     public async Task JsonBlock(string fileName, string pageId)
     {
         // arrange

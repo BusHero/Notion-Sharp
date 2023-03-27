@@ -1,0 +1,25 @@
+{
+  "object": "block",
+  "id": "f54f9df5-393a-4a21-989d-87fc53c3d4cc",
+  "parent": {
+    "type": "page_id",
+    "page_id": "b9dec7f7-cb22-4437-a56d-6b46cb008621"
+  },
+  "created_time": "2023-03-27T05:57:00.000Z",
+  "last_edited_time": "2023-03-27T05:57:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "last_edited_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "has_children": false,
+  "archived": false,
+  "type": "bookmark",
+  "bookmark": {
+    "caption": [],
+    "url": ""
+  }
+}
