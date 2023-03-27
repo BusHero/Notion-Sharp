@@ -91,4 +91,37 @@ public class JsonTests : NotionTestsBase
             .Should()
             .Be(expectedJson);
     }
+    
+    [Theory]
+    [InlineData("SimpleText.json", RichTexts.SimpleText)]
+    [InlineData("MentionPerson.json", RichTexts.MentionPerson)]
+    [InlineData("MentionBlock.json", RichTexts.MentionBlock)]
+    [InlineData("MentionToday.json", RichTexts.MentionToday)]
+    [InlineData("MentionTomorrow.json", RichTexts.MentionTomorrow)]
+    [InlineData("LinkPage.json", RichTexts.LinkPage)]
+    [InlineData("LinkToWebsite.json", RichTexts.LinkToWebsite)]
+    [InlineData("Bold.json", RichTexts.Bold)]
+    [InlineData("Italic.json", RichTexts.Italic)]
+    [InlineData("Underline.json", RichTexts.Underline)]
+    [InlineData("StrikeThrough.json", RichTexts.StrikeThrough)]
+    [InlineData("Background.json", RichTexts.Background)]
+    [InlineData("Foreground.json", RichTexts.Foreground)]
+    [InlineData("Code.json", RichTexts.Code)]
+    [InlineData("Equation.json", RichTexts.Equation)]
+    [InlineData("BoldAndItalic.json", RichTexts.BoldAndItalic)]
+    [InlineData("BoldThenItalic.json", RichTexts.BoldThenItalic)]
+    public async Task JsonRichText(string fileName, string pageId)
+    {
+        // arrange
+        var path = Path.Combine("Resources", "RichTexts", fileName);
+        var expectedJson = await File.ReadAllTextAsync(path);
+        
+        // act
+        var block = (await SUT.GetBlockRawAsync(Guid.Parse(pageId))).Formatted();
+        
+        // assert
+        block
+            .Should()
+            .Be(expectedJson);
+    }
 }
