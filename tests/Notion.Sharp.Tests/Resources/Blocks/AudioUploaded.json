@@ -1,0 +1,29 @@
+{
+  "object": "block",
+  "id": "0d96f5dc-4690-4f19-8618-3a9b5abc208d",
+  "parent": {
+    "type": "page_id",
+    "page_id": "b9dec7f7-cb22-4437-a56d-6b46cb008621"
+  },
+  "created_time": "2023-03-27T06:00:00.000Z",
+  "last_edited_time": "2023-03-27T16:16:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "last_edited_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "has_children": false,
+  "archived": false,
+  "type": "audio",
+  "audio": {
+    "caption": [],
+    "type": "file",
+    "file": {
+      "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/6e65275d-62ee-446d-a922-4e9f382edf8f/file_example_MP3_700KB.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256\u0026X-Amz-Content-Sha256=UNSIGNED-PAYLOAD\u0026X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230327%2Fus-west-2%2Fs3%2Faws4_request\u0026X-Amz-Date=20230327T161736Z\u0026X-Amz-Expires=3600\u0026X-Amz-Signature=de07aa28054db1c7b72e37433ef01ebf4809524e99de12083d5d0c3e5dda8e55\u0026X-Amz-SignedHeaders=host\u0026x-id=GetObject",
+      "expiry_time": "2023-03-27T17:17:36.373Z"
+    }
+  }
+}
