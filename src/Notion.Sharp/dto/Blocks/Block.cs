@@ -2,14 +2,30 @@
 
 namespace Notion.Model;
 
+public record LastEditedBy
+{
+    
+}
+
+public record CreatedBy
+{
+    
+}
+
 public record Block
 {
     public Guid Id { get; init; }
-    public DateTime CreatedTime { get; init; }
-    public DateTime LastEditedTime { get; init; }
+    public DateTimeOffset CreatedTime { get; init; }
+    public DateTimeOffset LastEditedTime { get; init; }
     public bool HasChildren { get; init; }
     public bool Archived { get; init; }
-
+    
+    public Parent? Parent { get; init; }
+    
+    public LastEditedBy? LastEditedBy { get; init; }
+    
+    public CreatedBy? CreatedBy { get; init; }
+    
     public T Copy<T>() where T : Block, new() => new()
     {
         Id = Id,
@@ -21,11 +37,12 @@ public record Block
     public static T Copy<T>(Block block) where T : Block, new() => block.Copy<T>();
 
     #region SubTypes
-
+    
     public record Paragraph : Block
     {
         public RichText[] Text { get; set; }
         public Block[] Children { get; set; }
+        public string Color { get; set; }
     }
 
     public record Heading1 : Block
