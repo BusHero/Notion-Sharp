@@ -53,4 +53,6 @@ public static class Blocks
     public const string TwitterEmbed = "49bb7c26f03d4167985f372a5a5a7d7e";
     public const string ChildDatabase = "444ae2d9933847faa31a2d04689538be";
     public const string LinkedDatabase = "8fddf23451524922b113a46f272c7507";
+    public const string BlockWithChildren = "4dba2b71a7db43a1a50c9bba7e5380dc";
+    public const string ChildBlock = "b32f886f31ad4164ab413aa566f5eaa6";
 }

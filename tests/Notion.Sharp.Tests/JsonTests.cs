@@ -77,6 +77,8 @@ public class JsonTests : NotionTestsBase
     [InlineData("TwitterEmbed.json", Blocks.TwitterEmbed)]
     [InlineData("ChildDatabase.json", Blocks.ChildDatabase)]
     [InlineData("LinkedDatabase.json", Blocks.LinkedDatabase)]
+    [InlineData("BlockWithChildren.json", Blocks.BlockWithChildren)]
+    [InlineData("ChildBlock.json", Blocks.ChildBlock)]
     public async Task JsonBlock(string fileName, string pageId)
     {
         // arrange
