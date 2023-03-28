@@ -34,7 +34,9 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.Paragraph>()),
             "heading_1" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Heading1 heading1) => heading1 with { Text = text }),
+                "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Heading1 heading1) => heading1 with { Text = text }),
+                "is_toggleable" => Parser.Bool.Updater((bool isToggleable, Block.Heading1 heading1) => heading1 with {IsToggable = isToggleable}),
+                "color" => Parser.String.Updater((string color, Block.Heading1 heading1) => heading1 with { Color = color }),
                 _ => Parser.FailUpdate<Block.Heading1>($"Unknown key block.heading_1.{propertyName}")
             }, (Block block) => block.Copy<Block.Heading1>()),
             "heading_2" => Parser.ParseObject(propertyName => propertyName switch
