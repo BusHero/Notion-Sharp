@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Notion.Model;
 
 public record LastEditedBy
 {
-    
+    [JsonPropertyName("id")]
+    public Guid Id { get; set; }
 }
 
 public record CreatedBy
 {
-    
+    [JsonPropertyName("id")]
+    public Guid Id { get; set; }
 }
 
 public record Block
@@ -31,7 +34,9 @@ public record Block
         Id = Id,
         CreatedTime = CreatedTime,
         LastEditedTime = LastEditedTime,
-        HasChildren = HasChildren
+        HasChildren = HasChildren,
+        Parent = Parent,
+        LastEditedBy = LastEditedBy
     };
 
     public static T Copy<T>(Block block) where T : Block, new() => block.Copy<T>();
@@ -48,6 +53,9 @@ public record Block
     public record Heading1 : Block
     {
         public RichText[] Text { get; set; }
+        public string Color { get; set; }
+        
+        public bool IsToggable { get; set; }
     }
 
     public record Heading2 : Block
