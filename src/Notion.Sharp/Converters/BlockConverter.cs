@@ -28,7 +28,6 @@ internal class BlockConverter : MyJsonConverter<Block>
             "paragraph" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Paragraph paragraph) => paragraph with { Text = text }),
-                "children" => Parser.ParseType<Block[]>().Updater((Block[] children, Block.Paragraph paragraph) => paragraph with { Children = children }),
                 "color" => Parser.String.Updater((string color, Block.Paragraph paragraph) => paragraph with { Color = color }),
                 _ => Parser.FailUpdate<Block.Paragraph>($"Unknown key block.paragraph.{propertyName}")
             }, (Block block) => block.Copy<Block.Paragraph>()),

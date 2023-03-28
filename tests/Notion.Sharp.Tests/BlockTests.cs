@@ -24,7 +24,6 @@ public class BlockTests: NotionTestsBase
             paragraph?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:51:00.000Z"));
             paragraph?.Archived.Should().BeFalse();
             paragraph?.HasChildren.Should().BeFalse();
-            paragraph?.Children.Should().BeNull();
             paragraph?.Color.Should().Be("default");
             paragraph?.Text.Should().ContainSingle();
             
@@ -39,6 +38,13 @@ public class BlockTests: NotionTestsBase
             richText?.Annotations.Strikethrough.Should().BeFalse();
             richText?.Annotations.Code.Should().BeFalse();
             richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = paragraph?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            paragraph?.LastEditedBy?.Id.Should().Be(Users.Me);
+            paragraph?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
 
