@@ -54,9 +54,9 @@ internal class PropertyValueConverter : MyJsonConverter<PropertyValue>
                 _ => Parser.FailUpdate<Rollup>($"Unknown key property_value.rollup.{name}")
             }, (PropertyValue propertyValue) => propertyValue.Copy<Rollup>()),
             "created_time" => Parser.DateTime.Updater((DateTime createdTime, PropertyValue propertyValue) => propertyValue.Copy<CreatedTime>() with { Value = createdTime }),
-            "created_by" => Parser.ParseType<User>().Updater((User createdBy, PropertyValue propertyValue) => propertyValue.Copy<CreatedBy>() with { Value = createdBy }),
+            "created_by" => Parser.ParseType<User>().Updater((User createdBy, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.CreatedBy>() with { Value = createdBy }),
             "last_edited_time" => Parser.DateTime.Updater((DateTime lastEditedTime, PropertyValue propertyValue) => propertyValue.Copy<LastEditedTime>() with { Value = lastEditedTime }),
-            "last_edited_by" => Parser.ParseType<User>().Updater((User lastEditedBy, PropertyValue propertyValue) => propertyValue.Copy<LastEditedBy>() with { Value = lastEditedBy }),
+            "last_edited_by" => Parser.ParseType<User>().Updater((User lastEditedBy, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.LastEditedBy>() with { Value = lastEditedBy }),
             _ => Parser.FailUpdate<PropertyValue>($"Unknown key property_value.'{propertyName}'")
         }).Parse(ref reader, options);
     }
