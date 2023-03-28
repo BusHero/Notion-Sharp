@@ -66,6 +66,8 @@ public record Block
     public record Heading3 : Block
     {
         public RichText[] Text { get; set; }
+        public string Color { get; set; }
+        public bool IsToggable { get; set; }
     }
 
     public record NumberedListItem : Block
