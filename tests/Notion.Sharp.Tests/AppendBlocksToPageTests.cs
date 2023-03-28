@@ -28,19 +28,6 @@ public class AppendBlocksToPageTests : NotionTestsBase
                         Content = "Paragraph"
                     }
                 },
-                Children = new Block[]
-                {
-                    new Block.Paragraph
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child paragraph"
-                            }
-                        }
-                    }
-                }
             },
         new Block.Heading1
             {

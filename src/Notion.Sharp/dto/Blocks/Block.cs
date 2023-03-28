@@ -46,7 +46,6 @@ public record Block
     public record Paragraph : Block
     {
         public RichText[] Text { get; set; }
-        public Block[] Children { get; set; }
         public string Color { get; set; }
     }
 

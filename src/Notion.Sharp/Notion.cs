@@ -42,11 +42,6 @@ public static class Notion
                                 writer.WriteStartObject();
                                 writer.WritePropertyName("text");
                                 JsonSerializer.Serialize(writer, paragraph.Text, options);
-                                if (paragraph.Children != null)
-                                {
-                                    writer.WritePropertyName("children");
-                                    JsonSerializer.Serialize(writer, paragraph.Children, options);
-                                }
                                 writer.WriteEndObject();
                             }),
                             [typeof(Block.Heading1)] = Writer.GetWriter<Block>("heading_1", (writer, value, options) =>
