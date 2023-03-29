@@ -211,6 +211,11 @@ public record Block
         public File File { get; init; }
     }
 
+    public record Audio : Block
+    {
+        public File File { get; set; }
+    }
+
     public record FileBlock : Block
     {
         public File File { get; init; }
