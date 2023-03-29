@@ -334,6 +334,49 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetToggledHeading1()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.ToggledHeading1.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var heading1 = block as Block.Heading1;
+            heading1.Should().NotBeNull();
+            heading1?.Id.Should().Be(Blocks.ToggledHeading1);
+            heading1?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:31:00.000Z"));
+            heading1?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:32:00.000Z"));
+            heading1?.Archived.Should().BeFalse();
+            heading1?.HasChildren.Should().BeFalse();
+            heading1?.Color.Should().Be("default");
+            heading1?.Text.Should().ContainSingle();
+            heading1?.IsToggable.Should().BeTrue();
+            
+            var richText = heading1?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Toggled Heading 1");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Toggled Heading 1");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+
+            var parent = heading1?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            heading1?.LastEditedBy?.Id.Should().Be(Users.Me);
+            heading1?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetAudio()
     {
         // arrange
