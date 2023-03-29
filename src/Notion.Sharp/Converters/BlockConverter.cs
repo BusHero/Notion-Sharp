@@ -54,8 +54,8 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.Heading3>()),
             "bulleted_list_item" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Text = text }),
-                "children" => Parser.ParseType<Block[]>().Updater((Block[] children, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Children = children }),
+                "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Text = text }),
+                "color" => Parser.String.Updater((string color, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Color = color }),
                 _ => Parser.FailUpdate<Block.BulletedListItem>($"Unknown key block.bulleted_list_item.{propertyName}")
             }, (Block block) => block.Copy<Block.BulletedListItem>()),
             "numbered_list_item" => Parser.ParseObject(propertyName => propertyName switch

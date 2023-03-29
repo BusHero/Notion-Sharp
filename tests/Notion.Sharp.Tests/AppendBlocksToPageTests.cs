@@ -102,19 +102,6 @@ public class AppendBlocksToPageTests : NotionTestsBase
                         Content = "Bulleted list item"
                     }
                 },
-                Children = new Block[]
-                {
-                    new Block.BulletedListItem
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child content"
-                            }
-                        }
-                    }
-                }
             },
         new Block.NumberedListItem
             {

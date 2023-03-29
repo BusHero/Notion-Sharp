@@ -48,6 +48,48 @@ public class BlockTests: NotionTestsBase
             paragraph?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetBulletedListItem()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.BulletedListItem.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var bulletedListItem = block as Block.BulletedListItem;
+            bulletedListItem.Should().NotBeNull();
+            bulletedListItem?.Id.Should().Be(Blocks.BulletedListItem);
+            bulletedListItem?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T19:58:00.000Z"));
+            bulletedListItem?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:58:00.000Z"));
+            bulletedListItem?.Archived.Should().BeFalse();
+            bulletedListItem?.HasChildren.Should().BeFalse();
+            bulletedListItem?.Color.Should().Be("default");
+            bulletedListItem?.Text.Should().ContainSingle();
+            
+            var richText = bulletedListItem?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Bulleted list item");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Bulleted list item");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = bulletedListItem?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            bulletedListItem?.LastEditedBy?.Id.Should().Be(Users.Me);
+            bulletedListItem?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 
     [Fact]
     public async Task GetHeading1()

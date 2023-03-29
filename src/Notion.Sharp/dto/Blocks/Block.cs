@@ -79,7 +79,7 @@ public record Block
     public record BulletedListItem : Block
     {
         public RichText[] Text { get; set; }
-        public Block[] Children { get; set; }
+        public string Color { get; set; }
     }
 
     public record ToDo : Block

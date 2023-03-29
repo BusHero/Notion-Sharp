@@ -95,11 +95,6 @@ public static class Notion
                                 writer.WriteStartObject();
                                 writer.WritePropertyName("text");
                                 JsonSerializer.Serialize(writer, bulletedListItem.Text, options);
-                                if (bulletedListItem.Children != null)
-                                {
-                                    writer.WritePropertyName("children");
-                                    JsonSerializer.Serialize(writer, bulletedListItem.Children, options);
-                                }
                                 writer.WriteEndObject();
                             }),
                             [typeof(Block.NumberedListItem)] = Writer.GetWriter<Block>("numbered_list_item", (writer, value, options) =>
