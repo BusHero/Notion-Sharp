@@ -197,7 +197,7 @@ public class BlockTests: NotionTestsBase
             audio?.Archived.Should().BeFalse();
             audio?.HasChildren.Should().BeFalse();
 
-            var file = audio.File as File.External;
+            var file = audio?.File as File.External;
             file.Should().NotBeNull();
             file?.Caption.Should().BeNullOrEmpty();
             file?.Uri.Should().Be("https://file-examples.com/storage/feb401d325641db2fa1dfe7/2017/11/file_example_MP3_700KB.mp3");
@@ -208,6 +208,39 @@ public class BlockTests: NotionTestsBase
 
             audio?.LastEditedBy?.Id.Should().Be(Users.Me);
             audio?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
+    public async Task GetVideo()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Video.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var video = block as Block.Video;
+            video.Should().NotBeNull();
+            video?.Id.Should().Be(Blocks.Video);
+            video?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T05:58:00.000Z"));
+            video?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:59:00.000Z"));
+            video?.Archived.Should().BeFalse();
+            video?.HasChildren.Should().BeFalse();
+
+            var file = video?.File as File.External;
+            file.Should().NotBeNull();
+            file?.Caption.Should().BeNullOrEmpty();
+            file?.Uri.Should().Be("https://www.youtube.com/watch?v=Qs50Pbtm8ts");
+
+            var parent = video?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            video?.LastEditedBy?.Id.Should().Be(Users.Me);
+            video?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
 }
