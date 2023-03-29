@@ -103,11 +103,6 @@ public static class Notion
                                 writer.WriteStartObject();
                                 writer.WritePropertyName("text");
                                 JsonSerializer.Serialize(writer, numberedListItem.Text, options);
-                                if (numberedListItem.Children != null)
-                                {
-                                    writer.WritePropertyName("children");
-                                    JsonSerializer.Serialize(writer, numberedListItem.Children, options);
-                                }
                                 writer.WriteEndObject();
                             }),
                             [typeof(Block.ToDo)] = Writer.GetWriter<Block>("to_do", (writer, value, options) =>
