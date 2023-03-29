@@ -65,7 +65,7 @@ public class JsonTests : NotionTestsBase
     [InlineData("Equation.json", Blocks.Equation)]
     [InlineData("TableOfContents.json", Blocks.TableOfContents)]
     [InlineData("EquationEmpty.json", Blocks.EquationEmpty)]
-    [InlineData("Breadcumb.json", Blocks.Breadcumb)]
+    [InlineData("Breadcumb.json", Blocks.Breadcrumb)]
     [InlineData("SyncBlockOriginal.json", Blocks.SyncBlockOriginal)]
     [InlineData("SyncdBlockCopy.json", Blocks.SyncdBlockCopy)]
     [InlineData("Button.json", Blocks.Button)]
