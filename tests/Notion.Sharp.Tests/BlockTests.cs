@@ -277,6 +277,51 @@ public class BlockTests: NotionTestsBase
             video?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetFileWithCaption()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.FileWithCaption.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var fileBlock = block as Block.FileBlock;
+            fileBlock.Should().NotBeNull();
+            fileBlock?.Id.Should().Be(Blocks.FileWithCaption);
+            fileBlock?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T06:07:00.000Z"));
+            fileBlock?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:24:00.000Z"));
+            fileBlock?.Archived.Should().BeFalse();
+            fileBlock?.HasChildren.Should().BeFalse();
+            
+            var file = fileBlock?.File as File.External;
+            file.Should().NotBeNull();
+            file?.Uri.Should().Be("http://www.africau.edu/images/default/sample.pdf");
+            
+            file?.Caption.Should().ContainSingle();
+            var richText = file?.Caption[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("File with caption");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("File with caption");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+
+            var parent = fileBlock?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            fileBlock?.LastEditedBy?.Id.Should().Be(Users.Me);
+            fileBlock?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 
     [Fact]
     public async Task GetEmbed()
