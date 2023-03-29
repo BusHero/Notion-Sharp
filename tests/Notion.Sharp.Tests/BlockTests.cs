@@ -243,4 +243,39 @@ public class BlockTests: NotionTestsBase
             video?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetVideoUploaded()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.VideoUploaded.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var video = block as Block.Video;
+            video.Should().NotBeNull();
+            video?.Id.Should().Be(Blocks.VideoUploaded);
+            video?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:19:00.000Z"));
+            video?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:20:00.000Z"));
+            video?.Archived.Should().BeFalse();
+            video?.HasChildren.Should().BeFalse();
+
+            var file = video?.File as File.Internal;
+            file.Should().NotBeNull();
+            file?.Caption.Should().BeNullOrEmpty();
+            file?.Uri.Should().NotBeNull();
+            file?.ExpireTime.Should().BeSameDateAs(DateTime.Today);
+
+            var parent = video?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            video?.LastEditedBy?.Id.Should().Be(Users.Me);
+            video?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+
 }
