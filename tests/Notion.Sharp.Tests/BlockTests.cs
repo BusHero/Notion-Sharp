@@ -50,6 +50,35 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetEquation()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Equation.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var equation = block as Block.Equation;
+            equation.Should().NotBeNull();
+            equation?.Id.Should().Be(Blocks.Equation);
+            equation?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:24:00.000Z"));
+            equation?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:24:00.000Z"));
+            equation?.Archived.Should().BeFalse();
+            equation?.HasChildren.Should().BeFalse();
+            equation?.Expression.Should().Be("1 + 1");
+            
+            var parent = equation?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            equation?.LastEditedBy?.Id.Should().Be(Users.Me);
+            equation?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetCode()
     {
         // arrange
