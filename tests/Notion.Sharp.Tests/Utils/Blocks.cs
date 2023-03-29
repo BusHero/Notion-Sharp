@@ -41,7 +41,7 @@ public static class Blocks
     
     public const string Equation = "a56437ddb9c746948596b536cea44705";
     public const string EquationEmpty = "33c2de6663af4abb9dd660ebe01e0420";
-    public const string Breadcumb = "1ef90db1d1ad4235bfad09168c1bc7f3";
+    public const string Breadcrumb = "1ef90db1d1ad4235bfad09168c1bc7f3";
     public const string SyncBlockOriginal = "fc568f027c724f78be713bb54bdc0db4";
     public const string SyncdBlockCopy = "0509247fc10543f2addb5e364baea9f7";
     public const string Button = "f5c8800f1bbf477682afd6b6e42ce94c";
