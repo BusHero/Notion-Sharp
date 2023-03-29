@@ -179,10 +179,10 @@ public record Block
             public override string ToString() => language;
         }
 
-        public object Text { get; init; }
-        public string Language { get; init; }
+        public RichText[]? Text { get; init; }
+        public string? Language { get; init; }
         
-        public RichText[] Caption { get; init; }
+        public RichText[]? Caption { get; init; }
     }
 
     public record ChildPage : Block

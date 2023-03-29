@@ -50,6 +50,48 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetCode()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Code.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var code = block as Block.Code;
+            code.Should().NotBeNull();
+            code?.Id.Should().Be(Blocks.Code);
+            code?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T06:01:00.000Z"));
+            code?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T06:01:00.000Z"));
+            code?.Archived.Should().BeFalse();
+            code?.HasChildren.Should().BeFalse();
+            code?.Text.Should().ContainSingle();
+            code?.Language.Should().Be("javascript");
+            
+            var richText = code?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Some Code here and there");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Some Code here and there");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = code?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            code?.LastEditedBy?.Id.Should().Be(Users.Me);
+            code?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetBulletedListItem()
     {
         // arrange
