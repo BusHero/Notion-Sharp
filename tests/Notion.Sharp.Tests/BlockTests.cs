@@ -92,6 +92,48 @@ public class BlockTests: NotionTestsBase
     }
 
     [Fact]
+    public async Task GetNumberedListItem()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.NumberedListItem.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var numberedListItem = block as Block.NumberedListItem;
+            numberedListItem.Should().NotBeNull();
+            numberedListItem?.Id.Should().Be(Blocks.NumberedListItem);
+            numberedListItem?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T19:58:00.000Z"));
+            numberedListItem?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:58:00.000Z"));
+            numberedListItem?.Archived.Should().BeFalse();
+            numberedListItem?.HasChildren.Should().BeFalse();
+            numberedListItem?.Color.Should().Be("default");
+            numberedListItem?.Text.Should().ContainSingle();
+            
+            var richText = numberedListItem?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Numbered list item");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Numbered list item");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = numberedListItem?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            numberedListItem?.LastEditedBy?.Id.Should().Be(Users.Me);
+            numberedListItem?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetHeading1()
     {
         // arrange
