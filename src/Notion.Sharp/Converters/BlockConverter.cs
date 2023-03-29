@@ -90,6 +90,7 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.Embed>()),
             "image" => Parser.ParseType<File>().Updater((File file, Block block) => block.Copy<Block.Image>() with { File = file }),
             "video" => Parser.ParseType<File>().Updater((File file, Block block) => block.Copy<Block.Video>() with { File = file }),
+            "audio" => Parser.ParseType<File>().Updater((File file, Block block) => block.Copy<Block.Audio>() with {File = file}),
             "file" => Parser.ParseType<File>().Updater((File file, Block block) => block.Copy<Block.FileBlock>() with { File = file }),
             "pdf" => Parser.ParseType<File>().Updater((File file, Block block) => block.Copy<Block.Pdf>() with { File = file }),
             "bookmark" => Parser.ParseObject(propertyName => propertyName switch

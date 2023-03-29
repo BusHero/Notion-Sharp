@@ -1,5 +1,6 @@
 ﻿using FluentAssertions.Execution;
 using Notion.Sharp.Tests.Utils;
+using File = Notion.Model.File;
 using Users = Notion.Sharp.Tests.Utils.Users;
 
 namespace Notion.Sharp.Tests;
@@ -174,6 +175,39 @@ public class BlockTests: NotionTestsBase
 
             heading1?.LastEditedBy?.Id.Should().Be(Users.Me);
             heading1?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
+    public async Task GetAudio()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Audio.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var audio = block as Block.Audio;
+            audio.Should().NotBeNull();
+            audio?.Id.Should().Be(Blocks.Audio);
+            audio?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:16:00.000Z"));
+            audio?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:17:00.000Z"));
+            audio?.Archived.Should().BeFalse();
+            audio?.HasChildren.Should().BeFalse();
+
+            var file = audio.File as File.External;
+            file.Should().NotBeNull();
+            file?.Caption.Should().BeNullOrEmpty();
+            file?.Uri.Should().Be("https://file-examples.com/storage/feb401d325641db2fa1dfe7/2017/11/file_example_MP3_700KB.mp3");
+
+            var parent = audio?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            audio?.LastEditedBy?.Id.Should().Be(Users.Me);
+            audio?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
 }
