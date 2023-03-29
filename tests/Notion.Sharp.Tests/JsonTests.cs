@@ -79,6 +79,7 @@ public class JsonTests : NotionTestsBase
     [InlineData("LinkedDatabase.json", Blocks.LinkedDatabase)]
     [InlineData("BlockWithChildren.json", Blocks.BlockWithChildren)]
     [InlineData("ChildBlock.json", Blocks.ChildBlock)]
+    [InlineData("Pdf.json", Blocks.Pdf)]
     public async Task JsonBlock(string fileName, string pageId)
     {
         // arrange

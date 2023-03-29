@@ -55,4 +55,7 @@ public static class Blocks
     public const string LinkedDatabase = "8fddf23451524922b113a46f272c7507";
     public const string BlockWithChildren = "4dba2b71a7db43a1a50c9bba7e5380dc";
     public const string ChildBlock = "b32f886f31ad4164ab413aa566f5eaa6";
+    
+    public const string PdfUploaded = "ff53c778d08444529a2c02afaa62b237";
+    public const string Pdf = "9eeb7c8b30904652b5987fa35f4e9345";
 }
