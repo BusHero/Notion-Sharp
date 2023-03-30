@@ -50,6 +50,51 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetCallout()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Callout.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var callout = block as Block.Callout;
+            callout.Should().NotBeNull();
+            callout?.Id.Should().Be(Blocks.Callout);
+            callout?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            callout?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            callout?.Archived.Should().BeFalse();
+            callout?.HasChildren.Should().BeFalse();
+            callout?.Color.Should().Be("gray_background");
+            callout?.Text.Should().ContainSingle();
+            
+            var richText = callout?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Callout");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Callout");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+
+            var icon = callout?.Icon;
+            icon?.Value.Should().Be("💡");
+            
+            var parent = callout?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            callout?.LastEditedBy?.Id.Should().Be(Users.Me);
+            callout?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetBookmark()
     {
         // arrange

@@ -106,7 +106,8 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.ChildDatabase>()),
             "callout" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Callout callout) => callout with { Text = text }),
+                "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Callout callout) => callout with { Text = text }),
+                "color" => Parser.String.Updater((string color, Block.Callout callout) => callout with { Color = color }),
                 "icon" => Parser.ParseType<Emoji>().Updater((Emoji icon, Block.Callout callout) => callout with { Icon = icon }),
                 _ => Parser.FailUpdate<Block.Callout>($"Unknown key block.callout.{propertyName}")
             }, (Block block) => block.Copy<Block.Callout>()),

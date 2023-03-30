@@ -235,6 +235,7 @@ public record Block
     public record Callout : Block
     {
         public RichText[] Text { get; init; }
+        public string Color { get; set; }
         public Emoji Icon { get; init; }
     }
 

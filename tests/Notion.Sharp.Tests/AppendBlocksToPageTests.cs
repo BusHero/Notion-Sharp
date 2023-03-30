@@ -78,10 +78,6 @@ public class AppendBlocksToPageTests : NotionTestsBase
                     Content = "Callout"
                 }
             },
-            Icon = new Emoji
-            {
-                Value = "🐶"
-            }
         },
         new Block.Quote
         {
