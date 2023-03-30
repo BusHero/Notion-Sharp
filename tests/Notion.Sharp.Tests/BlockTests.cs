@@ -986,4 +986,33 @@ public class BlockTests: NotionTestsBase
             image?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetPage()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Page.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var image = block as Block.ChildPage;
+            image.Should().NotBeNull();
+            image?.Id.Should().Be(Blocks.Page);
+            image?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            image?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:46:00.000Z"));
+            image?.Archived.Should().BeFalse();
+            image?.HasChildren.Should().BeTrue();
+            image?.Title.Should().Be("Page");
+
+            var parent = image?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            image?.LastEditedBy?.Id.Should().Be(Users.Me);
+            image?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 }
