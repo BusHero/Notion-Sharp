@@ -663,6 +663,34 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetButton()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Button.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var unsupported = block as Block.Unsupported;
+            unsupported.Should().NotBeNull();
+            unsupported?.Id.Should().Be(Blocks.Button);
+            unsupported?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:30:00.000Z"));
+            unsupported?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:30:00.000Z"));
+            unsupported?.Archived.Should().BeFalse();
+            unsupported?.HasChildren.Should().BeFalse();
+            
+            var parent = unsupported?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            unsupported?.LastEditedBy?.Id.Should().Be(Users.Me);
+            unsupported?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetPdf()
     {
         // arrange
