@@ -50,6 +50,48 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetQuote()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Quote.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var quote = block as Block.Quote;
+            quote.Should().NotBeNull();
+            quote?.Id.Should().Be(Blocks.Quote);
+            quote?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:00:00.000Z"));
+            quote?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:00:00.000Z"));
+            quote?.Archived.Should().BeFalse();
+            quote?.HasChildren.Should().BeFalse();
+            quote?.Color.Should().Be("default");
+            quote?.Text.Should().ContainSingle();
+            
+            var richText = quote?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Quote");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Quote");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = quote?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            quote?.LastEditedBy?.Id.Should().Be(Users.Me);
+            quote?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetEquation()
     {
         // arrange
