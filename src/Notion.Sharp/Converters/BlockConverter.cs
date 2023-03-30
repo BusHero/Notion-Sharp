@@ -66,9 +66,9 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.NumberedListItem>()),
             "to_do" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.ToDo toDo) => toDo with { Text = text }),
+                "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.ToDo toDo) => toDo with { Text = text }),
+                "color" => Parser.String.Updater((string color, Block.ToDo toDo) => toDo with { Color = color }),
                 "checked" => Parser.Bool.Updater((bool @checked, Block.ToDo toDo) => toDo with { Checked = @checked }),
-                "children" => Parser.ParseType<Block[]>().Updater((Block[] children, Block.ToDo toDo) => toDo with { Children = children }),
                 _ => Parser.FailUpdate<Block.ToDo>($"Unknown key block.to_do.{propertyName}")
             }, (Block block) => block.Copy<Block.ToDo>()),
             "toggle" => Parser.ParseObject(propertyName => propertyName switch
