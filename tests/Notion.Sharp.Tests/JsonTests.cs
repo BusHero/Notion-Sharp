@@ -73,6 +73,7 @@ public class JsonTests : NotionTestsBase
     [InlineData("ToggledHeading2.json", Blocks.ToggledHeading2)]
     [InlineData("ToggledHeading1.json", Blocks.ToggledHeading1)]
     [InlineData("Column.json", Blocks.Column)]
+    [InlineData("ColumnList.json", Blocks.ColumnList)]
     [InlineData("Embed.json", Blocks.Embed)]
     [InlineData("TwitterEmbed.json", Blocks.TwitterEmbed)]
     [InlineData("ChildDatabase.json", Blocks.ChildDatabase)]

@@ -49,6 +49,7 @@ public static class Blocks
     public const string ToggledHeading2 = "88ea0ff5245f4b92beaa14258755121e";
     public const string ToggledHeading3 = "66c8421fbe7741868cdf143d61a5a3c5";
     public const string Column = "ed7c918cec3f440eb34906810f04ec0f";
+    public const string ColumnList = "77a01438ec414fa8b6b110c3d567ecdf";
     public const string Embed = "c629f160608645108a97877d2608e9f2";
     public const string TwitterEmbed = "49bb7c26f03d4167985f372a5a5a7d7e";
     public const string ChildDatabase = "444ae2d9933847faa31a2d04689538be";
