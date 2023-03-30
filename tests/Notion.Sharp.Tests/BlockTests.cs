@@ -92,6 +92,49 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetToDo()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.ToDoChecked.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var todo = block as Block.ToDo;
+            todo.Should().NotBeNull();
+            todo?.Id.Should().Be(Blocks.ToDoChecked);
+            todo?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T19:29:00.000Z"));
+            todo?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:30:00.000Z"));
+            todo?.Archived.Should().BeFalse();
+            todo?.HasChildren.Should().BeFalse();
+            todo?.Color.Should().Be("default");
+            todo?.Text.Should().ContainSingle();
+            todo?.Checked.Should().BeTrue();
+            
+            var richText = todo?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("ToDo Checked");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("ToDo Checked");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = todo?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            todo?.LastEditedBy?.Id.Should().Be(Users.Me);
+            todo?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetCallout()
     {
         // arrange

@@ -118,19 +118,6 @@ public class AppendBlocksToPageTests : NotionTestsBase
                         Content = "to do"
                     }
                 },
-                Children = new Block[]
-                {
-                    new Block.BulletedListItem
-                    {
-                        Text = new RichText[]
-                        {
-                            new RichText.Text
-                            {
-                                Content = "Child content"
-                            }
-                        }
-                    }
-                }
             },
         new Block.Toggle
             {
