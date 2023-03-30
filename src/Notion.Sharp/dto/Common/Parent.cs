@@ -15,4 +15,9 @@ public record Parent
     {
         public Guid Id { get; set; }
     }
+
+    public record Block : Parent
+    {
+        public Guid Id { get; set; }
+    }
 }
