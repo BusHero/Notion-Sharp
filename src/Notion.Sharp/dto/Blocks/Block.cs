@@ -255,7 +255,7 @@ public record Block
 
     public record TableOfContents : Block
     {
-
+        public string Color { get; set; }
     }
 
     public record Unsupported : Block { }

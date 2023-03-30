@@ -128,7 +128,11 @@ internal class BlockConverter : MyJsonConverter<Block>
                 _ => Parser.FailUpdate<Block.Equation>($"Unknown key block.equation.{propertyName}")
             }, (Block block) => block.Copy<Block.Equation>()),
             "divider" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Divider>()),
-            "table_of_contents" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.TableOfContents>()),
+            "table_of_contents" => Parser.ParseObject(propertyName => propertyName switch
+            {
+                "color" => Parser.String.Updater((string color, Block.TableOfContents tableOfContents) => tableOfContents with { Color = color }),
+                _ => Parser.FailUpdate<Block.TableOfContents>($"Unknown key block.equation.{propertyName}")
+            }, (Block block) => block.Copy<Block.TableOfContents>()),
             "breadcrumb" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Breadcrumb>()),
             "unsupported" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Unsupported>()),
             "column_list" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.ColumnList>()),

@@ -663,6 +663,35 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetTableOfContents()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.TableOfContents.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var tableOfContents = block as Block.TableOfContents;
+            tableOfContents.Should().NotBeNull();
+            tableOfContents?.Id.Should().Be(Blocks.TableOfContents);
+            tableOfContents?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:23:00.000Z"));
+            tableOfContents?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:23:00.000Z"));
+            tableOfContents?.Archived.Should().BeFalse();
+            tableOfContents?.HasChildren.Should().BeFalse();
+            tableOfContents?.Color.Should().Be("default");
+            
+            var parent = tableOfContents?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            tableOfContents?.LastEditedBy?.Id.Should().Be(Users.Me);
+            tableOfContents?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetButton()
     {
         // arrange
