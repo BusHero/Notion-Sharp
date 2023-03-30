@@ -605,4 +605,37 @@ public class BlockTests: NotionTestsBase
             embed?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetPdf()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Pdf.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var pdf = block as Block.Pdf;
+            pdf.Should().NotBeNull();
+            pdf?.Id.Should().Be(Blocks.Pdf);
+            pdf?.CreatedTime.Should().Be(DateTime.Parse("2023-03-29T16:29:00.000Z"));
+            pdf?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-29T16:30:00.000Z"));
+            pdf?.Archived.Should().BeFalse();
+            pdf?.HasChildren.Should().BeFalse();
+
+            var file = pdf?.File as File.External;
+            file.Should().NotBeNull();
+            file?.Caption.Should().BeNullOrEmpty();
+            file?.Uri.Should().Be("https://www.africau.edu/images/default/sample.pdf");
+
+            var parent = pdf?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            pdf?.LastEditedBy?.Id.Should().Be(Users.Me);
+            pdf?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 }
