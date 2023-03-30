@@ -50,6 +50,48 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetToggle()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.ToggleList.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var toggle = block as Block.Toggle;
+            toggle.Should().NotBeNull();
+            toggle?.Id.Should().Be(Blocks.ToggleList);
+            toggle?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:00:00.000Z"));
+            toggle?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:00:00.000Z"));
+            toggle?.Archived.Should().BeFalse();
+            toggle?.HasChildren.Should().BeFalse();
+            toggle?.Color.Should().Be("default");
+            toggle?.Text.Should().ContainSingle();
+            
+            var richText = toggle?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Toggle list");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Toggle list");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+            
+            var parent = toggle?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            toggle?.LastEditedBy?.Id.Should().Be(Users.Me);
+            toggle?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetCallout()
     {
         // arrange

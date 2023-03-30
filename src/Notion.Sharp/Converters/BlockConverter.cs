@@ -73,8 +73,8 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.ToDo>()),
             "toggle" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Toggle toggle) => toggle with { Text = text }),
-                "children" => Parser.ParseType<Block[]>().Updater((Block[] children, Block.Toggle toggle) => toggle with { Children = children }),
+                "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Toggle toggle) => toggle with { Text = text }),
+                "color" => Parser.String.Updater((string color, Block.Toggle toggle) => toggle with { Color = color }),
                 _ => Parser.FailUpdate<Block.Toggle>($"Unknown key block.toggle.{propertyName}")
             }, (Block block) => block.Copy<Block.Toggle>()),
             "child_page" => Parser.ParseObject(propertyName => propertyName switch

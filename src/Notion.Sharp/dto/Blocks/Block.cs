@@ -92,8 +92,7 @@ public record Block
     public record Toggle : Block
     {
         public RichText[] Text { get; set; }
-        public bool Checked { get; set; }
-        public Block[] Children { get; set; }
+        public string Color { get; set; }
     }
 
     public record Code : Block
