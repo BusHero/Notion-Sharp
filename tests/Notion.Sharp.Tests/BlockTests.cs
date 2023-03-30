@@ -638,4 +638,37 @@ public class BlockTests: NotionTestsBase
             pdf?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetImage()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.ImageLink.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var image = block as Block.Image;
+            image.Should().NotBeNull();
+            image?.Id.Should().Be(Blocks.ImageLink);
+            image?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T05:49:00.000Z"));
+            image?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:49:00.000Z"));
+            image?.Archived.Should().BeFalse();
+            image?.HasChildren.Should().BeFalse();
+
+            var file = image?.File as File.External;
+            file.Should().NotBeNull();
+            file?.Caption.Should().BeNullOrEmpty();
+            file?.Uri.Should().Be("https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png");
+
+            var parent = image?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            image?.LastEditedBy?.Id.Should().Be(Users.Me);
+            image?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 }
