@@ -241,6 +241,7 @@ public record Block
     public record Quote : Block
     {
         public RichText[] Text { get; init; }
+        public string Color { get; set; }
     }
 
     public record Equation : Block

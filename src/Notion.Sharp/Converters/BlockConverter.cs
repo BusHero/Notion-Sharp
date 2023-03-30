@@ -112,7 +112,8 @@ internal class BlockConverter : MyJsonConverter<Block>
             }, (Block block) => block.Copy<Block.Callout>()),
             "quote" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Quote quote) => quote with { Text = text }),
+                "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Quote quote) => quote with { Text = text }),
+                "color" => Parser.String.Updater((string color, Block.Quote quote) => quote with { Color = color }),
                 _ => Parser.FailUpdate<Block.Quote>($"Unknown key block.quote.{propertyName}")
             }, (Block block) => block.Copy<Block.Quote>()),
             "code" => Parser.ParseObject(propertyName => propertyName switch
