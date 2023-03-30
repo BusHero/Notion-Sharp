@@ -50,6 +50,36 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetBookmark()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.WebBookmark.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var bookmark = block as Block.Bookmark;
+            bookmark.Should().NotBeNull();
+            bookmark?.Id.Should().Be(Blocks.WebBookmark);
+            bookmark?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T05:57:00.000Z"));
+            bookmark?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:57:00.000Z"));
+            bookmark?.Archived.Should().BeFalse();
+            bookmark?.HasChildren.Should().BeFalse();
+            bookmark?.Caption.Should().BeEmpty();
+            bookmark?.Url.Should().Be("https://www.google.com/");
+            
+            var parent = bookmark?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            bookmark?.LastEditedBy?.Id.Should().Be(Users.Me);
+            bookmark?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetQuote()
     {
         // arrange
