@@ -607,6 +607,34 @@ public class BlockTests: NotionTestsBase
     }
     
     [Fact]
+    public async Task GetColumnList()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.ColumnList.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var embed = block as Block.ColumnList;
+            embed.Should().NotBeNull();
+            embed?.Id.Should().Be(Blocks.ColumnList);
+            embed?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:34:00.000Z"));
+            embed?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:34:00.000Z"));
+            embed?.Archived.Should().BeFalse();
+            embed?.HasChildren.Should().BeTrue();
+            
+            var parent = embed?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            embed?.LastEditedBy?.Id.Should().Be(Users.Me);
+            embed?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
     public async Task GetPdf()
     {
         // arrange
