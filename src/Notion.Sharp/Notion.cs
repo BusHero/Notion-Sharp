@@ -124,11 +124,6 @@ public static class Notion
                                 writer.WriteStartObject();
                                 writer.WritePropertyName("text");
                                 JsonSerializer.Serialize(writer, toggle.Text, options);
-                                if (toggle.Children != null)
-                                {
-                                    writer.WritePropertyName("children");
-                                    JsonSerializer.Serialize(writer, toggle.Children, options);
-                                }
                                 writer.WriteEndObject();
                             }),
                             [typeof(Block.Code)] = Writer.GetWriter<Block>("code", (writer, value, options) =>
