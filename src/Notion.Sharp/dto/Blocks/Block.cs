@@ -267,11 +267,6 @@ public record Block
 
     public record Column : Block { }
 
-    public record LinkPreview : Block
-    {
-        public Uri Url { get; init; }
-    }
-
     public record LinkToPage: Block
     {
         
