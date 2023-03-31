@@ -59,4 +59,5 @@ public static class Blocks
     
     public const string PdfUploaded = "ff53c778d08444529a2c02afaa62b237";
     public const string Pdf = "9eeb7c8b30904652b5987fa35f4e9345";
+    public const string LinkPreview = "edc31819130e43179bdad44490e29721";
 }

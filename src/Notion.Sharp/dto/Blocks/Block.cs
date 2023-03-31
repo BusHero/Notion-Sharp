@@ -290,4 +290,9 @@ public record Block
         public bool HasColumnHeader { get; set; }
         public bool HasRowHeader { get; set; }
     }
+
+    public record SyncBlock : Block
+    {
+        
+    }
 }
