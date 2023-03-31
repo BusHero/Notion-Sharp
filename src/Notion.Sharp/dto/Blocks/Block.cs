@@ -288,4 +288,11 @@ public record Block
     }
 
     #endregion
+
+    public record Table : Block
+    {
+        public int TableWidth { get; set; }
+        public bool HasColumnHeader { get; set; }
+        public bool HasRowHeader { get; set; }
+    }
 }
