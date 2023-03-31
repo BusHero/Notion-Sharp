@@ -295,4 +295,9 @@ public record Block
     {
         
     }
+
+    public record LinkPreview : Block
+    {
+        public Uri Url { get; set; }   
+    }
 }

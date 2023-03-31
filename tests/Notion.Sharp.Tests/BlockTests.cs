@@ -1075,4 +1075,33 @@ public class BlockTests: NotionTestsBase
             table?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+
+    [Fact]
+    public async Task GetLinkPreview()
+    {
+        // arrange
+
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.LinkPreview.ToGuid());
+
+        // assert
+        using (new AssertionScope())
+        {
+            var table = block as Block.LinkPreview;
+            table.Should().NotBeNull();
+            table?.Id.Should().Be(Blocks.LinkPreview);
+            table?.CreatedTime.Should().Be(DateTime.Parse("2023-03-31T05:50:00.000Z"));
+            table?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-31T05:51:00.000Z"));
+            table?.Archived.Should().BeFalse();
+            table?.HasChildren.Should().BeFalse();
+            table?.Url.Should().Be("https://github.com/BusHero/Notion-Sharp");
+
+            var parent = table?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            table?.LastEditedBy?.Id.Should().Be(Guid.Parse("6dc47f86-cc8e-4afb-9163-2b43ea363b93"));
+            table?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 }
