@@ -293,7 +293,13 @@ public record Block
 
     public record SyncBlock : Block
     {
-        
+        public SyncedFrom From { get; set; }
+    }
+
+    public record SyncedFrom
+    {
+        [JsonPropertyName("block_id")]
+        public Guid Id { get; set; }
     }
 
     public record LinkPreview : Block
