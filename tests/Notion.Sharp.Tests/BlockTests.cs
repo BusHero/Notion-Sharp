@@ -1044,4 +1044,35 @@ public class BlockTests: NotionTestsBase
             image?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+    
+    [Fact]
+    public async Task GetTable()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.Table.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var table = block as Block.Table;
+            table.Should().NotBeNull();
+            table?.Id.Should().Be(Blocks.Table);
+            table?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            table?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:06:00.000Z"));
+            table?.Archived.Should().BeFalse();
+            table?.HasChildren.Should().BeTrue();
+            table?.TableWidth.Should().Be(2);
+            table?.HasColumnHeader.Should().BeFalse();
+            table?.HasRowHeader.Should().BeFalse();
+            
+            var parent = table?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            table?.LastEditedBy?.Id.Should().Be(Users.Me);
+            table?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 }
