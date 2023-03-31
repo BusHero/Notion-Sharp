@@ -301,7 +301,7 @@ public class BlockTests: NotionTestsBase
             code?.Text.Should().ContainSingle();
             code?.Language.Should().Be("javascript");
             
-            var richText = code?.Text[0] as RichText.Text;
+            var richText = code?.Text![0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Some Code here and there");
             richText?.Link.Should().BeNull();
