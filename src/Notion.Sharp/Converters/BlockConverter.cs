@@ -158,6 +158,11 @@ internal class BlockConverter : MyJsonConverter<Block>
                 "database_id" => Parser.Guid.Updater((Guid databaseId, Block.LinkToPage linkToPage) => linkToPage.Copy<Block.DatabasePageLink>() with {DatabaseId = databaseId}),
                 _ => Parser.FailUpdate<Block.LinkToPage>($"Unknown key block.link_to_page.{propertyName}")
             }, (Block block) => block.Copy<Block.LinkToPage>()),
+            "synced_block" => Parser.ParseObject(propertyName => propertyName switch
+            {
+                "synced_from" => Parser.ParseType<Block.SyncedFrom>().Updater((Block.SyncedFrom syncedFrom, Block.SyncBlock syncBlock) => syncBlock with {From = syncedFrom}),
+                _ => Parser.FailUpdate<Block.SyncBlock>($"Unknown key block.link_to_page.{propertyName}")
+            }, (Block block) => block.Copy<Block.SyncBlock>()),
             _ => Parser.FailUpdate<Block>($"Unexpected key block.'{property}'")
         }).Parse(ref reader, options);
 }

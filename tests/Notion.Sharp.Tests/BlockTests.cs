@@ -1104,4 +1104,62 @@ public class BlockTests: NotionTestsBase
             table?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
+
+    [Fact]
+    public async Task GetSyncdBlock()
+    {
+        // arrange
+
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.SyncdBlockCopy.ToGuid());
+
+        // assert
+        using (new AssertionScope())
+        {
+            var syncBlock = block as Block.SyncBlock;
+            syncBlock.Should().NotBeNull();
+            syncBlock?.Id.Should().Be(Blocks.SyncdBlockCopy);
+            syncBlock?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:28:00.000Z"));
+            syncBlock?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:28:00.000Z"));
+            syncBlock?.Archived.Should().BeFalse();
+            syncBlock?.HasChildren.Should().BeTrue();
+            syncBlock?.From.Id.Should().Be(Blocks.SyncBlockOriginal);
+
+            var parent = syncBlock?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            syncBlock?.LastEditedBy?.Id.Should().Be(Users.Me);
+            syncBlock?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
+    
+    [Fact]
+    public async Task GetSyncdBlockOriginal()
+    {
+        // arrange
+
+        // act
+        var block = await SUT.GetBlockAsync(Blocks.SyncBlockOriginal.ToGuid());
+
+        // assert
+        using (new AssertionScope())
+        {
+            var syncBlock = block as Block.SyncBlock;
+            syncBlock.Should().NotBeNull();
+            syncBlock?.Id.Should().Be(Blocks.SyncBlockOriginal);
+            syncBlock?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:27:00.000Z"));
+            syncBlock?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:28:00.000Z"));
+            syncBlock?.Archived.Should().BeFalse();
+            syncBlock?.HasChildren.Should().BeTrue();
+            syncBlock?.From.Should().BeNull();
+
+            var parent = syncBlock?.Parent as Parent.Page;
+            parent.Should().NotBeNull();
+            parent?.Id.Should().Be(Pages.PageWithBlocks);
+
+            syncBlock?.LastEditedBy?.Id.Should().Be(Users.Me);
+            syncBlock?.CreatedBy?.Id.Should().Be(Users.Me);
+        }
+    }
 }
