@@ -763,20 +763,20 @@ public class BlockTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var embed = block as Block.Breadcrumb;
-            embed.Should().NotBeNull();
-            embed?.Id.Should().Be(Blocks.Breadcrumb);
-            embed?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:26:00.000Z"));
-            embed?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:26:00.000Z"));
-            embed?.Archived.Should().BeFalse();
-            embed?.HasChildren.Should().BeFalse();
+            var breadcrumb = block as Block.Breadcrumb;
+            breadcrumb.Should().NotBeNull();
+            breadcrumb?.Id.Should().Be(Blocks.Breadcrumb);
+            breadcrumb?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:26:00.000Z"));
+            breadcrumb?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:26:00.000Z"));
+            breadcrumb?.Archived.Should().BeFalse();
+            breadcrumb?.HasChildren.Should().BeFalse();
             
-            var parent = embed?.Parent as Parent.Page;
+            var parent = breadcrumb?.Parent as Parent.Page;
             parent.Should().NotBeNull();
             parent?.Id.Should().Be(Pages.PageWithBlocks);
 
-            embed?.LastEditedBy?.Id.Should().Be(Users.Me);
-            embed?.CreatedBy?.Id.Should().Be(Users.Me);
+            breadcrumb?.LastEditedBy?.Id.Should().Be(Users.Me);
+            breadcrumb?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
     
@@ -791,20 +791,20 @@ public class BlockTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var embed = block as Block.Divider;
-            embed.Should().NotBeNull();
-            embed?.Id.Should().Be(Blocks.Divider);
-            embed?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
-            embed?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
-            embed?.Archived.Should().BeFalse();
-            embed?.HasChildren.Should().BeFalse();
+            var divider = block as Block.Divider;
+            divider.Should().NotBeNull();
+            divider?.Id.Should().Be(Blocks.Divider);
+            divider?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            divider?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            divider?.Archived.Should().BeFalse();
+            divider?.HasChildren.Should().BeFalse();
             
-            var parent = embed?.Parent as Parent.Page;
+            var parent = divider?.Parent as Parent.Page;
             parent.Should().NotBeNull();
             parent?.Id.Should().Be(Pages.PageWithBlocks);
 
-            embed?.LastEditedBy?.Id.Should().Be(Users.Me);
-            embed?.CreatedBy?.Id.Should().Be(Users.Me);
+            divider?.LastEditedBy?.Id.Should().Be(Users.Me);
+            divider?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
     
@@ -819,20 +819,20 @@ public class BlockTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var embed = block as Block.ColumnList;
-            embed.Should().NotBeNull();
-            embed?.Id.Should().Be(Blocks.ColumnList);
-            embed?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:34:00.000Z"));
-            embed?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:34:00.000Z"));
-            embed?.Archived.Should().BeFalse();
-            embed?.HasChildren.Should().BeTrue();
+            var columnList = block as Block.ColumnList;
+            columnList.Should().NotBeNull();
+            columnList?.Id.Should().Be(Blocks.ColumnList);
+            columnList?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:34:00.000Z"));
+            columnList?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:34:00.000Z"));
+            columnList?.Archived.Should().BeFalse();
+            columnList?.HasChildren.Should().BeTrue();
             
-            var parent = embed?.Parent as Parent.Page;
+            var parent = columnList?.Parent as Parent.Page;
             parent.Should().NotBeNull();
             parent?.Id.Should().Be(Pages.PageWithBlocks);
 
-            embed?.LastEditedBy?.Id.Should().Be(Users.Me);
-            embed?.CreatedBy?.Id.Should().Be(Users.Me);
+            columnList?.LastEditedBy?.Id.Should().Be(Users.Me);
+            columnList?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
     
@@ -998,21 +998,21 @@ public class BlockTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var image = block as Block.ChildPage;
-            image.Should().NotBeNull();
-            image?.Id.Should().Be(Blocks.Page);
-            image?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
-            image?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:46:00.000Z"));
-            image?.Archived.Should().BeFalse();
-            image?.HasChildren.Should().BeTrue();
-            image?.Title.Should().Be("Page");
+            var childPage = block as Block.ChildPage;
+            childPage.Should().NotBeNull();
+            childPage?.Id.Should().Be(Blocks.Page);
+            childPage?.CreatedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
+            childPage?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:46:00.000Z"));
+            childPage?.Archived.Should().BeFalse();
+            childPage?.HasChildren.Should().BeTrue();
+            childPage?.Title.Should().Be("Page");
 
-            var parent = image?.Parent as Parent.Page;
+            var parent = childPage?.Parent as Parent.Page;
             parent.Should().NotBeNull();
             parent?.Id.Should().Be(Pages.PageWithBlocks);
 
-            image?.LastEditedBy?.Id.Should().Be(Users.Me);
-            image?.CreatedBy?.Id.Should().Be(Users.Me);
+            childPage?.LastEditedBy?.Id.Should().Be(Users.Me);
+            childPage?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
     
@@ -1027,21 +1027,21 @@ public class BlockTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var image = block as Block.ChildDatabase;
-            image.Should().NotBeNull();
-            image?.Id.Should().Be(Blocks.LinkedDatabase);
-            image?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:43:00.000Z"));
-            image?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:43:00.000Z"));
-            image?.Archived.Should().BeFalse();
-            image?.HasChildren.Should().BeFalse();
-            image?.Title.Should().Be("");
+            var childDatabase = block as Block.ChildDatabase;
+            childDatabase.Should().NotBeNull();
+            childDatabase?.Id.Should().Be(Blocks.LinkedDatabase);
+            childDatabase?.CreatedTime.Should().Be(DateTime.Parse("2023-03-27T16:43:00.000Z"));
+            childDatabase?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:43:00.000Z"));
+            childDatabase?.Archived.Should().BeFalse();
+            childDatabase?.HasChildren.Should().BeFalse();
+            childDatabase?.Title.Should().Be("");
 
-            var parent = image?.Parent as Parent.Page;
+            var parent = childDatabase?.Parent as Parent.Page;
             parent.Should().NotBeNull();
             parent?.Id.Should().Be(Pages.PageWithBlocks);
 
-            image?.LastEditedBy?.Id.Should().Be(Users.Me);
-            image?.CreatedBy?.Id.Should().Be(Users.Me);
+            childDatabase?.LastEditedBy?.Id.Should().Be(Users.Me);
+            childDatabase?.CreatedBy?.Id.Should().Be(Users.Me);
         }
     }
     
