@@ -31,6 +31,7 @@ public static class Notion
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 Converters =
                 {
+                    new JsonStringEnumConverter(),
                     new UserConverter(),
                     new BlockConverter
                     {
