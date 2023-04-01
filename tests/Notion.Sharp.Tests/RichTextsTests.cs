@@ -1,49 +1,412 @@
-﻿using Notion.Sharp.Tests.Utils;
+﻿using FluentAssertions.Execution;
+using Notion.Sharp.Tests.Utils;
+using Users = Notion.Sharp.Tests.Utils.Users;
 
 namespace Notion.Sharp.Tests;
 
 public class RichTextsTests : NotionTestsBase
 {
-    [Theory(Skip = "It's broken")]
-    [InlineData("3bbf6ded7f2d467c85d36bc284fcaef1")]
-    [InlineData("83de0d65771d4281b92a9e7a88097259")]
-    [InlineData("3321337b0208402db5541969f0cb6251")]
-    [InlineData("67f26dd5e73c452e82308c289d8e3996")]
-    [InlineData("9ad3666614394d2fbd661a6ee184f254")]
-    [InlineData("30e286a392b0413992ea355facf9e195")]
-    [InlineData("fea9c0130e8743cc9608c227b6bca5a9")]
-    [InlineData("25c3c8f17ef047a3b3a6da6e99d255bf")]
-    public async Task GetRichText(string guid)
+    [Fact]
+    public async Task GetBlockWithBold()
     {
-        var block = await SUT.GetBlockAsync(new Guid(guid));
-        block.Should().NotBeNull();
-    }
-
-    [Theory(Skip = "It's broken")]
-    [MemberData(nameof(RichTexts))]
-    public async Task AppendRichText_Succed(RichText richText) => await RetryAsync(async () =>
-    {
-        var result = await SUT.AppendBlockChildrenAsync(Pages.Page.ToGuid(), new List<Block>
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.Bold.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
         {
-            new Block.Paragraph
-            {
-                Text = new RichText[]
-                {
-                    richText
-                }
-            }
-        });
-        var block = await SUT.DeleteBlockAsync(result.Results[0].Id);
-    }, 3);
-
-    public static TheoryData<RichText> RichTexts { get; } = new TheoryData<RichText>
+            var paragraph = block as Block.Paragraph;
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("bold");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("bold");
+            richText?.Annotations.Bold.Should().BeTrue();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetItalic()
     {
-        new RichText.Text { Content = "Some text here and there" },
-        new RichText.Text { Content = "Some text here and there", Link = new Link { Url = new Uri("https://google.com") } },
-        new RichText.DatabaseMention { Id = new Guid("a6dbd20bafdb4b3e857bcf04a77ee3b5") },
-        new RichText.PageMention { Id = new Guid("72437ca5b34c484f901a6f2368f5199e") },
-        new RichText.DateMention { Start = DateTime.Today, End = DateTime.Today },
-        new RichText.UserMention { User = new User.Person { Id = new Guid("6591a4d4-ca53-4b54-a3ca-7d2420d6b902") } },
-        new RichText.Equation { Expression = "1 + 1" },
-    };
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.Italic.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("italic");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("italic");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeTrue();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetUnderline()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.Underline.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("underline");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("underline");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeTrue();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetStrikethrough()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.StrikeThrough.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("strikethrough");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("strikethrough");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeTrue();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetCode()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.Code.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("code");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("code");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeTrue();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetColor()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.Foreground.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Foreground");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Foreground");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Blue);
+        }
+    }
+    
+    [Fact]
+    public async Task GetEquation()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.Equation.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var equation = paragraph?.Text[0] as RichText.Equation;
+            equation.Should().NotBeNull();
+            equation?.PlainText.Should().Be("equation");
+            equation?.Annotations.Bold.Should().BeFalse();
+            equation?.Annotations.Italic.Should().BeFalse();
+            equation?.Annotations.Underline.Should().BeFalse();
+            equation?.Annotations.Strikethrough.Should().BeFalse();
+            equation?.Annotations.Code.Should().BeFalse();
+            equation?.Annotations.Color.Should().Be(Color.Default);
+            equation?.Expression.Should().Be("equation");
+        }
+    }
+    
+    [Fact]
+    public async Task GetMentionToPage()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.MentionBlock.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var mention = paragraph?.Text[0] as RichText.PageMention;
+            mention.Should().NotBeNull();
+            mention?.PlainText.Should().Be("Parent page for tests");
+            mention?.Annotations.Bold.Should().BeFalse();
+            mention?.Annotations.Italic.Should().BeFalse();
+            mention?.Annotations.Underline.Should().BeFalse();
+            mention?.Annotations.Strikethrough.Should().BeFalse();
+            mention?.Annotations.Code.Should().BeFalse();
+            mention?.Annotations.Color.Should().Be(Color.Default);
+            mention?.Id.Should().Be(Pages.Parent);
+        }
+    }
+    
+    [Fact]
+    public async Task GetMentionDate()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.MentionToday.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var mention = paragraph?.Text[0] as RichText.DateMention;
+            mention.Should().NotBeNull();
+            mention?.PlainText.Should().Be("2023-03-27");
+            mention?.Annotations.Bold.Should().BeFalse();
+            mention?.Annotations.Italic.Should().BeFalse();
+            mention?.Annotations.Underline.Should().BeFalse();
+            mention?.Annotations.Strikethrough.Should().BeFalse();
+            mention?.Annotations.Code.Should().BeFalse();
+            mention?.Annotations.Color.Should().Be(Color.Default);
+            mention?.Start.Should().Be(DateTime.Parse("2023-03-27"));
+            mention?.End.Should().BeNull();
+            mention?.TimeZone.Should().BeNull();
+        }
+    }
+    
+    [Fact]
+    public async Task GetPersonMention()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.MentionPerson.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var mention = paragraph?.Text[0] as RichText.UserMention;
+            mention.Should().NotBeNull();
+            mention?.PlainText.Should().Be("@Petru Cervac");
+            mention?.Annotations.Bold.Should().BeFalse();
+            mention?.Annotations.Italic.Should().BeFalse();
+            mention?.Annotations.Underline.Should().BeFalse();
+            mention?.Annotations.Strikethrough.Should().BeFalse();
+            mention?.Annotations.Code.Should().BeFalse();
+            mention?.Annotations.Color.Should().Be(Color.Default);
+            var person = mention.User as User.Person;
+            person?.Id.Should().Be(Users.Me);
+            person?.Name.Should().Be("Petru Cervac");
+            person?.AvatarUrl.Should().Be("https://lh3.googleusercontent.com/a-/AOh14GhcBvrhyvv32v0kTVHocfT7oex0gofyo0r6OjoHPw=s100");
+            person?.Email.Should().Be("petru.cervac@gmail.com");
+        }
+    }
+    
+    [Fact]
+    public async Task GetBoldAndItalic()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.BoldAndItalic.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("Bold and Italic");
+            richText?.Link.Should().BeNull();
+            richText?.PlainText.Should().Be("Bold and Italic");
+            richText?.Annotations.Bold.Should().BeTrue();
+            richText?.Annotations.Italic.Should().BeTrue();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetBoldThenItalic()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.BoldThenItalic.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(3);
+            
+            var bold = paragraph?.Text[0] as RichText.Text;
+            bold.Should().NotBeNull();
+            bold?.Content.Should().Be("Bold ");
+            bold?.Link.Should().BeNull();
+            bold?.PlainText.Should().Be("Bold ");
+            bold?.Annotations.Bold.Should().BeTrue();
+            bold?.Annotations.Italic.Should().BeFalse();
+            bold?.Annotations.Underline.Should().BeFalse();
+            bold?.Annotations.Strikethrough.Should().BeFalse();
+            bold?.Annotations.Code.Should().BeFalse();
+            bold?.Annotations.Color.Should().Be(Color.Default);
+            
+            var normal = paragraph?.Text[1] as RichText.Text;
+            normal.Should().NotBeNull();
+            normal?.Content.Should().Be("then ");
+            normal?.Link.Should().BeNull();
+            normal?.PlainText.Should().Be("then ");
+            normal?.Annotations.Bold.Should().BeFalse();
+            normal?.Annotations.Italic.Should().BeFalse();
+            normal?.Annotations.Underline.Should().BeFalse();
+            normal?.Annotations.Strikethrough.Should().BeFalse();
+            normal?.Annotations.Code.Should().BeFalse();
+            normal?.Annotations.Color.Should().Be(Color.Default);
+            
+            var italic = paragraph?.Text[2] as RichText.Text;
+            italic.Should().NotBeNull();
+            italic?.Content.Should().Be("Italic");
+            italic?.Link.Should().BeNull();
+            italic?.PlainText.Should().Be("Italic");
+            italic?.Annotations.Bold.Should().BeFalse();
+            italic?.Annotations.Italic.Should().BeTrue();
+            italic?.Annotations.Underline.Should().BeFalse();
+            italic?.Annotations.Strikethrough.Should().BeFalse();
+            italic?.Annotations.Code.Should().BeFalse();
+            italic?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetLink()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.LinkToWebsite.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("link to website");
+            richText?.Link.Url.Should().Be("https://google.com");
+            richText?.PlainText.Should().Be("link to website");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
+    
+    [Fact]
+    public async Task GetLinkToPage()
+    {
+        // arrange
+        
+        // act
+        var block = await SUT.GetBlockAsync(RichTexts.LinkPage.ToGuid());
+        
+        // assert
+        using (new AssertionScope())
+        {
+            var paragraph = block as Block.Paragraph;
+            paragraph?.Text.Should().HaveCount(1);
+            var richText = paragraph?.Text[0] as RichText.Text;
+            richText.Should().NotBeNull();
+            richText?.Content.Should().Be("link to page");
+            richText?.Link.Url.Should().Be("/b5d544834cb14fd3a80e897da4827770");
+            richText?.PlainText.Should().Be("link to page");
+            richText?.Annotations.Bold.Should().BeFalse();
+            richText?.Annotations.Italic.Should().BeFalse();
+            richText?.Annotations.Underline.Should().BeFalse();
+            richText?.Annotations.Strikethrough.Should().BeFalse();
+            richText?.Annotations.Code.Should().BeFalse();
+            richText?.Annotations.Color.Should().Be(Color.Default);
+        }
+    }
 }
