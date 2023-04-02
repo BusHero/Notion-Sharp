@@ -28,53 +28,53 @@ internal class BlockConverter : MyJsonConverter<Block>
             "paragraph" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Paragraph paragraph) => paragraph with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.Paragraph paragraph) => paragraph with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Paragraph paragraph) => paragraph with { Color = color }),
                 _ => Parser.FailUpdate<Block.Paragraph>($"Unknown key block.paragraph.{propertyName}")
             }, (Block block) => block.Copy<Block.Paragraph>()),
             "heading_1" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Heading1 heading1) => heading1 with { Text = text }),
                 "is_toggleable" => Parser.Bool.Updater((bool isToggleable, Block.Heading1 heading1) => heading1 with {IsToggable = isToggleable}),
-                "color" => Parser.String.Updater((string color, Block.Heading1 heading1) => heading1 with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Heading1 heading1) => heading1 with { Color = color }),
                 _ => Parser.FailUpdate<Block.Heading1>($"Unknown key block.heading_1.{propertyName}")
             }, (Block block) => block.Copy<Block.Heading1>()),
             "heading_2" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Heading2 heading2) => heading2 with { Text = text }),
                 "is_toggleable" => Parser.Bool.Updater((bool isToggleable, Block.Heading2 heading2) => heading2 with {IsToggable = isToggleable}),
-                "color" => Parser.String.Updater((string color, Block.Heading2 heading2) => heading2 with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Heading2 heading2) => heading2 with { Color = color }),
                 _ => Parser.FailUpdate<Block.Heading2>($"Unknown key block.heading_2.{propertyName}")
             }, (Block block) => block.Copy<Block.Heading2>()),
             "heading_3" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Heading3 heading3) => heading3 with { Text = text }),
                 "is_toggleable" => Parser.Bool.Updater((bool isToggleable, Block.Heading3 heading3) => heading3 with {IsToggable = isToggleable}),
-                "color" => Parser.String.Updater((string color, Block.Heading3 heading3) => heading3 with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Heading3 heading3) => heading3 with { Color = color }),
                 _ => Parser.FailUpdate<Block.Heading3>($"Unknown key block.heading_3.{propertyName}")
             }, (Block block) => block.Copy<Block.Heading3>()),
             "bulleted_list_item" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.BulletedListItem bulletedListItem) => bulletedListItem with { Color = color }),
                 _ => Parser.FailUpdate<Block.BulletedListItem>($"Unknown key block.bulleted_list_item.{propertyName}")
             }, (Block block) => block.Copy<Block.BulletedListItem>()),
             "numbered_list_item" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.NumberedListItem numberedListItem) => numberedListItem with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.NumberedListItem numberedListItem) => numberedListItem with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.NumberedListItem numberedListItem) => numberedListItem with { Color = color }),
                 _ => Parser.FailUpdate<Block.NumberedListItem>($"Unknown key block.numbered_list_item.{propertyName}")
             }, (Block block) => block.Copy<Block.NumberedListItem>()),
             "to_do" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.ToDo toDo) => toDo with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.ToDo toDo) => toDo with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.ToDo toDo) => toDo with { Color = color }),
                 "checked" => Parser.Bool.Updater((bool @checked, Block.ToDo toDo) => toDo with { Checked = @checked }),
                 _ => Parser.FailUpdate<Block.ToDo>($"Unknown key block.to_do.{propertyName}")
             }, (Block block) => block.Copy<Block.ToDo>()),
             "toggle" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Toggle toggle) => toggle with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.Toggle toggle) => toggle with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Toggle toggle) => toggle with { Color = color }),
                 _ => Parser.FailUpdate<Block.Toggle>($"Unknown key block.toggle.{propertyName}")
             }, (Block block) => block.Copy<Block.Toggle>()),
             "child_page" => Parser.ParseObject(propertyName => propertyName switch
@@ -107,14 +107,14 @@ internal class BlockConverter : MyJsonConverter<Block>
             "callout" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Callout callout) => callout with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.Callout callout) => callout with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Callout callout) => callout with { Color = color }),
                 "icon" => Parser.ParseType<Emoji>().Updater((Emoji icon, Block.Callout callout) => callout with { Icon = icon }),
                 _ => Parser.FailUpdate<Block.Callout>($"Unknown key block.callout.{propertyName}")
             }, (Block block) => block.Copy<Block.Callout>()),
             "quote" => Parser.ParseObject(propertyName => propertyName switch
             {
                 "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] text, Block.Quote quote) => quote with { Text = text }),
-                "color" => Parser.String.Updater((string color, Block.Quote quote) => quote with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.Quote quote) => quote with { Color = color }),
                 _ => Parser.FailUpdate<Block.Quote>($"Unknown key block.quote.{propertyName}")
             }, (Block block) => block.Copy<Block.Quote>()),
             "code" => Parser.ParseObject(propertyName => propertyName switch
@@ -137,7 +137,7 @@ internal class BlockConverter : MyJsonConverter<Block>
             "divider" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Divider>()),
             "table_of_contents" => Parser.ParseObject(propertyName => propertyName switch
             {
-                "color" => Parser.String.Updater((string color, Block.TableOfContents tableOfContents) => tableOfContents with { Color = color }),
+                "color" => Parser.ParseType<Color>().Updater((Color color, Block.TableOfContents tableOfContents) => tableOfContents with { Color = color }),
                 _ => Parser.FailUpdate<Block.TableOfContents>($"Unknown key block.equation.{propertyName}")
             }, (Block block) => block.Copy<Block.TableOfContents>()),
             "breadcrumb" => Parser.EmptyObject.Updater((Void _, Block block) => block.Copy<Block.Breadcrumb>()),

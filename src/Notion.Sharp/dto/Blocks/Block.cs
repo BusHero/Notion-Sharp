@@ -46,53 +46,53 @@ public record Block
     public record Paragraph : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record Heading1 : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
         public bool IsToggable { get; set; }
     }
 
     public record Heading2 : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
         public bool IsToggable { get; set; }
     }
 
     public record Heading3 : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
         public bool IsToggable { get; set; }
     }
 
     public record NumberedListItem : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record BulletedListItem : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record ToDo : Block
     {
         public RichText[] Text { get; set; }
         public bool Checked { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record Toggle : Block
     {
         public RichText[] Text { get; set; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record Code : Block
@@ -234,14 +234,14 @@ public record Block
     public record Callout : Block
     {
         public RichText[] Text { get; init; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
         public Emoji Icon { get; init; }
     }
 
     public record Quote : Block
     {
         public RichText[] Text { get; init; }
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record Equation : Block
@@ -256,7 +256,7 @@ public record Block
 
     public record TableOfContents : Block
     {
-        public string Color { get; set; }
+        public Color Color { get; set; }
     }
 
     public record Unsupported : Block { }

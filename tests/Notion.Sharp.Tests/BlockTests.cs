@@ -25,7 +25,7 @@ public class BlockTests: NotionTestsBase
             paragraph?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T05:51:00.000Z"));
             paragraph?.Archived.Should().BeFalse();
             paragraph?.HasChildren.Should().BeFalse();
-            paragraph?.Color.Should().Be("default");
+            paragraph?.Color.Should().Be(Color.Default);
             paragraph?.Text.Should().ContainSingle();
             
             var richText = paragraph?.Text[0] as RichText.Text;
@@ -67,7 +67,7 @@ public class BlockTests: NotionTestsBase
             toggle?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:00:00.000Z"));
             toggle?.Archived.Should().BeFalse();
             toggle?.HasChildren.Should().BeFalse();
-            toggle?.Color.Should().Be("default");
+            toggle?.Color.Should().Be(Color.Default);
             toggle?.Text.Should().ContainSingle();
             
             var richText = toggle?.Text[0] as RichText.Text;
@@ -109,7 +109,7 @@ public class BlockTests: NotionTestsBase
             todo?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:30:00.000Z"));
             todo?.Archived.Should().BeFalse();
             todo?.HasChildren.Should().BeFalse();
-            todo?.Color.Should().Be("default");
+            todo?.Color.Should().Be(Color.Default);
             todo?.Text.Should().ContainSingle();
             todo?.Checked.Should().BeTrue();
             
@@ -152,7 +152,7 @@ public class BlockTests: NotionTestsBase
             callout?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:01:00.000Z"));
             callout?.Archived.Should().BeFalse();
             callout?.HasChildren.Should().BeFalse();
-            callout?.Color.Should().Be("gray_background");
+            callout?.Color.Should().Be(Color.GrayBackground);
             callout?.Text.Should().ContainSingle();
             
             var richText = callout?.Text[0] as RichText.Text;
@@ -227,7 +227,7 @@ public class BlockTests: NotionTestsBase
             quote?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T20:00:00.000Z"));
             quote?.Archived.Should().BeFalse();
             quote?.HasChildren.Should().BeFalse();
-            quote?.Color.Should().Be("default");
+            quote?.Color.Should().Be(Color.Default);
             quote?.Text.Should().ContainSingle();
             
             var richText = quote?.Text[0] as RichText.Text;
@@ -340,7 +340,7 @@ public class BlockTests: NotionTestsBase
             bulletedListItem?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:58:00.000Z"));
             bulletedListItem?.Archived.Should().BeFalse();
             bulletedListItem?.HasChildren.Should().BeFalse();
-            bulletedListItem?.Color.Should().Be("default");
+            bulletedListItem?.Color.Should().Be(Color.Default);
             bulletedListItem?.Text.Should().ContainSingle();
             
             var richText = bulletedListItem?.Text[0] as RichText.Text;
@@ -382,7 +382,7 @@ public class BlockTests: NotionTestsBase
             numberedListItem?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:58:00.000Z"));
             numberedListItem?.Archived.Should().BeFalse();
             numberedListItem?.HasChildren.Should().BeFalse();
-            numberedListItem?.Color.Should().Be("default");
+            numberedListItem?.Color.Should().Be(Color.Default);
             numberedListItem?.Text.Should().ContainSingle();
             
             var richText = numberedListItem?.Text[0] as RichText.Text;
@@ -424,7 +424,7 @@ public class BlockTests: NotionTestsBase
             heading1?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:14:00.000Z"));
             heading1?.Archived.Should().BeFalse();
             heading1?.HasChildren.Should().BeFalse();
-            heading1?.Color.Should().Be("default");
+            heading1?.Color.Should().Be(Color.Default);
             heading1?.Text.Should().ContainSingle();
             heading1?.IsToggable.Should().BeFalse();
             
@@ -467,7 +467,7 @@ public class BlockTests: NotionTestsBase
             heading2?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:19:00.000Z"));
             heading2?.Archived.Should().BeFalse();
             heading2?.HasChildren.Should().BeFalse();
-            heading2?.Color.Should().Be("default");
+            heading2?.Color.Should().Be(Color.Default);
             heading2?.Text.Should().ContainSingle();
             heading2?.IsToggable.Should().BeFalse();
             
@@ -510,7 +510,7 @@ public class BlockTests: NotionTestsBase
             heading1?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-26T19:19:00.000Z"));
             heading1?.Archived.Should().BeFalse();
             heading1?.HasChildren.Should().BeFalse();
-            heading1?.Color.Should().Be("default");
+            heading1?.Color.Should().Be(Color.Default);
             heading1?.Text.Should().ContainSingle();
             heading1?.IsToggable.Should().BeFalse();
             
@@ -553,7 +553,7 @@ public class BlockTests: NotionTestsBase
             heading1?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:32:00.000Z"));
             heading1?.Archived.Should().BeFalse();
             heading1?.HasChildren.Should().BeFalse();
-            heading1?.Color.Should().Be("default");
+            heading1?.Color.Should().Be(Color.Default);
             heading1?.Text.Should().ContainSingle();
             heading1?.IsToggable.Should().BeTrue();
             
@@ -882,7 +882,7 @@ public class BlockTests: NotionTestsBase
             tableOfContents?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:23:00.000Z"));
             tableOfContents?.Archived.Should().BeFalse();
             tableOfContents?.HasChildren.Should().BeFalse();
-            tableOfContents?.Color.Should().Be("default");
+            tableOfContents?.Color.Should().Be(Color.Default);
             
             var parent = tableOfContents?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -1091,7 +1091,7 @@ public class BlockTests: NotionTestsBase
             table.Should().NotBeNull();
             table?.Id.Should().Be(Blocks.LinkPreview);
             table?.CreatedTime.Should().Be(DateTime.Parse("2023-03-31T05:50:00.000Z"));
-            table?.LastEditedTime.Should().Be(DateTime.Parse("2023-04-01T06:14:00.000Z"));
+            table?.LastEditedTime.Should().Be(DateTime.Parse("2023-04-01T22:35:00.000Z"));
             table?.Archived.Should().BeFalse();
             table?.HasChildren.Should().BeFalse();
             table?.Url.Should().Be("https://github.com/BusHero/Notion-Sharp");

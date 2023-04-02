@@ -1,4 +1,6 @@
-﻿namespace Notion.Model;
+﻿using System.Text.Json.Serialization;
+
+namespace Notion.Model;
 
 public enum Color
 {
