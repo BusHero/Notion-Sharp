@@ -5,6 +5,7 @@ using Refit;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,6 +13,26 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Notion;
+
+class SnakeCase: JsonNamingPolicy
+{
+    public override string ConvertName(string name)
+    {
+        var result = name
+            .Split('_')
+            .Select(x => x.Capitalize())
+            .Aggregate((w1, w2) => w1 + w2);
+        return result;
+    }
+}
+
+public static class StringExtensions
+{
+    public static string Capitalize(this string word)
+    {
+        return word[..1].ToUpper() + word[1..];
+    }
+}
 
 public static class Notion
 {
@@ -31,7 +52,7 @@ public static class Notion
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 Converters =
                 {
-                    new JsonStringEnumConverter(),
+                    new ColorConverter(),
                     new UserConverter(),
                     new BlockConverter
                     {
