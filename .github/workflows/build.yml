@@ -25,4 +25,4 @@ jobs:
         run: |
           dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
       - name: Nuke
-        run: dotnet run --project build --configuration Release
+        run: ./build.sh --configuration Release
