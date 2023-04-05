@@ -1,4 +1,5 @@
 ﻿using Notion.Sharp.Tests.Utils;
+using Users = Notion.Sharp.Tests.Utils.Users;
 
 namespace Notion.Sharp.Tests;
 
@@ -21,21 +22,21 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task GetUsers()
     {
-        PaginationList<User> users = await SUT.GetUsersAsync();
+        PaginationList<User> users = await Sut.GetUsersAsync();
         users.Should().NotBeNull();
     }
 
     [Fact]
     public async Task GetMe()
     {
-        User me = await SUT.GetMeAsync();
+        User me = await Sut.GetMeAsync();
         me.Should().BeOfType<User.Bot>();
     }
 
     [Fact]
     public async Task GetUser_Fails_OnInvalidId()
     {
-        await SUT.Awaiting(sut => sut.GetUserAsync(Guid.NewGuid()))
+        await Sut.Awaiting(sut => sut.GetUserAsync(Guid.NewGuid()))
             .Should()
             .ThrowAsync<NotionException>();
     }
@@ -43,7 +44,7 @@ public class ModelTests : NotionTestsBase
     [Fact]
     public async Task GetUser_Succeds_OnValidId()
     {
-        User user = await SUT.GetUserAsync(ValidUserId);
+        User user = await Sut.GetUserAsync(Users.Me.ToGuid());
         user.Should().NotBeNull();
     }
 
@@ -51,23 +52,23 @@ public class ModelTests : NotionTestsBase
 
     #region Databases
 
-    [Fact(Skip = "It's broken")]
-    public async Task UpdateDatabase_Succeds() => await RetryAsync(async () =>
-    {
-        var database = await SUT.GetDatabaseAsync(SimpleDatabase);
-        database = database with
-        {
-            Title = new RichText[]
-            {
-                new RichText.Text
-                {
-                    Content = "some new title"
-                }
-            }
-        };
-        await SUT.UpdateDatabaseAsync(database);
-
-    }, 3);
+    // [Fact(Skip = "It's broken")]
+    // public async Task UpdateDatabase_Succeds() => await RetryAsync(async () =>
+    // {
+    //     var database = await Sut.GetDatabaseAsync(SimpleDatabase);
+    //     database = database with
+    //     {
+    //         Title = new RichText[]
+    //         {
+    //             new RichText.Text
+    //             {
+    //                 Content = "some new title"
+    //             }
+    //         }
+    //     };
+    //     await Sut.UpdateDatabaseAsync(database);
+    //
+    // }, 3);
 
     [Fact(Skip = "It's broken")]
     public async Task CreateDatabase_Succeds() => await RetryAsync(async () =>
@@ -93,39 +94,39 @@ public class ModelTests : NotionTestsBase
             }
         };
         database = database with { Parent = new Parent.Page { Id = Pages.Page.ToGuid() } };
-        await SUT.CreateDatabaseAsync(database);
+        await Sut.CreateDatabaseAsync(database);
     }, 3);
 
     [Fact(Skip = "It's broken")]
     public async Task GetDatabase_Fails_OnInvalidId()
     {
-        await SUT.Awaiting(sut => sut.GetDatabaseAsync(Guid.NewGuid()))
+        await Sut.Awaiting(sut => sut.GetDatabaseAsync(Guid.NewGuid()))
             .Should()
             .ThrowAsync<NotionException>();
     }
 
-    [Fact(Skip = "It's broken")]
-    public async Task GetDatabase_Succeds_OnValidId()
-    {
-        Database database = await SUT.GetDatabaseAsync(ValidDatabaseId);
-        database.Should().NotBeNull();
-    }
+    // [Fact(Skip = "It's broken")]
+    // public async Task GetDatabase_Succeds_OnValidId()
+    // {
+    //     Database database = await Sut.GetDatabaseAsync(ValidDatabaseId);
+    //     database.Should().NotBeNull();
+    // }
 
-    [Fact(Skip = "It's broken")]
-    public async Task QueryDatabase_Succeds() => await RetryAsync(async () =>
-    {
-        var results = await SUT.QueryDatabaseAsync(ValidDatabaseId, new
-        {
-
-        });
-        results.Should().NotBeNull();
-    }, 3);
+    // [Fact(Skip = "It's broken")]
+    // public async Task QueryDatabase_Succeds() => await RetryAsync(async () =>
+    // {
+    //     var results = await Sut.QueryDatabaseAsync(ValidDatabaseId, new
+    //     {
+    //
+    //     });
+    //     results.Should().NotBeNull();
+    // }, 3);
 
 
     [Fact(Skip = "It's broken")]
     public async Task QueryDatabase_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
-        await SUT.Awaiting(sut => sut.QueryDatabaseAsync(Guid.NewGuid(), new
+        await Sut.Awaiting(sut => sut.QueryDatabaseAsync(Guid.NewGuid(), new
         {
 
         })).Should().ThrowAsync<NotionException>();
@@ -138,43 +139,43 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task UpdatePage_Succeds_OnValidId() => await RetryAsync(async () =>
     {
-        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
-        var result = SUT.UpdatePageAsync(page);
+        var page = await Sut.GetPageAsync(Pages.Page.ToGuid());
+        var result = Sut.UpdatePageAsync(page);
         result.Should().NotBeNull();
     }, 3);
 
     [Fact(Skip = "It's broken")]
     public async Task UpdatePage_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
-        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.Page.ToGuid());
         page = page with { Id = Guid.NewGuid() };
-        await SUT.Awaiting(sut => sut.UpdatePageAsync(page)).Should().ThrowAsync<NotionException>();
+        await Sut.Awaiting(sut => sut.UpdatePageAsync(page)).Should().ThrowAsync<NotionException>();
     }, 3);
 
     [Fact(Skip = "It's broken")]
     public async Task GetPage_Fails_OnInvalidId()
     {
-        await SUT.Awaiting(sut => sut.GetPageAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
+        await Sut.Awaiting(sut => sut.GetPageAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
     }
 
     [Fact(Skip = "It's broken")]
     public async Task GetPage_Succeds_OnValidId()
     {
-        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.Page.ToGuid());
         page.Should().NotBeNull();
     }
 
-    [Fact(Skip = "It's broken")]
-    public async Task GetPageFromDatabase_Succeds()
-    {
-        Page page = await SUT.GetPageAsync(PageFromDatabase);
-        page.Should().NotBeNull();
-    }
+    // [Fact(Skip = "It's broken")]
+    // public async Task GetPageFromDatabase_Succeds()
+    // {
+    //     Page page = await Sut.GetPageAsync(PageFromDatabase);
+    //     page.Should().NotBeNull();
+    // }
 
     [Fact(Skip = "It's broken")]
     public async Task CreatePage_Succeds() => await RetryAsync(async () =>
     {
-        var result = await SUT.CreatePageAsync(new Page
+        var result = await Sut.CreatePageAsync(new Page
         {
             Parent = new Parent.Page
             {
@@ -200,7 +201,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task CreatePageWithChildren_Succeds() => await RetryAsync(async () =>
     {
-        var result = await SUT.CreatePageAsync(new Page
+        var result = await Sut.CreatePageAsync(new Page
         {
             Parent = new Parent.Page
             {
@@ -243,7 +244,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task GetBlocksChildren_Fails_OnInvalidId()
     {
-        await SUT.Awaiting(sut => sut.GetBlocksChildrenAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
+        await Sut.Awaiting(sut => sut.GetBlocksChildrenAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
     }
 
     [Theory(Skip = "It's broken")]
@@ -252,14 +253,14 @@ public class ModelTests : NotionTestsBase
     [InlineData("e392eaec-2dae-47ca-b24f-c0e72783ffe5")]
     public async Task GetBlocks_Succeds_OnValidId(string id)
     {
-        var blocks = await SUT.GetBlocksChildrenAsync(Guid.Parse(id));
+        var blocks = await Sut.GetBlocksChildrenAsync(Guid.Parse(id));
         blocks.Should().NotBeNull();
     }
 
     [Fact(Skip = "It's broken")]
     public async Task GetBlock_Fails_OnInvalidId()
     {
-        await SUT.Awaiting(sut => sut.GetBlockAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
+        await Sut.Awaiting(sut => sut.GetBlockAsync(Guid.NewGuid())).Should().ThrowAsync<NotionException>();
     }
 
     [Theory(Skip = "It's broken")]
@@ -267,14 +268,14 @@ public class ModelTests : NotionTestsBase
     [InlineData("68d00e3a200b497e80d82285708d58d2")]
     public async Task GetBlock_Succeds_OnValidId(string id)
     {
-        var block = await SUT.GetBlockAsync(Guid.Parse(id));
+        var block = await Sut.GetBlockAsync(Guid.Parse(id));
         block.Should().NotBeNull();
     }
 
     [Fact(Skip = "It's broken")]
     public async Task AppendChildren_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
-        var result = await SUT.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new List<Block>
+        var result = await Sut.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new List<Block>
                {
                    new Block.Heading2
                    {
@@ -289,29 +290,29 @@ public class ModelTests : NotionTestsBase
                })).Should().ThrowAsync<NotionException>();
     }, 3);
 
-    [Fact(Skip = "It's broken")]
-    public async Task UpdateBlock_Succeds() => await RetryAsync(async () =>
-    {
-        var block = await SUT.GetBlockAsync(ValidBlockId);
-        var result = await SUT.UpdateBlockAsync(block);
-        result.Should().NotBeNull();
-    }, 3);
-
-    [Fact(Skip = "It's broken")]
-    public async Task UpdateBlock_Fails_OnInvalidId() => await RetryAsync(async () =>
-    {
-        var block = await SUT.GetBlockAsync(ValidBlockId);
-        block = block with
-        {
-            Id = Guid.NewGuid()
-        };
-        await SUT.Awaiting(sut => sut.UpdateBlockAsync(block)).Should().ThrowAsync<NotionException>();
-    }, 3);
+    // [Fact(Skip = "It's broken")]
+    // public async Task UpdateBlock_Succeds() => await RetryAsync(async () =>
+    // {
+    //     var block = await Sut.GetBlockAsync(ValidBlockId);
+    //     var result = await Sut.UpdateBlockAsync(block);
+    //     result.Should().NotBeNull();
+    // }, 3);
+    //
+    // [Fact(Skip = "It's broken")]
+    // public async Task UpdateBlock_Fails_OnInvalidId() => await RetryAsync(async () =>
+    // {
+    //     var block = await Sut.GetBlockAsync(ValidBlockId);
+    //     block = block with
+    //     {
+    //         Id = Guid.NewGuid()
+    //     };
+    //     await Sut.Awaiting(sut => sut.UpdateBlockAsync(block)).Should().ThrowAsync<NotionException>();
+    // }, 3);
 
     [Fact(Skip = "It's broken")]
     public async Task DeleteBlock_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
-        await SUT.Awaiting(sut => sut.DeleteBlockAsync(Guid.NewGuid()))
+        await Sut.Awaiting(sut => sut.DeleteBlockAsync(Guid.NewGuid()))
             .Should()
             .ThrowAsync<NotionException>();
     }, 3);
@@ -319,7 +320,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task DeleteBlock_Succeds() => await RetryAsync(async () =>
     {
-        var result = await SUT.AppendBlockChildrenAsync(Pages.Page.ToGuid(), new List<Block>
+        var result = await Sut.AppendBlockChildrenAsync(Pages.Page.ToGuid(), new List<Block>
            {
                new Block.Heading2
                {
@@ -332,7 +333,7 @@ public class ModelTests : NotionTestsBase
                    }
                }
            });
-        var result2 = await SUT.DeleteBlockAsync(result.Results[0].Id);
+        var result2 = await Sut.DeleteBlockAsync(result.Results[0].Id);
         result2.Should().NotBeNull();
     }, 3);
 
@@ -344,7 +345,7 @@ public class ModelTests : NotionTestsBase
     public async Task Search_Succeds_OnValidParameter() => await RetryAsync(async () =>
     {
         //var result = await SUT.SearchAsync("foo");
-        PaginationList<PageOrDatabase> result = await SUT.SearchAsync(
+        PaginationList<PageOrDatabase> result = await Sut.SearchAsync(
             new(
             //query: "foo",
             //sort: new Sort(direction: "ascending", timestamp: "last_edited_time"),
@@ -357,76 +358,76 @@ public class ModelTests : NotionTestsBase
 
     #endregion
 
-    [Theory(Skip = "It's broken")]
-    [InlineData("AVTB", "date")]
-    [InlineData("Ki=]", "date")]
-    [InlineData("kb;E", "date")]
-    [InlineData("djkn", "date")]
-    [InlineData("DVQN", "formula")]
-    [InlineData("Gqpt", "formula")]
-    [InlineData("U|OM", "formula")]
-    [InlineData("Zfk]", "formula")]
-    [InlineData("kC]\\", "formula")]
-    [InlineData("G=~V", "multi_select")]
-    [InlineData("}Bf`", "multi_select")]
-    [InlineData("LqOn", "multi_select")]
-    [InlineData("JHTr", "number")]
-    [InlineData("Kxm}", "select")]
-    [InlineData("O>||", "files")]
-    [InlineData("TJeJ", "files")]
-    [InlineData("ZjRa", "number")]
-    [InlineData("i;<u", "url")]
-    [InlineData("uX|q", "email")]
-    [InlineData("_x|k", "phone_number")]
-    [InlineData("BADZ", "created_time")]
-    [InlineData("jIE]", "created_by")]
-    [InlineData("L|rs", "last_edited_time")]
-    [InlineData("t}ga", "last_edited_by")]
-    public async Task GetPageProperty_Succeds_OnValidPageIdAndPropertyId(string id, string propertyName)
-    {
-        var result = await SUT.GetPagePropertyAsync(PageFromDatabase, id);
-        var property = result.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
-        property.GetValue(result).Should().NotBeNull();
-    }
+    // [Theory(Skip = "It's broken")]
+    // [InlineData("AVTB", "date")]
+    // [InlineData("Ki=]", "date")]
+    // [InlineData("kb;E", "date")]
+    // [InlineData("djkn", "date")]
+    // [InlineData("DVQN", "formula")]
+    // [InlineData("Gqpt", "formula")]
+    // [InlineData("U|OM", "formula")]
+    // [InlineData("Zfk]", "formula")]
+    // [InlineData("kC]\\", "formula")]
+    // [InlineData("G=~V", "multi_select")]
+    // [InlineData("}Bf`", "multi_select")]
+    // [InlineData("LqOn", "multi_select")]
+    // [InlineData("JHTr", "number")]
+    // [InlineData("Kxm}", "select")]
+    // [InlineData("O>||", "files")]
+    // [InlineData("TJeJ", "files")]
+    // [InlineData("ZjRa", "number")]
+    // [InlineData("i;<u", "url")]
+    // [InlineData("uX|q", "email")]
+    // [InlineData("_x|k", "phone_number")]
+    // [InlineData("BADZ", "created_time")]
+    // [InlineData("jIE]", "created_by")]
+    // [InlineData("L|rs", "last_edited_time")]
+    // [InlineData("t}ga", "last_edited_by")]
+    // public async Task GetPageProperty_Succeds_OnValidPageIdAndPropertyId(string id, string propertyName)
+    // {
+    //     var result = await Sut.GetPagePropertyAsync(PageFromDatabase, id);
+    //     var property = result.GetType().GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+    //     property.GetValue(result).Should().NotBeNull();
+    // }
 
-    [Theory(Skip = "It's broken")]
-    [InlineData("title", "title")]
-    [InlineData("hiyf", "rich_text")]
-    [InlineData("oOIv", "rich_text")]
-    [InlineData("}?[O", "people")]
-    [InlineData("D?BR", "people")]
-    [InlineData("nt@E", "relation")]
-    [InlineData(":uV>", "relation")]
-    public async Task GetPagePropery_Succeds_OnPaginatedList(string id, string propertyName)
-    {
-        var result = await SUT.GetPagePropertyAsync(PageFromDatabase, id);
-        if (result.results.Length == 0)
-            return;
-        var property = result
-            .results[0]
-            .GetType()
-            .GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+    // [Theory(Skip = "It's broken")]
+    // [InlineData("title", "title")]
+    // [InlineData("hiyf", "rich_text")]
+    // [InlineData("oOIv", "rich_text")]
+    // [InlineData("}?[O", "people")]
+    // [InlineData("D?BR", "people")]
+    // [InlineData("nt@E", "relation")]
+    // [InlineData(":uV>", "relation")]
+    // public async Task GetPagePropery_Succeds_OnPaginatedList(string id, string propertyName)
+    // {
+    //     var result = await Sut.GetPagePropertyAsync(PageFromDatabase, id);
+    //     if (result.results.Length == 0)
+    //         return;
+    //     var property = result
+    //         .results[0]
+    //         .GetType()
+    //         .GetRuntimeProperties().FirstOrDefault(p => string.Equals(p.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+    //
+    //     property.Should().NotBeNull();
+    // }
 
-        property.Should().NotBeNull();
-    }
-
-    [Theory(Skip = "It's broken")]
-    //[InlineData("JsFc")]
-    [InlineData("Hgj{")]
-    [InlineData("{tT>")]
-    public async Task GetPageProperty_Succeds_OnRollupProperty(string id)
-    {
-        var result = await SUT.GetPagePropertyAsync(PageFromDatabase, id);
-        result.rollup.Should().NotBeNull();
-        result.results.Should().NotBeNull();
-    }
+    // [Theory(Skip = "It's broken")]
+    // //[InlineData("JsFc")]
+    // [InlineData("Hgj{")]
+    // [InlineData("{tT>")]
+    // public async Task GetPageProperty_Succeds_OnRollupProperty(string id)
+    // {
+    //     var result = await Sut.GetPagePropertyAsync(PageFromDatabase, id);
+    //     result.rollup.Should().NotBeNull();
+    //     result.results.Should().NotBeNull();
+    // }
 
     [Fact(Skip = "It's broken")]
     public async Task GetPageProperty_Fails_OnInvalidPageId()
     {
         await new Func<Task>(async () =>
         {
-            await SUT.GetPagePropertyAsync(Guid.NewGuid(), "title");
+            await Sut.GetPagePropertyAsync(Guid.NewGuid(), "title");
         }).Should().ThrowAsync<NotionException>();
     }
 
@@ -435,7 +436,7 @@ public class ModelTests : NotionTestsBase
     {
         await new Func<Task>(async () =>
         {
-            await SUT.GetPagePropertyAsync(Guid.NewGuid(), "invalid-property");
+            await Sut.GetPagePropertyAsync(Guid.NewGuid(), "invalid-property");
         }).Should().ThrowAsync<NotionException>();
     }
 }

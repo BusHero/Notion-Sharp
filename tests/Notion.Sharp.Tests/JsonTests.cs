@@ -23,7 +23,7 @@ public class JsonTests : NotionTestsBase
         var expectedJson = await File.ReadAllTextAsync(path);
         
         // act
-        var page = (await SUT.GetPageRawAsync(Guid.Parse(pageId))).Formatted();
+        var page = (await Sut.GetPageRawAsync(Guid.Parse(pageId))).Formatted();
         
         // assert
         page
@@ -89,7 +89,7 @@ public class JsonTests : NotionTestsBase
         var expectedJson = await File.ReadAllTextAsync(path);
         
         // act
-        var block = (await SUT.GetBlockRawAsync(Guid.Parse(pageId))).Formatted();
+        var block = (await Sut.GetBlockRawAsync(Guid.Parse(pageId))).Formatted();
         
         // assert
         block
@@ -122,7 +122,7 @@ public class JsonTests : NotionTestsBase
         var expectedJson = await File.ReadAllTextAsync(path);
         
         // act
-        var block = (await SUT.GetBlockRawAsync(Guid.Parse(pageId))).Formatted();
+        var block = (await Sut.GetBlockRawAsync(Guid.Parse(pageId))).Formatted();
         
         // assert
         block

@@ -12,7 +12,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.Bold.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.Bold.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -38,7 +38,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.Italic.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.Italic.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -65,7 +65,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.Underline.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.Underline.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -92,7 +92,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.StrikeThrough.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.StrikeThrough.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -119,7 +119,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.Code.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.Code.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -146,7 +146,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.Foreground.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.Foreground.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -173,7 +173,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.Equation.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.Equation.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -199,7 +199,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.MentionBlock.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.MentionBlock.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -225,7 +225,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.MentionToday.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.MentionToday.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -253,7 +253,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.MentionPerson.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.MentionPerson.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -283,7 +283,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.BoldAndItalic.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.BoldAndItalic.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -310,7 +310,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.BoldThenItalic.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.BoldThenItalic.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -362,7 +362,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.LinkToWebsite.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.LinkToWebsite.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -389,7 +389,7 @@ public class RichTextsTests : NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(RichTexts.LinkPage.ToGuid());
+        var block = await Sut.GetBlockAsync(RichTexts.LinkPage.ToGuid());
         
         // assert
         using (new AssertionScope())

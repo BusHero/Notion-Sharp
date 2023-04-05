@@ -13,7 +13,7 @@ public class PageTests: NotionTestsBase
         //arrange
         
         //act 
-        var page = await SUT.GetPageAsync(Pages.Page.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.Page.ToGuid());
         
         //assert
         using (new AssertionScope())
@@ -23,7 +23,7 @@ public class PageTests: NotionTestsBase
             page.Properties.Should().ContainKey("title");
             page.Cover.Should().BeNull();
             page.Icon.Should().BeNull();
-            (page.Parent as Parent.Page)?.Id.Should().Be(ParentPage);
+            (page.Parent as Parent.Page)?.Id.Should().Be(Pages.Parent);
         }
     }
 
@@ -33,7 +33,7 @@ public class PageTests: NotionTestsBase
         //arrange
         
         //act 
-        var page = await SUT.GetPageAsync(Pages.DeletedPage.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.DeletedPage.ToGuid());
         
         //assert
         using (new AssertionScope())
@@ -47,7 +47,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithEmojiIconWorks()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -61,7 +61,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithIconWorks()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithIcon.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithIcon.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -75,7 +75,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithCustomLinkIconWorks()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithCustomLinkIcon.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithCustomLinkIcon.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -90,7 +90,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithUploadedIconWorks()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithUploadedIcon.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithUploadedIcon.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -105,7 +105,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithCover()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithCover.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithCover.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -120,7 +120,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithCustomLinkCover()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithCustomLinkCover.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithCustomLinkCover.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -136,7 +136,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithUnslpashCover()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithUnsplashCover.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithUnsplashCover.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -152,7 +152,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithUploadedCover()
     {
         // act
-        var page = await SUT.GetPageAsync(Pages.PageWithUploadedCover.ToGuid());
+        var page = await Sut.GetPageAsync(Pages.PageWithUploadedCover.ToGuid());
         
         // assert
         using (new AssertionScope())

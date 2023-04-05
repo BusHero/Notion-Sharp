@@ -13,7 +13,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Paragraph.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Paragraph.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -55,7 +55,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.ToggleList.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.ToggleList.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -97,7 +97,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.ToDoChecked.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.ToDoChecked.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -140,7 +140,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Callout.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Callout.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -185,7 +185,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.WebBookmark.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.WebBookmark.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -215,7 +215,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Quote.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Quote.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -257,7 +257,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Equation.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Equation.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -286,7 +286,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Code.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Code.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -328,7 +328,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.BulletedListItem.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.BulletedListItem.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -370,7 +370,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.NumberedListItem.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.NumberedListItem.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -412,7 +412,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Heading1.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Heading1.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -455,7 +455,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Heading2.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Heading2.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -498,7 +498,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Heading3.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Heading3.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -541,7 +541,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.ToggledHeading1.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.ToggledHeading1.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -584,7 +584,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Audio.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Audio.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -617,7 +617,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Video.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Video.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -650,7 +650,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.VideoUploaded.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.VideoUploaded.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -684,7 +684,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.FileWithCaption.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.FileWithCaption.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -729,7 +729,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Embed.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Embed.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -758,7 +758,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Breadcrumb.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Breadcrumb.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -786,7 +786,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Divider.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Divider.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -814,7 +814,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.ColumnList.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.ColumnList.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -842,7 +842,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Column.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Column.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -870,7 +870,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.TableOfContents.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.TableOfContents.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -899,7 +899,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Button.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Button.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -927,7 +927,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Pdf.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Pdf.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -960,7 +960,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.ImageLink.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.ImageLink.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -993,7 +993,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Page.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Page.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -1022,7 +1022,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.LinkedDatabase.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.LinkedDatabase.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -1051,7 +1051,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await SUT.GetBlockAsync(Blocks.Table.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.Table.ToGuid());
         
         // assert
         using (new AssertionScope())
@@ -1082,7 +1082,7 @@ public class BlockTests: NotionTestsBase
         // arrange
 
         // act
-        var block = await SUT.GetBlockAsync(Blocks.LinkPreview.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.LinkPreview.ToGuid());
 
         // assert
         using (new AssertionScope())
@@ -1111,7 +1111,7 @@ public class BlockTests: NotionTestsBase
         // arrange
 
         // act
-        var block = await SUT.GetBlockAsync(Blocks.SyncdBlockCopy.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.SyncdBlockCopy.ToGuid());
 
         // assert
         using (new AssertionScope())
@@ -1140,7 +1140,7 @@ public class BlockTests: NotionTestsBase
         // arrange
 
         // act
-        var block = await SUT.GetBlockAsync(Blocks.SyncBlockOriginal.ToGuid());
+        var block = await Sut.GetBlockAsync(Blocks.SyncBlockOriginal.ToGuid());
 
         // assert
         using (new AssertionScope())

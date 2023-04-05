@@ -8,13 +8,13 @@ public class AppendBlocksToPageTests : NotionTestsBase
     [MemberData(nameof(Blocks))]
     public async Task AppendChildren_Succeds(Block block) => await RetryAsync(async () =>
     {
-        var result = await SUT.AppendBlockChildrenAsync(Pages.Page.ToGuid(),
+        var result = await Sut.AppendBlockChildrenAsync(Pages.Page.ToGuid(),
                 new List<Block>
                 {
                      block
                 });
         result.Should().NotBeNull();
-        await SUT.DeleteBlockAsync(result.Results[0].Id);
+        await Sut.DeleteBlockAsync(result.Results[0].Id);
     }, 3);
 
     public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
