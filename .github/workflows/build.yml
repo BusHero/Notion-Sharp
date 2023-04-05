@@ -16,6 +16,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj') }}
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
