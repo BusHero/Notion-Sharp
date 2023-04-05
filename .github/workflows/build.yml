@@ -32,10 +32,5 @@ jobs:
           dotnet user-secrets set "simpleDatabase" "${{ secrets.SIMPLE_DATABASE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "ParentPage" "${{ secrets.PARENT_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "DeletedPage" "${{ secrets.DELETED_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-      - name: Restore
-        run: dotnet restore
-      - name: Build
-        run: dotnet build -c Release --no-restore
-      - name: Test
-        run: dotnet test -c Release --no-build
-
+      - name: Nuke
+        run: dotnet run build --configuration Release
