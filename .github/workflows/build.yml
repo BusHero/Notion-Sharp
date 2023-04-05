@@ -33,4 +33,4 @@ jobs:
           dotnet user-secrets set "ParentPage" "${{ secrets.PARENT_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
           dotnet user-secrets set "DeletedPage" "${{ secrets.DELETED_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
       - name: Nuke
-        run: dotnet run build --configuration Release
+        run: dotnet run --project build --configuration Release
