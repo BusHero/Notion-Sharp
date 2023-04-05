@@ -16,6 +16,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj') }}
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
@@ -24,18 +31,5 @@ jobs:
       - name: Store Secrets
         run: |
           dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "userId" "${{ secrets.USER_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "databaseId" "${{ secrets.DATABASE_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "pageId" "${{ secrets.PAGE_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "blockId" "${{ secrets.BLOCK_ID }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "pageFromDatabase" "${{ secrets.DATABASE_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "simpleDatabase" "${{ secrets.SIMPLE_DATABASE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "ParentPage" "${{ secrets.PARENT_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-          dotnet user-secrets set "DeletedPage" "${{ secrets.DELETED_PAGE }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
-      - name: Restore
-        run: dotnet restore
-      - name: Build
-        run: dotnet build -c Release --no-restore
-      - name: Test
-        run: dotnet test -c Release --no-build
-
+      - name: Nuke
+        run: ./build.sh --configuration Release

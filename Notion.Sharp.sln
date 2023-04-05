@@ -27,9 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md
+		build.sh = build.sh
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{8240815F-68DF-446D-BDD3-4FF8582EB620}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,9 +36,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8240815F-68DF-446D-BDD3-4FF8582EB620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8240815F-68DF-446D-BDD3-4FF8582EB620}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8240815F-68DF-446D-BDD3-4FF8582EB620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04EC5A01-CF5B-45CA-98E7-109ED18ADAC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04EC5A01-CF5B-45CA-98E7-109ED18ADAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04EC5A01-CF5B-45CA-98E7-109ED18ADAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
