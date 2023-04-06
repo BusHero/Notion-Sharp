@@ -1,4 +1,5 @@
 using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -43,7 +44,7 @@ class Build : NukeBuild
 		});
 
 	Target StoreSecrets => _ => _
-		.OnlyWhenStatic(() => IsServerBuild)
+		.OnlyWhenDynamic(() => Host is GitHubActions)
 		.Executes(() =>
 		{
 			DotNet($$$"""
