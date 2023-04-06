@@ -48,6 +48,7 @@ class Build : NukeBuild
 
 	Target StoreSecrets => _ => _
 		.OnlyWhenDynamic(() => Host is GitHubActions)
+		.Unlisted()
 		.Executes(() =>
 		{
 			DotNet($"""
