@@ -29,4 +29,4 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           include-prerelease: true
       - name: Nuke
-        run: ./build.sh --configuration Release --NotionKey "${{ secrets.NOTION }}"
+        run: ./build.sh --configuration Release --notion-key "${{ secrets.NOTION }}"
