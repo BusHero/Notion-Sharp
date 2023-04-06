@@ -15,6 +15,8 @@ class Build : NukeBuild
 	
 	[Solution(GenerateProjects = true)] readonly Solution Solution;
 
+	[Secret] readonly string NotionKey;
+
 	Target Restore => _ => _
 		.Executes(() =>
 		{
@@ -48,8 +50,8 @@ class Build : NukeBuild
 		.OnlyWhenDynamic(() => Host is GitHubActions)
 		.Executes(() =>
 		{
-			DotNet($$$"""
-			user-secrets set "Notion" "${{ secrets.NOTION }}" --project {{{Solution.tests.Notion_Sharp_Tests}}}
+			DotNet($"""
+			user-secrets set "Notion" "{NotionKey}" --project {Solution.tests.Notion_Sharp_Tests}
 			""");
 		});
 }
