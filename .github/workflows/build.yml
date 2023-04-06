@@ -5,7 +5,6 @@ on:
     - '**/README.md'
     - '**/.gitignore'
 env:
-  DOTNET_VERSION: 7.0.*
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   
@@ -22,14 +21,6 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj') }}
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-          include-prerelease: true
-      - name: Store Secrets
-        run: |
-          dotnet user-secrets set "Notion" "${{ secrets.NOTION }}" --project ./tests/Notion.Sharp.Tests/Notion.Sharp.Tests.csproj 
+          key: ${{ runner.os }}-${{ hashFiles('src/**/*.csproj') }}
       - name: Nuke
-        run: ./build.sh --configuration Release
+        run: ./build.sh --configuration Release --notion-key "${{ secrets.NOTION }}"
