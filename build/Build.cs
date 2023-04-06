@@ -11,8 +11,8 @@ class Build : NukeBuild
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
 	[Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-
-	[Solution] readonly Solution Solution;
+	
+	[Solution(GenerateProjects = true)] readonly Solution Solution;
 
 	Target Restore => _ => _
 		.Executes(() =>
@@ -40,5 +40,14 @@ class Build : NukeBuild
 				.EnableNoBuild()
 				.EnableNoRestore()
 				.SetConfiguration(Configuration));
+		});
+
+	Target StoreSecrets => _ => _
+		.OnlyWhenStatic(() => IsServerBuild)
+		.Executes(() =>
+		{
+			DotNet($$$"""
+			user-secrets set "Notion" "${{ secrets.NOTION }}" --project {{{Solution.tests.Notion_Sharp_Tests}}}
+			""");
 		});
 }
