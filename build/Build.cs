@@ -15,7 +15,7 @@ class Build : NukeBuild
 	
 	[Solution(GenerateProjects = true)] readonly Solution Solution;
 
-	[Secret] readonly string NotionKey;
+	[Parameter, Secret] readonly string NotionKey;
 
 	Target Restore => _ => _
 		.Executes(() =>

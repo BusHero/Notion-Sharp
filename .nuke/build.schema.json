@@ -73,6 +73,7 @@
             "enum": [
               "Compile",
               "Restore",
+              "StoreSecrets",
               "Test"
             ]
           }
@@ -89,6 +90,7 @@
             "enum": [
               "Compile",
               "Restore",
+              "StoreSecrets",
               "Test"
             ]
           }
