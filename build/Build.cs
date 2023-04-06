@@ -34,6 +34,7 @@ class Build : NukeBuild
 		});
 	
 	Target Test => _ => _
+		.DependsOn(StoreSecrets)
 		.Executes(() =>
 		{
 			DotNetTest(_ => _
