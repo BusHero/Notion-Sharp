@@ -1,6 +1,5 @@
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
@@ -21,6 +20,8 @@ class Build : NukeBuild
 	[Parameter, Secret] readonly string GithubToken = null!;
 
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
+
+    static GitHubActions GitHubActions => GitHubActions.Instance;
 
 	Target Restore => _ => _
 		.Executes(() =>
@@ -74,8 +75,6 @@ class Build : NukeBuild
 				.SetOutputDirectory(PublishFolder)
 				.EnableNoRestore());
 		});
-	
-	GitHubActions GitHubActions => GitHubActions.Instance;
 
 	Target NugetPublish => _ => _
 		.DependsOn(Pack)
