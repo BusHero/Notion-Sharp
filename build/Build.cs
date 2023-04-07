@@ -21,7 +21,9 @@ class Build : NukeBuild
 
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
 
-    static GitHubActions GitHubActions => GitHubActions.Instance;
+#pragma warning disable CA1822
+	GitHubActions GitHubActions => GitHubActions.Instance;
+#pragma warning restore CA1822
 
 	Target Restore => _ => _
 		.Executes(() =>
