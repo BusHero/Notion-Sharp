@@ -23,4 +23,9 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('src/**/*.csproj') }}
       - name: Nuke
-        run: ./build.sh --configuration Release --notion-key "${{ secrets.NOTION }}"
+        run: |
+          ./build.sh NugetPublish \
+              --configuration Release \
+              --github-token "${{ secrets.GITHUB_TOKEN }}" \
+              --notion-key "${{ secrets.NOTION }}"
+      
