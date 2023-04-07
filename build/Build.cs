@@ -63,18 +63,19 @@ class Build : NukeBuild
 	
 	Target Pack  => _ => _
 		.DependsOn(Compile)
-		.Requires(() => GitHubActions.Instance)
 		.Executes(() =>
 		{
 			DotNetPack(_ => _
 				.SetConfiguration(Configuration)
 				.SetProject(Solution.src.Notion_Sharp)
 				.EnableIncludeSource()
-				.SetVersionSuffix(GitHubActions.Instance.RunId.ToString())
+				.SetVersionSuffix(GitHubActions.RunId.ToString())
 				.SetSymbolPackageFormat("snupkg")
 				.SetOutputDirectory(PublishFolder)
 				.EnableNoRestore());
 		});
+	
+	GitHubActions GitHubActions => GitHubActions.Instance;
 
 	Target NugetPublish => _ => _
 		.DependsOn(Pack)
