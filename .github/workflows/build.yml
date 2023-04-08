@@ -29,10 +29,12 @@ jobs:
               --github-token "${{ secrets.GITHUB_TOKEN }}" \
               --notion-key "${{ secrets.NOTION }}"
       - uses: actions/upload-artifact@v1
+        name: Upload test results
         with:
           name: tests
           path: output/artifacts/tests
       - uses: actions/upload-artifact@v1
+        name: Upload warnings count
         with:
           name: warnings
           path: output/artifacts/warnings
