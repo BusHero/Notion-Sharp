@@ -3,6 +3,7 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 // ReSharper disable UnusedMember.Local
 
@@ -68,14 +69,20 @@ class Build : NukeBuild
 		.DependsOn(Compile)
 		.Executes(() =>
 		{
-			DotNetPack(_ => _
-				.SetConfiguration(Configuration)
-				.SetProject(Solution.src.Notion_Sharp)
-				.EnableIncludeSource()
-				.SetVersionSuffix(GitHubActions.RunId.ToString())
-				.SetSymbolPackageFormat("snupkg")
-				.SetOutputDirectory(PublishFolder)
-				.EnableNoRestore());
+			var runAttempt = EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
+			var runId = EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ID");
+			var runNumber = EnvironmentInfo.GetVariable<long>("GITHUB_RUN_NUMBER");
+			Log.Information("{RunAttempt}", runAttempt);
+			Log.Information("{RunId}", runId);
+			Log.Information("{RunNumber}", runNumber);
+			// DotNetPack(_ => _
+			// 	.SetConfiguration(Configuration)
+			// 	.SetProject(Solution.src.Notion_Sharp)
+			// 	.EnableIncludeSource()
+			// 	.SetVersionSuffix($"{GitHubActions.RunNumber}.{GitHubActions}")
+			// 	.SetSymbolPackageFormat("snupkg")
+			// 	.SetOutputDirectory(PublishFolder)
+			// 	.EnableNoRestore());
 		});
 
 	Target NugetPublish => _ => _
