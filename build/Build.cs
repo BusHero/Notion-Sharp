@@ -79,7 +79,7 @@ class Build : NukeBuild
 		});
 
 	Target NugetPublish => _ => _
-		.DependsOn(Pack)
+		.DependsOn(Pack, Test)
 		.Executes(() =>
 		{
 			DotNetNuGetPush(_ => _
