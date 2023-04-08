@@ -30,6 +30,6 @@ jobs:
               --notion-key "${{ secrets.NOTION }}"
       - uses: actions/upload-artifact@v1
         with:
-          name: packages
-          path: output/artifacts
+          name: warnings
+          path: output/artifacts/warnings
       
