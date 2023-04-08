@@ -80,6 +80,7 @@
             "type": "string",
             "enum": [
               "Compile",
+              "DisplayNbrWarnings",
               "NugetPublish",
               "Pack",
               "Restore",
@@ -99,6 +100,7 @@
             "type": "string",
             "enum": [
               "Compile",
+              "DisplayNbrWarnings",
               "NugetPublish",
               "Pack",
               "Restore",

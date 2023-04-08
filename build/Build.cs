@@ -1,20 +1,26 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+
 // ReSharper disable UnusedMember.Local
 
 namespace _build;
 
-class Build : NukeBuild
+partial class Build : NukeBuild
 {
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
 	[Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 	
-	[Solution(GenerateProjects = true)] readonly Solution Solution = null!;
+	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
 
 	[Parameter, Secret] readonly string NotionKey = null!;
 	[Parameter, Secret] readonly string GithubToken = null!;
@@ -34,13 +40,29 @@ class Build : NukeBuild
 
 	Target Compile => _ => _
 		.DependsOn(Restore)
-		.Triggers(Test)
+		.Triggers(Test, DisplayNbrWarnings)
 		.Executes(() =>
 		{
-			DotNetBuild(_ => _
+			CompileOutput = DotNetBuild(_ => _
 				.SetProjectFile(Solution)
 				.EnableNoRestore()
 				.SetConfiguration(Configuration));
+
+		});
+
+	IReadOnlyCollection<Output> CompileOutput = null!;
+
+	Target DisplayNbrWarnings => _ => _
+		.Consumes(Compile)
+		.Executes(() =>
+		{
+			var output = CompileOutput.ToList()[^4];
+			var match = Warnings().Match(output.Text).Groups["warnings"];
+			if (int.TryParse(match.ValueSpan, out var nbrOfWarnings))
+			{
+				Log.Error("Could not get warnings from {Output}", output.Text);	
+			}
+			Log.Information("Warnings - {Warnings}", nbrOfWarnings);
 		});
 	
 	Target Test => _ => _
@@ -89,4 +111,7 @@ class Build : NukeBuild
 				.SetApiKey(GithubToken)
 				.EnableSkipDuplicate());
 		});
+
+    [GeneratedRegex("""\s*(?'warnings'\d+) Warning\(s\)""")]
+    private static partial Regex Warnings();
 }
