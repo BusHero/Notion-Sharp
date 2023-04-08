@@ -129,6 +129,13 @@ partial class Build : NukeBuild
 				.EnableSkipDuplicate());
 		});
 
+	Target DisplayPreviousWarningsCount => _ => _
+		.Executes(() =>
+		{
+			const int warnings = 10;
+			Log.Information("Previous Count is {Warnings}", warnings);
+		});
+
     [GeneratedRegex("""\s*(?'warnings'\d+) Warning\(s\)""")]
     private static partial Regex Warnings();
 }
