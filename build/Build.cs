@@ -68,11 +68,12 @@ class Build : NukeBuild
 		.DependsOn(Compile)
 		.Executes(() =>
 		{
+			var runAttempt = EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
 			DotNetPack(_ => _
 				.SetConfiguration(Configuration)
 				.SetProject(Solution.src.Notion_Sharp)
 				.EnableIncludeSource()
-				.SetVersionSuffix(GitHubActions.RunId.ToString())
+				.SetVersionSuffix($"{GitHubActions.RunNumber}.{runAttempt}")
 				.SetSymbolPackageFormat("snupkg")
 				.SetOutputDirectory(PublishFolder)
 				.EnableNoRestore());
