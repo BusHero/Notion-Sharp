@@ -54,7 +54,8 @@ partial class Build : NukeBuild
 		});
 
 	IReadOnlyCollection<Output> CompileOutput = null!;
-	AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
+	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
+	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
 
 	Target DisplayNbrWarnings => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
@@ -86,6 +87,7 @@ partial class Build : NukeBuild
 		{
 			DotNetTest(_ => _
 				.SetProjectFile(Solution)
+				.SetLoggers($"trx;{TestOutput}")
 				.EnableNoBuild()
 				.EnableNoRestore()
 				.SetConfiguration(Configuration));
