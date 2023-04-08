@@ -17,7 +17,7 @@ class Build : NukeBuild
 	[Solution(GenerateProjects = true)] readonly Solution Solution = null!;
 
 	[Parameter, Secret] readonly string NotionKey = null!;
-	[Parameter] readonly string GithubToken = null!;
+	[Parameter, Secret] readonly string GithubToken = null!;
 
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
 
