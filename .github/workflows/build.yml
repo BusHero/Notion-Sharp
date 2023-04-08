@@ -28,4 +28,8 @@ jobs:
               --configuration Release \
               --github-token "${{ secrets.GITHUB_TOKEN }}" \
               --notion-key "${{ secrets.NOTION }}"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: packages
+          path: output/artifacts
       

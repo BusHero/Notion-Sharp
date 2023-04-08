@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Nuke.Common;
@@ -41,6 +43,7 @@ partial class Build : NukeBuild
 	Target Compile => _ => _
 		.DependsOn(Restore)
 		.Triggers(Test, DisplayNbrWarnings)
+		.Produces(nameof(WarningsOutput))
 		.Executes(() =>
 		{
 			CompileOutput = DotNetBuild(_ => _
@@ -51,18 +54,26 @@ partial class Build : NukeBuild
 		});
 
 	IReadOnlyCollection<Output> CompileOutput = null!;
+	AbsolutePath WarningsOutput = RootDirectory / "Output" / "Artifacts" / "warnings";
 
 	Target DisplayNbrWarnings => _ => _
-		.Consumes(Compile)
+		.Consumes(Compile, nameof(CompileOutput))
+		.DependsOn(EnsureArtifactsDirectoryExists)
 		.Executes(() =>
 		{
 			var output = CompileOutput.ToList()[^4];
 			var match = Warnings().Match(output.Text).Groups["warnings"];
-			if (int.TryParse(match.ValueSpan, out var nbrOfWarnings))
-			{
-				Log.Error("Could not get warnings from {Output}", output.Text);	
-			}
-			Log.Information("Warnings - {Warnings}", nbrOfWarnings);
+			Directory.GetParent(WarningsOutput);
+			File.WriteAllText(WarningsOutput, match.Value);
+		});
+
+	Target EnsureArtifactsDirectoryExists => _ => _
+		.Executes(() =>
+		{
+			var parent = Directory
+				.GetParent(WarningsOutput)
+				?.FullName ?? throw new Exception($"Cannot get the parent of {WarningsOutput}");
+			Directory.CreateDirectory(parent);
 		});
 	
 	Target Test => _ => _
