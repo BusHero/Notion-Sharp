@@ -54,7 +54,7 @@ partial class Build : NukeBuild
 		});
 
 	IReadOnlyCollection<Output> CompileOutput = null!;
-	AbsolutePath WarningsOutput = RootDirectory / "Output" / "Artifacts" / "warnings";
+	AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
 
 	Target DisplayNbrWarnings => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
