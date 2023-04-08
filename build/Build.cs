@@ -59,21 +59,25 @@ partial class Build : NukeBuild
 	Target DisplayNbrWarnings => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
 		.DependsOn(EnsureArtifactsDirectoryExists)
+		.Unlisted()
 		.Executes(() =>
 		{
 			var output = CompileOutput.ToList()[^4];
 			var match = Warnings().Match(output.Text).Groups["warnings"];
 			Directory.GetParent(WarningsOutput);
 			File.WriteAllText(WarningsOutput, match.Value);
+			Log.Information("Write {Warnings} to {WarningsOutput}", match.Value, WarningsOutput);
 		});
 
 	Target EnsureArtifactsDirectoryExists => _ => _
+		.Unlisted()
 		.Executes(() =>
 		{
 			var parent = Directory
 				.GetParent(WarningsOutput)
 				?.FullName ?? throw new Exception($"Cannot get the parent of {WarningsOutput}");
 			Directory.CreateDirectory(parent);
+			Log.Information("Create {Directory}", parent);
 		});
 	
 	Target Test => _ => _
