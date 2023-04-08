@@ -80,6 +80,8 @@
             "type": "string",
             "enum": [
               "Compile",
+              "DisplayNbrWarnings",
+              "EnsureArtifactsDirectoryExists",
               "NugetPublish",
               "Pack",
               "Restore",
@@ -99,6 +101,8 @@
             "type": "string",
             "enum": [
               "Compile",
+              "DisplayNbrWarnings",
+              "EnsureArtifactsDirectoryExists",
               "NugetPublish",
               "Pack",
               "Restore",

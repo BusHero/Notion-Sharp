@@ -1,20 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+
 // ReSharper disable UnusedMember.Local
 
 namespace _build;
 
-class Build : NukeBuild
+partial class Build : NukeBuild
 {
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
 	[Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 	
-	[Solution(GenerateProjects = true)] readonly Solution Solution = null!;
+	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
 
 	[Parameter, Secret] readonly string NotionKey = null!;
 	[Parameter, Secret] readonly string GithubToken = null!;
@@ -34,13 +42,43 @@ class Build : NukeBuild
 
 	Target Compile => _ => _
 		.DependsOn(Restore)
-		.Triggers(Test)
+		.Triggers(Test, DisplayNbrWarnings)
+		.Produces(nameof(WarningsOutput))
 		.Executes(() =>
 		{
-			DotNetBuild(_ => _
+			CompileOutput = DotNetBuild(_ => _
 				.SetProjectFile(Solution)
 				.EnableNoRestore()
 				.SetConfiguration(Configuration));
+
+		});
+
+	IReadOnlyCollection<Output> CompileOutput = null!;
+	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
+	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
+
+	Target DisplayNbrWarnings => _ => _
+		.Consumes(Compile, nameof(CompileOutput))
+		.DependsOn(EnsureArtifactsDirectoryExists)
+		.Unlisted()
+		.Executes(() =>
+		{
+			var output = CompileOutput.ToList()[^4];
+			var match = Warnings().Match(output.Text).Groups["warnings"];
+			Directory.GetParent(WarningsOutput);
+			File.WriteAllText(WarningsOutput, match.Value);
+			Log.Information("Write {Warnings} to {WarningsOutput}", match.Value, WarningsOutput);
+		});
+
+	Target EnsureArtifactsDirectoryExists => _ => _
+		.Unlisted()
+		.Executes(() =>
+		{
+			var parent = Directory
+				.GetParent(WarningsOutput)
+				?.FullName ?? throw new Exception($"Cannot get the parent of {WarningsOutput}");
+			Directory.CreateDirectory(parent);
+			Log.Information("Create {Directory}", parent);
 		});
 	
 	Target Test => _ => _
@@ -49,6 +87,7 @@ class Build : NukeBuild
 		{
 			DotNetTest(_ => _
 				.SetProjectFile(Solution)
+				.SetLoggers($"trx;LogFileName={TestOutput}")
 				.EnableNoBuild()
 				.EnableNoRestore()
 				.SetConfiguration(Configuration));
@@ -89,4 +128,7 @@ class Build : NukeBuild
 				.SetApiKey(GithubToken)
 				.EnableSkipDuplicate());
 		});
+
+    [GeneratedRegex("""\s*(?'warnings'\d+) Warning\(s\)""")]
+    private static partial Regex Warnings();
 }
