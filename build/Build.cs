@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
@@ -143,9 +144,12 @@ partial class Build : NukeBuild
 
 	Target DisplayPreviousWarningsCount => _ => _
 		.DependsOn(SetupGitHubClient)
-		.Executes(() =>
+		.Executes(async () =>
 		{
-			Log.Information("{Email}", GitHubTasks.GitHubClient?.User?.Email);
+			var emailClient = GitHubTasks.GitHubClient?.User?.Email;
+			var emails = await emailClient?.GetAll()!;
+			var email = emails[0];
+			Log.Information("{Email}", email.Email);
 			// const int warnings = 10;
 			// Log.Information("Previous Count is {Warnings}", warnings);
 		});
