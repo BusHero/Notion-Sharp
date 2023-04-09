@@ -19,7 +19,6 @@ using Octokit;
 using Octokit.Internal;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.GitHub.GitHubTasks;
 
 // ReSharper disable UnusedMember.Local
 
@@ -30,30 +29,29 @@ partial class Build : NukeBuild
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
 	[Nuke.Common.Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-	[Nuke.Common.Parameter, Secret] readonly string NotionKey = null!;
-	[Nuke.Common.Parameter, Secret] readonly string GithubToken = null!;
+	[Nuke.Common.Parameter, Secret] readonly string? NotionKey;
+	[Nuke.Common.Parameter, Secret] readonly string? GithubToken;
 	
 	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
 	[GitRepository] readonly GitRepository Repository = null!;
-	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
-	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
-	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
-	IReadOnlyCollection<Output> CompileOutput = null!;
-	int PreviousWarningsCount;
-	int CurrentWarningsCount;
+
+    static AbsolutePath PublishFolder => RootDirectory / "publish";
+
+    static AbsolutePath WarningsOutput => RootDirectory / "output" / "artifacts" / "warnings";
+
+    static AbsolutePath TestOutput => RootDirectory / "output" / "artifacts"  / "tests";
+	IReadOnlyCollection<Output> CompileOutput { get; set; } = null!;
+	int PreviousWarningsCount { get; set; }
+	int CurrentWarningsCount { get; set; }
 	string Owner => Repository.GetGitHubOwner();
 	string Name => Repository.GetGitHubName();
+	HttpClient? Client { get; set; }
 
 #pragma warning disable CA1822
 	GitHubActions GitHubActions => GitHubActions.Instance;
 #pragma warning restore CA1822
-
-	Target Foo => _ => _
-		.Executes(() =>
-		{
-			Log.Information(Owner);
-			Log.Information(Name);
-		});
+	static long RunAttempt => EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
+	
 	
 	Target Restore => _ => _
 		.Executes(() =>
@@ -126,7 +124,6 @@ partial class Build : NukeBuild
 		.DependsOn(Compile)
 		.Executes(() =>
 		{
-			var runAttempt = EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
 			DotNetPack(_ => _
 				.SetConfiguration(Configuration)
 				.SetProject(Solution.src.Notion_Sharp)
@@ -135,11 +132,12 @@ partial class Build : NukeBuild
 				.EnableNoLogo()
 				.EnableDeterministic()
 				.EnableIncludeSource()
-				.SetVersionSuffix($"{GitHubActions.RunNumber}.{runAttempt}")
+				.SetVersionSuffix($"{GitHubActions.RunNumber}.{RunAttempt}")
 				.SetSymbolPackageFormat("snupkg")
 				.SetOutputDirectory(PublishFolder)
 				.EnableNoRestore());
 		});
+
 
 	Target NugetPublish => _ => _
 		.Description("Publish to GitHub nuget index")
@@ -165,17 +163,13 @@ partial class Build : NukeBuild
 		});
 
 	Target GetPreviousNbrOfWarnings => _ => _
-		.DependsOn(SetupGitHubClient)
+		.DependsOn(SetupGitHubClient, SetUpHttpClient)
 		.Unlisted()
 		.Executes(async () =>
 		{
+			Client.NotNull();
 			var downloadUrl = await GetDownloadUri();
-			using var httpClient = new HttpClient();
-			httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
-			httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
-			httpClient.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
-			httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-			var responseMessage = await httpClient.GetAsync(downloadUrl);
+			var responseMessage = await Client!.GetAsync(downloadUrl);
 			await using var zipContent = await responseMessage.Content.ReadAsStreamAsync();
 			using var zipArchive = new ZipArchive(zipContent, ZipArchiveMode.Read);
 			foreach (var entry in zipArchive.Entries)
@@ -201,14 +195,23 @@ partial class Build : NukeBuild
 			Assert.True(result);
 		});
 	
+	Target SetUpHttpClient => _ => _
+		.Requires(() => GithubToken)
+		.Unlisted()
+		.Executes(() =>
+		{
+			Client = new HttpClient();
+			Client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+			Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
+			Client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
+			Client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+		});
+	
 	async Task<string?> GetDownloadUri()
 	{
-		using var httpClient = new HttpClient();
-		httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
-		httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
-		httpClient.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
-		httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-		var responseMessage = await httpClient.GetAsync($"https://api.github.com/repos/{Owner}/{Name}/actions/artifacts");
+		Client.NotNull();
+		var responseMessage = await Client!
+			.GetAsync($"https://api.github.com/repos/{Owner}/{Name}/actions/artifacts");
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception("Call failed");
