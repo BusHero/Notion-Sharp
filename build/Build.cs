@@ -142,10 +142,10 @@ partial class Build : NukeBuild
 		});
 
 	Target DisplayPreviousWarningsCount => _ => _
-		// .DependsOn(SetupGitHubClient)
+		.DependsOn(SetupGitHubClient)
 		.Executes(() =>
 		{
-			Log.Information("{Email}", GitHubTasks.GitHubClient.User.Email);
+			Log.Information("{Email}", GitHubTasks.GitHubClient?.User?.Email);
 			// const int warnings = 10;
 			// Log.Information("Previous Count is {Warnings}", warnings);
 		});
