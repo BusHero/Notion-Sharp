@@ -123,6 +123,10 @@ partial class Build : NukeBuild
 			DotNetPack(_ => _
 				.SetConfiguration(Configuration)
 				.SetProject(Solution.src.Notion_Sharp)
+				.EnableNoBuild()
+				.EnableNoRestore()
+				.EnableNoLogo()
+				.EnableDeterministic()
 				.EnableIncludeSource()
 				.SetVersionSuffix($"{GitHubActions.RunNumber}.{runAttempt}")
 				.SetSymbolPackageFormat("snupkg")
