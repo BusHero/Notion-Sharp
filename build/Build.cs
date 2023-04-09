@@ -9,6 +9,9 @@ using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.GitHub;
+using Octokit;
+using Octokit.Internal;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
@@ -20,12 +23,12 @@ partial class Build : NukeBuild
 {
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
-	[Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+	[Nuke.Common.Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 	
 	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
 
-	[Parameter, Secret] readonly string NotionKey = null!;
-	[Parameter, Secret] readonly string GithubToken = null!;
+	[Nuke.Common.Parameter, Secret] readonly string NotionKey = null!;
+	[Nuke.Common.Parameter, Secret] readonly string GithubToken = null!;
 
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
 
@@ -129,11 +132,22 @@ partial class Build : NukeBuild
 				.EnableSkipDuplicate());
 		});
 
-	Target DisplayPreviousWarningsCount => _ => _
+	Target SetupGitHubClient => _ => _
 		.Executes(() =>
 		{
-			const int warnings = 10;
-			Log.Information("Previous Count is {Warnings}", warnings);
+			var credentials = new Credentials(GithubToken);
+			GitHubTasks.GitHubClient = new GitHubClient(
+					new ProductHeaderValue("NotionSharp"),
+					new InMemoryCredentialStore(credentials));
+		});
+
+	Target DisplayPreviousWarningsCount => _ => _
+		// .DependsOn(SetupGitHubClient)
+		.Executes(() =>
+		{
+			Log.Information("{Email}", GitHubTasks.GitHubClient.User.Email);
+			// const int warnings = 10;
+			// Log.Information("Previous Count is {Warnings}", warnings);
 		});
 
     [GeneratedRegex("""\s*(?'warnings'\d+) Warning\(s\)""")]
