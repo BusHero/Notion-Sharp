@@ -1,14 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.GitHub;
+using Octokit;
+using Octokit.Internal;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
@@ -20,19 +28,31 @@ partial class Build : NukeBuild
 {
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
-	[Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+	[Nuke.Common.Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+	[Nuke.Common.Parameter, Secret] readonly string? NotionKey;
+	[Nuke.Common.Parameter, Secret] readonly string? GithubToken;
 	
 	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
+	[GitRepository] readonly GitRepository Repository = null!;
 
-	[Parameter, Secret] readonly string NotionKey = null!;
-	[Parameter, Secret] readonly string GithubToken = null!;
+    static AbsolutePath PublishFolder => RootDirectory / "publish";
 
-	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
+    static AbsolutePath WarningsOutput => RootDirectory / "output" / "artifacts" / "warnings";
+
+    static AbsolutePath TestOutput => RootDirectory / "output" / "artifacts"  / "tests";
+	IReadOnlyCollection<Output> CompileOutput { get; set; } = null!;
+	int PreviousWarningsCount { get; set; }
+	int CurrentWarningsCount { get; set; }
+	string Owner => Repository.GetGitHubOwner();
+	string Name => Repository.GetGitHubName();
+	HttpClient? Client { get; set; }
 
 #pragma warning disable CA1822
 	GitHubActions GitHubActions => GitHubActions.Instance;
 #pragma warning restore CA1822
-
+	static long RunAttempt => EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
+	
+	
 	Target Restore => _ => _
 		.Executes(() =>
 		{
@@ -42,7 +62,7 @@ partial class Build : NukeBuild
 
 	Target Compile => _ => _
 		.DependsOn(Restore)
-		.Triggers(Test, DisplayNbrWarnings)
+		.Triggers(Test, GetCurrentNbrWarnings)
 		.Produces(nameof(WarningsOutput))
 		.Executes(() =>
 		{
@@ -52,12 +72,8 @@ partial class Build : NukeBuild
 				.SetConfiguration(Configuration));
 
 		});
-
-	IReadOnlyCollection<Output> CompileOutput = null!;
-	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
-	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
-
-	Target DisplayNbrWarnings => _ => _
+	
+	Target GetCurrentNbrWarnings => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
 		.DependsOn(EnsureArtifactsDirectoryExists)
 		.Unlisted()
@@ -65,11 +81,12 @@ partial class Build : NukeBuild
 		{
 			var output = CompileOutput.ToList()[^4];
 			var match = Warnings().Match(output.Text).Groups["warnings"];
+			CurrentWarningsCount = int.Parse(match.Value);
 			Directory.GetParent(WarningsOutput);
 			File.WriteAllText(WarningsOutput, match.Value);
-			Log.Information("Write {Warnings} to {WarningsOutput}", match.Value, WarningsOutput);
+			Log.Information("Current nbr. of warnings: {Warnings}", match.Value);
 		});
-
+	
 	Target EnsureArtifactsDirectoryExists => _ => _
 		.Unlisted()
 		.Executes(() =>
@@ -107,27 +124,110 @@ partial class Build : NukeBuild
 		.DependsOn(Compile)
 		.Executes(() =>
 		{
-			var runAttempt = EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
 			DotNetPack(_ => _
 				.SetConfiguration(Configuration)
 				.SetProject(Solution.src.Notion_Sharp)
+				.EnableNoBuild()
+				.EnableNoRestore()
+				.EnableNoLogo()
+				.EnableDeterministic()
 				.EnableIncludeSource()
-				.SetVersionSuffix($"{GitHubActions.RunNumber}.{runAttempt}")
+				.SetVersionSuffix($"{GitHubActions.RunNumber}.{RunAttempt}")
 				.SetSymbolPackageFormat("snupkg")
 				.SetOutputDirectory(PublishFolder)
 				.EnableNoRestore());
 		});
 
+
 	Target NugetPublish => _ => _
-		.DependsOn(Pack, Test)
+		.Description("Publish to GitHub nuget index")
+		.DependsOn(Pack, Test, CompareWithPreviousNbrOfWarnings)
 		.Executes(() =>
 		{
 			DotNetNuGetPush(_ => _
 				.SetTargetPath(PublishFolder / "*")
-				.SetSource("https://nuget.pkg.github.com/BusHero/index.json")
+				.SetSource($"https://nuget.pkg.github.com/{Owner}/index.json")
 				.SetApiKey(GithubToken)
 				.EnableSkipDuplicate());
 		});
+
+	Target SetupGitHubClient => _ => _
+		.Unlisted()
+		.Executes(() =>
+		{
+			var credentials = new Credentials(GithubToken);
+			GitHubTasks.GitHubClient = new GitHubClient(
+					new ProductHeaderValue(Name),
+					new InMemoryCredentialStore(credentials));
+			Log.Information("Authenticated GitHub client created");
+		});
+
+	Target GetPreviousNbrOfWarnings => _ => _
+		.DependsOn(SetupGitHubClient, SetUpHttpClient)
+		.Unlisted()
+		.Executes(async () =>
+		{
+			Client.NotNull();
+			var downloadUrl = await GetDownloadUri();
+			var responseMessage = await Client!.GetAsync(downloadUrl);
+			await using var zipContent = await responseMessage.Content.ReadAsStreamAsync();
+			using var zipArchive = new ZipArchive(zipContent, ZipArchiveMode.Read);
+			foreach (var entry in zipArchive.Entries)
+			{
+				await using var entryContent = entry.Open();
+				using var reader = new StreamReader(entryContent);
+				PreviousWarningsCount = int.Parse(reader.ReadLine() ?? string.Empty);
+				Log.Information("Previous nbr. of warnings: {Warnings}", PreviousWarningsCount);
+			}
+		});
+
+	Target CompareWithPreviousNbrOfWarnings => _ => _
+		.DependsOn(GetPreviousNbrOfWarnings, GetCurrentNbrWarnings)
+		.Consumes(GetPreviousNbrOfWarnings, GetCurrentNbrWarnings)
+		.Executes(() =>
+		{
+			var result = PreviousWarningsCount >= CurrentWarningsCount;
+			Log.Information(
+				"Previous({PreviousWarningCount}) >= Current({CurrentWarningsCount}): {Result}", 
+				PreviousWarningsCount, 
+				CurrentWarningsCount,
+				result);
+			Assert.True(result);
+		});
+	
+	Target SetUpHttpClient => _ => _
+		.Requires(() => GithubToken)
+		.Unlisted()
+		.Executes(() =>
+		{
+			Client = new HttpClient();
+			Client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+			Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
+			Client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
+			Client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+			Log.Information("Http Client set up");
+		});
+	
+	async Task<string?> GetDownloadUri()
+	{
+		Client.NotNull();
+		var responseMessage = await Client!
+			.GetAsync($"https://api.github.com/repos/{Owner}/{Name}/actions/artifacts");
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception("Call failed");
+		}
+		var document = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
+		var artifacts = document.RootElement.GetProperty("artifacts");
+		foreach (var artifact in artifacts.EnumerateArray())
+		{
+			if (!artifact.TryGetProperty("name", out var name) || name.GetString() != "warnings") continue;
+			var archiveDownloadUrl = artifact.GetProperty("archive_download_url");
+			return archiveDownloadUrl.GetString();
+		}
+
+		throw new Exception("Something wired happened");
+	}
 
     [GeneratedRegex("""\s*(?'warnings'\d+) Warning\(s\)""")]
     private static partial Regex Warnings();
