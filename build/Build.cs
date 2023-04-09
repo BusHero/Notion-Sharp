@@ -188,7 +188,7 @@ partial class Build : NukeBuild
 		{
 			var result = PreviousWarningsCount >= CurrentWarningsCount;
 			Log.Information(
-				"{PreviousWarningCount} >= {CurrentWarningsCount}: {Result}", 
+				"Previous({PreviousWarningCount}) >= Current({CurrentWarningsCount}): {Result}", 
 				PreviousWarningsCount, 
 				CurrentWarningsCount,
 				result);
@@ -205,6 +205,7 @@ partial class Build : NukeBuild
 			Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
 			Client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
 			Client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+			Log.Information("Http Client set up");
 		});
 	
 	async Task<string?> GetDownloadUri()
