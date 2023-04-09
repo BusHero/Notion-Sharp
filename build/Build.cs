@@ -159,7 +159,7 @@ partial class Build : NukeBuild
 		{
 			var credentials = new Credentials(GithubToken);
 			GitHubTasks.GitHubClient = new GitHubClient(
-					new ProductHeaderValue("NotionSharp"),
+					new ProductHeaderValue(Name),
 					new InMemoryCredentialStore(credentials));
 			Log.Information("Authenticated GitHub client created");
 		});
@@ -208,7 +208,7 @@ partial class Build : NukeBuild
 		httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
 		httpClient.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
 		httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-		var responseMessage = await httpClient.GetAsync($"https://api.github.com/repos/{Owner}/Notion-Sharp/actions/artifacts");
+		var responseMessage = await httpClient.GetAsync($"https://api.github.com/repos/{Owner}/{Name}/actions/artifacts");
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception("Call failed");
