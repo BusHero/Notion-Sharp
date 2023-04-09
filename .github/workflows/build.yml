@@ -24,18 +24,18 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('src/**/*.csproj') }}
       - name: Nuke
         run: |
-          ./build.sh NugetPublish \
+          ./build.sh Foo \
               --configuration Release \
               --github-token "${{ secrets.GITHUB_TOKEN }}" \
               --notion-key "${{ secrets.NOTION }}"
-      - uses: actions/upload-artifact@v1
-        name: Upload test results
-        with:
-          name: tests
-          path: output/artifacts/tests
-      - uses: actions/upload-artifact@v1
-        name: Upload warnings count
-        with:
-          name: warnings
-          path: output/artifacts/warnings
+#      - uses: actions/upload-artifact@v1
+#        name: Upload test results
+#        with:
+#          name: tests
+#          path: output/artifacts/tests
+#      - uses: actions/upload-artifact@v1
+#        name: Upload warnings count
+#        with:
+#          name: warnings
+#          path: output/artifacts/warnings
       

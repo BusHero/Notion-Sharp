@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -18,6 +19,7 @@ using Octokit;
 using Octokit.Internal;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.GitHub.GitHubTasks;
 
 // ReSharper disable UnusedMember.Local
 
@@ -28,18 +30,33 @@ partial class Build : NukeBuild
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
 	[Nuke.Common.Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-	
-	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
-
 	[Nuke.Common.Parameter, Secret] readonly string NotionKey = null!;
 	[Nuke.Common.Parameter, Secret] readonly string GithubToken = null!;
-
+	
+	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
+#pragma warning disable CS0414
+	readonly GitRepository Repository = null!;
+#pragma warning restore CS0414
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
+	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
+	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
+	IReadOnlyCollection<Output> CompileOutput = null!;
+	int PreviousWarningsCount;
+	int CurrentWarningsCount;
+	string Owner => Repository.GetGitHubOwner();
+	string Name => Repository.GetGitHubName();
 
 #pragma warning disable CA1822
 	GitHubActions GitHubActions => GitHubActions.Instance;
 #pragma warning restore CA1822
 
+	Target Foo => _ => _
+		.Executes(() =>
+		{
+			Log.Information(Owner);
+			Log.Information(Name);
+		});
+	
 	Target Restore => _ => _
 		.Executes(() =>
 		{
@@ -59,12 +76,6 @@ partial class Build : NukeBuild
 				.SetConfiguration(Configuration));
 
 		});
-
-	IReadOnlyCollection<Output> CompileOutput = null!;
-	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
-	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
-	int PreviousWarningsCount;
-	int CurrentWarningsCount;
 	
 	Target GetCurrentNbrWarnings => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
@@ -139,7 +150,7 @@ partial class Build : NukeBuild
 		{
 			DotNetNuGetPush(_ => _
 				.SetTargetPath(PublishFolder / "*")
-				.SetSource("https://nuget.pkg.github.com/BusHero/index.json")
+				.SetSource($"https://nuget.pkg.github.com/{Owner}/index.json")
 				.SetApiKey(GithubToken)
 				.EnableSkipDuplicate());
 		});
@@ -191,7 +202,6 @@ partial class Build : NukeBuild
 				result);
 			Assert.True(result);
 		});
-
 	
 	async Task<string?> GetDownloadUri()
 	{
@@ -200,7 +210,7 @@ partial class Build : NukeBuild
 		httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {GithubToken}");
 		httpClient.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
 		httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
-		var responseMessage = await httpClient.GetAsync("https://api.github.com/repos/BusHero/Notion-Sharp/actions/artifacts");
+		var responseMessage = await httpClient.GetAsync($"https://api.github.com/repos/{Owner}/Notion-Sharp/actions/artifacts");
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception("Call failed");
@@ -209,11 +219,9 @@ partial class Build : NukeBuild
 		var artifacts = document.RootElement.GetProperty("artifacts");
 		foreach (var artifact in artifacts.EnumerateArray())
 		{
-			if (artifact.TryGetProperty("name", out var name) && name.GetString() == "warnings")
-			{
-				var archiveDownloadUrl = artifact.GetProperty("archive_download_url");
-				return archiveDownloadUrl.GetString();
-			}
+			if (!artifact.TryGetProperty("name", out var name) || name.GetString() != "warnings") continue;
+			var archiveDownloadUrl = artifact.GetProperty("archive_download_url");
+			return archiveDownloadUrl.GetString();
 		}
 
 		throw new Exception("Something wired happened");

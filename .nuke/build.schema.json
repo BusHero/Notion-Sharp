@@ -81,8 +81,9 @@
             "enum": [
               "CompareWithPreviousNbrOfWarnings",
               "Compile",
-              "DisplayNbrWarnings",
               "EnsureArtifactsDirectoryExists",
+              "Foo",
+              "GetCurrentNbrWarnings",
               "GetPreviousNbrOfWarnings",
               "NugetPublish",
               "Pack",
@@ -105,8 +106,9 @@
             "enum": [
               "CompareWithPreviousNbrOfWarnings",
               "Compile",
-              "DisplayNbrWarnings",
               "EnsureArtifactsDirectoryExists",
+              "Foo",
+              "GetCurrentNbrWarnings",
               "GetPreviousNbrOfWarnings",
               "NugetPublish",
               "Pack",
