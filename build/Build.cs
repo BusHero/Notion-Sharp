@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,8 +14,6 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitHub;
-using Nuke.Common.Tools.Kubernetes;
-using Nuke.Common.Utilities.Net;
 using Octokit;
 using Octokit.Internal;
 using Serilog;
@@ -35,7 +32,7 @@ partial class Build : NukeBuild
 	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
 
 	[Nuke.Common.Parameter, Secret] readonly string NotionKey = null!;
-	[Nuke.Common.Parameter, Secret] readonly string GithubToken = "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";
+	[Nuke.Common.Parameter, Secret] readonly string GithubToken = null!;
 
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
 
@@ -52,7 +49,7 @@ partial class Build : NukeBuild
 
 	Target Compile => _ => _
 		.DependsOn(Restore)
-		.Triggers(Test, DisplayNbrWarnings)
+		.Triggers(Test, GetCurrentNbrWarnings)
 		.Produces(nameof(WarningsOutput))
 		.Executes(() =>
 		{
@@ -69,7 +66,7 @@ partial class Build : NukeBuild
 	int PreviousWarningsCount;
 	int CurrentWarningsCount;
 	
-	Target DisplayNbrWarnings => _ => _
+	Target GetCurrentNbrWarnings => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
 		.DependsOn(EnsureArtifactsDirectoryExists)
 		.Unlisted()
@@ -80,6 +77,7 @@ partial class Build : NukeBuild
 			CurrentWarningsCount = int.Parse(match.Value);
 			Directory.GetParent(WarningsOutput);
 			File.WriteAllText(WarningsOutput, match.Value);
+			Log.Information("Current nbr. of warnings: {Warnings}", match.Value);
 		});
 	
 	Target EnsureArtifactsDirectoryExists => _ => _
@@ -154,6 +152,7 @@ partial class Build : NukeBuild
 			GitHubTasks.GitHubClient = new GitHubClient(
 					new ProductHeaderValue("NotionSharp"),
 					new InMemoryCredentialStore(credentials));
+			Log.Information("Authenticated GitHub client created");
 		});
 
 	Target GetPreviousNbrOfWarnings => _ => _
@@ -175,15 +174,22 @@ partial class Build : NukeBuild
 				await using var entryContent = entry.Open();
 				using var reader = new StreamReader(entryContent);
 				PreviousWarningsCount = int.Parse(reader.ReadLine() ?? string.Empty);
+				Log.Information("Previous nbr. of warnings: {Warnings}", PreviousWarningsCount);
 			}
 		});
 
 	Target CompareWithPreviousNbrOfWarnings => _ => _
-		.DependsOn(GetPreviousNbrOfWarnings, DisplayNbrWarnings)
-		.Consumes(GetPreviousNbrOfWarnings, DisplayNbrWarnings)
+		.DependsOn(GetPreviousNbrOfWarnings, GetCurrentNbrWarnings)
+		.Consumes(GetPreviousNbrOfWarnings, GetCurrentNbrWarnings)
 		.Executes(() =>
 		{
-			Assert.True(PreviousWarningsCount >= CurrentWarningsCount);
+			var result = PreviousWarningsCount >= CurrentWarningsCount;
+			Log.Information(
+				"{PreviousWarningCount} >= {CurrentWarningsCount}: {Result}", 
+				PreviousWarningsCount, 
+				CurrentWarningsCount,
+				result);
+			Assert.True(result);
 		});
 
 	
