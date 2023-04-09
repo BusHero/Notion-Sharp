@@ -14,7 +14,7 @@ internal class PropertyValueConverter : MyJsonConverter<PropertyValue>
         return Parser.ParseObject(propertyName => propertyName switch
         {
             "id" => Parser.String.Updater((string id, PropertyValue propertyValue) => propertyValue with { Id = id }),
-            "type" => Parser.String!.Updater<string, PropertyValue>(),
+            "type" => Parser.String.Updater<string, PropertyValue>(),
             "title" => Parser.ParseType<RichText[]>().Updater((RichText[] content, PropertyValue propertyValue) => propertyValue.Copy<Title>() with { Content = content }),
             "rich_text" => Parser.ParseType<RichText[]>().Updater((RichText[] content, PropertyValue propertyValue) => propertyValue.Copy<PropertyValue.Text>() with { Content = content }),
             "number" => Parser.OptionalDouble.Updater((double? value, PropertyValue propertyValue) => propertyValue.Copy<Number>() with { Value = value }),
