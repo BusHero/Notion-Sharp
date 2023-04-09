@@ -34,9 +34,7 @@ partial class Build : NukeBuild
 	[Nuke.Common.Parameter, Secret] readonly string GithubToken = null!;
 	
 	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
-#pragma warning disable CS0414
-	readonly GitRepository Repository = null!;
-#pragma warning restore CS0414
+	[GitRepository] readonly GitRepository Repository = null!;
 	readonly AbsolutePath PublishFolder = RootDirectory / "publish";
 	readonly AbsolutePath WarningsOutput = RootDirectory / "output" / "artifacts" / "warnings";
 	readonly AbsolutePath TestOutput = RootDirectory / "output" / "artifacts"  / "tests";
