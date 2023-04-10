@@ -1091,7 +1091,7 @@ public class BlockTests: NotionTestsBase
             table.Should().NotBeNull();
             table?.Id.Should().Be(Blocks.LinkPreview);
             table?.CreatedTime.Should().Be(DateTime.Parse("2023-03-31T05:50:00.000Z"));
-            table?.LastEditedTime.Should().Be(DateTime.Parse("2023-04-01T22:35:00.000Z"));
+            table?.LastEditedTime.Should().Be(DateTime.Parse("2023-04-10T19:23:00.000Z"));
             table?.Archived.Should().BeFalse();
             table?.HasChildren.Should().BeFalse();
             table?.Url.Should().Be("https://github.com/BusHero/Notion-Sharp");
