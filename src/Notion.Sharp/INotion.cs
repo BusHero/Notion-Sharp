@@ -61,6 +61,14 @@ public interface INotion
     Task<Database> GetDatabaseAsync([AliasAs("database_id")] Guid databaseId);
 
     /// <summary>
+    /// Retrieves a Database Json using the specified Id
+    /// </summary>
+    /// <param name="databaseId">The id of the database.</param>
+    /// <returns>The json string representing the Database</returns>
+    [Get("/databases/{database_id}")]
+    Task<string> GetDatabaseRawAsync([AliasAs("database_id")] Guid databaseId);
+
+    /// <summary>
     /// Gets a list of Pages contained in the database, filtered and ordered according to the filter conditions and sort criteria provided in the request. 
     /// The response may contain fewer than page_size of results.
     /// </summary>
