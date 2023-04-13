@@ -63,12 +63,13 @@ internal class PropertyConverter : MyJsonConverter<Property>
             {
                 "database_id" => Parser.Guid.Updater((Guid databaseId, Property.Relation relation) =>
                     relation with { DatabaseId = databaseId }),
-                "synced_property_name" => Parser.String.Updater(
-                    (string? syncedPropertyName, Property.Relation relation) =>
-                        relation with { SyncedPropertyName = syncedPropertyName }),
-                "synced_property_id" => Parser.String.Updater(
-                    (string? syncedPropertyId, Property.Relation relation) =>
-                        relation with { SyncedPropertyId = syncedPropertyId }),
+                "type" => Parser.String.Updater<string?, Property.Relation>(),
+                "dual_property" => Parser.ParseObject(propertyName2 => propertyName2 switch
+                {
+                    "synced_property_name" => Parser.String.Updater((string? syncedPropertyName, Property.Relation.DualRelation dualRelation) => dualRelation with{SyncedPropertyName = syncedPropertyName}),
+                    "synced_property_id" => Parser.String.Updater((string? syncedPropertyId, Property.Relation.DualRelation dualRelation) => dualRelation with { SyncedPropertyId = syncedPropertyId}),
+                    _ => Parser.FailUpdate<Property.Relation.DualRelation>($"Unknown key property.relation.dual_property.{propertyName2}"),
+                }, (Property.Relation relation) => relation.Copy<Property.Relation.DualRelation>()),
                 _ => Parser.FailUpdate<Property.Relation>($"Unknown key property.relation.{propertyName1}")
             }, (Property property) => property.Copy<Property.Relation>()),
             "rollup" => Parser.ParseObject(propertyName1 => propertyName1 switch

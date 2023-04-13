@@ -127,8 +127,22 @@ public record Property
     public record Relation : Property
     {
         public Guid DatabaseId { get; init; }
-        public string? SyncedPropertyName { get; init; }
-        public string? SyncedPropertyId { get; init; }
+
+        public record SingleRelation : Relation;
+
+        public record DualRelation : Relation
+        {
+            public string? SyncedPropertyName { get; init; }
+            public string? SyncedPropertyId { get; init; }
+        }
+        
+        public new T Copy<T>() where T : Relation, new() => new()
+        {
+            Id = Id,
+            Name = Name,
+            DatabaseId = DatabaseId
+        };
+
     }
 
     public record Formula : Property

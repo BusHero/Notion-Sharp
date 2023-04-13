@@ -385,19 +385,19 @@ public class DatabaseTests : NotionTestsBase
                 {
                     Id = Guid.Parse("8e233849-de45-48cd-b191-b655ecbd46e2"),
                     Name = "Not started",
-                    Color = "default"
+                    Color = "default",
                 },
                 new()
                 {
                     Id = Guid.Parse("9d19bd7a-b686-413c-886a-f66e480c565a"),
                     Name = "In progress",
-                    Color = "blue"
+                    Color = "blue",
                 },
                 new()
                 {
                     Id = Guid.Parse("09fce32d-da47-43b7-8d49-91bbed9424c0"),
                     Name = "Done",
-                    Color = "green"
+                    Color = "green",
                 }
             });
             status?.Groups.Should().BeEquivalentTo(new List<Property.Status.Group>
@@ -410,7 +410,7 @@ public class DatabaseTests : NotionTestsBase
                     OptionIds = new List<Guid>()
                     {
                         Guid.Parse("8e233849-de45-48cd-b191-b655ecbd46e2")
-                    }
+                    },
                 },
                 new()
                 {
@@ -433,6 +433,33 @@ public class DatabaseTests : NotionTestsBase
                     }
                 },
             });
+        }
+    }
+
+    [Fact]
+    public async Task Rollup()
+    {
+        // arrange
+
+        // act
+        var database = await Sut.GetDatabaseAsync(Databases.RelationChild.ToGuid());
+
+        // assert
+        using (new AssertionScope())
+        {
+            var rollup = database.Properties?["Rollup"] as Property.Rollup;
+            rollup?.Name.Should().Be("Rollup");
+            rollup?.Id.Should().Be("%5DzEA");
+            rollup?.RollupPropertyName.Should().Be("Name");
+            rollup?.RelationPropertyName.Should().Be("Relation Parent");
+            rollup?.RollupPropertyId.Should().Be("title");
+            rollup?.RelationPropertyId.Should().Be("|}Zo");
+            rollup?.Function.Should().Be("show_original");
+
+            var relation = database.Properties?["Relation Parent"] as Property.Relation;
+            relation?.Name.Should().Be("Relation Parent");
+            relation?.Id.Should().Be("%7C%7DZo");
+            relation?.DatabaseId.Should().Be(Guid.Parse("77f9b7d9-c817-4429-8b84-d00f30743587"));
         }
     }
 }
