@@ -12,7 +12,7 @@
     "object": "user",
     "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
   },
-  "last_edited_time": "2023-04-10T20:26:00.000Z",
+  "last_edited_time": "2023-04-13T20:40:00.000Z",
   "title": [
     {
       "type": "text",
@@ -35,6 +35,16 @@
   "description": [],
   "is_inline": true,
   "properties": {
+    "Relation Parent Single": {
+      "id": "%40%7B%7BE",
+      "name": "Relation Parent Single",
+      "type": "relation",
+      "relation": {
+        "database_id": "77f9b7d9-c817-4429-8b84-d00f30743587",
+        "type": "single_property",
+        "single_property": {}
+      }
+    },
     "Rollup": {
       "id": "%5DzEA",
       "name": "Rollup",
