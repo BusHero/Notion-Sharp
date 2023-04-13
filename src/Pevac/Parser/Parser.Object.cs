@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+// ReSharper disable once CheckNamespace
 namespace Pevac;
 
 public static partial class Parser
@@ -163,6 +164,5 @@ public static partial class Parser
     /// <typeparam name="T"></typeparam>
     /// <param name="message"></param>
     /// <returns></returns>
-    public static Parser<Func<T, T>?> FailUpdate<T>(string message = "Some default message") => Failure<Func<T, T>>(message);
-
+    public static Parser<Func<T, T>> FailUpdate<T>(string message = "Some default message") => Failure<Func<T, T>>(message);
 }
