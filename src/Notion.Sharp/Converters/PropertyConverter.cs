@@ -64,6 +64,7 @@ internal class PropertyConverter : MyJsonConverter<Property>
                 "database_id" => Parser.Guid.Updater((Guid databaseId, Property.Relation relation) =>
                     relation with { DatabaseId = databaseId }),
                 "type" => Parser.String.Updater<string?, Property.Relation>(),
+                "single_property" => Parser.EmptyObject.Updater((Void _, Property.Relation relation) => relation.Copy<Property.Relation.SingleRelation>()),
                 "dual_property" => Parser.ParseObject(propertyName2 => propertyName2 switch
                 {
                     "synced_property_name" => Parser.String.Updater((string? syncedPropertyName, Property.Relation.DualRelation dualRelation) => dualRelation with{SyncedPropertyName = syncedPropertyName}),

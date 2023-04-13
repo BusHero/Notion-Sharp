@@ -456,10 +456,17 @@ public class DatabaseTests : NotionTestsBase
             rollup?.RelationPropertyId.Should().Be("|}Zo");
             rollup?.Function.Should().Be("show_original");
 
-            var relation = database.Properties?["Relation Parent"] as Property.Relation;
-            relation?.Name.Should().Be("Relation Parent");
-            relation?.Id.Should().Be("%7C%7DZo");
-            relation?.DatabaseId.Should().Be(Guid.Parse("77f9b7d9-c817-4429-8b84-d00f30743587"));
+            var dualRelation = database.Properties?["Relation Parent"] as Property.Relation.DualRelation;
+            dualRelation?.Name.Should().Be("Relation Parent");
+            dualRelation?.Id.Should().Be("%7C%7DZo");
+            dualRelation?.DatabaseId.Should().Be(Guid.Parse("77f9b7d9-c817-4429-8b84-d00f30743587"));
+            dualRelation?.SyncedPropertyId.Should().Be("O%3DKh");
+            dualRelation?.SyncedPropertyName.Should().Be("Relation Child");
+
+            var singleRelation = database.Properties?["Relation Parent Single"] as Property.Relation.SingleRelation;
+            singleRelation?.Name.Should().Be("Relation Parent Single");
+            singleRelation?.Id.Should().Be("%40%7B%7BE");
+            singleRelation?.DatabaseId.Should().Be(Guid.Parse("77f9b7d9-c817-4429-8b84-d00f30743587"));
         }
     }
 }
