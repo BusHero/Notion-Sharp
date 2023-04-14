@@ -22,4 +22,8 @@ public static class Databases
     public const string LastEditedBy = "c6f491298d97482dad433b0f2a90f4d3";
     public const string RelationParent = "77f9b7d9c81744298b84d00f30743587";
     public const string RelationChild = "de19d314d189464a8223335fae86ec64";
+    
+    public const string DatabaseFullPage = "ce75d5a1ee5c4a7b802206ee8592c8b6";
+    public const string DatabaseWithIcon = "987f987c903e4d71843e8416f172fdf0"; 
+    public const string DatabaseWithCover = "e6bf26af439b4a0184c09c8b4f4549a7";
 }

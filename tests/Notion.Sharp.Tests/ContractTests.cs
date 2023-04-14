@@ -8,7 +8,8 @@ public enum Endpoints
     Pages,
     Blocks,
     RichTexts,
-    Databases
+    Databases,
+    DatabasePages,
 }
 
 public class ContractTests : NotionTestsBase
@@ -111,6 +112,29 @@ public class ContractTests : NotionTestsBase
     [InlineData(Endpoints.Databases, "LastEditedBy.json", Databases.LastEditedBy)]
     [InlineData(Endpoints.Databases, "RelationParent.json", Databases.RelationParent)]
     [InlineData(Endpoints.Databases, "RelationChild.json", Databases.RelationChild)]
+    [InlineData(Endpoints.Databases, "DatabaseFullPage.json", Databases.DatabaseFullPage)]
+    [InlineData(Endpoints.Databases, "DatabaseWithCover.json", Databases.DatabaseWithCover)]
+    [InlineData(Endpoints.Databases, "DatabaseWithIcon.json", Databases.DatabaseWithIcon)]
+    [InlineData(Endpoints.DatabasePages, "PageCheckBox.json", Pages.PageCheckBox)]
+    [InlineData(Endpoints.DatabasePages, "PageCreatedBy.json", Pages.PageCreatedBy)]
+    [InlineData(Endpoints.DatabasePages, "PageCreatedTime.json", Pages.PageCreatedTime)]
+    [InlineData(Endpoints.DatabasePages, "PageDate.json", Pages.PageDate)]
+    [InlineData(Endpoints.DatabasePages, "PageEmail.json", Pages.PageEmail)]
+    [InlineData(Endpoints.DatabasePages, "PageFile.json", Pages.PageFile)]
+    [InlineData(Endpoints.DatabasePages, "PageFormula.json", Pages.PageFormula)]
+    [InlineData(Endpoints.DatabasePages, "PageLastEditedBy.json", Pages.PageLastEditedBy)]
+    [InlineData(Endpoints.DatabasePages, "PageLastEditedTime.json", Pages.PageLastEditedTime)]
+    [InlineData(Endpoints.DatabasePages, "PageMultiSelect.json", Pages.PageMultiSelect)]
+    [InlineData(Endpoints.DatabasePages, "PageName.json", Pages.PageName)]
+    [InlineData(Endpoints.DatabasePages, "PageNumber.json", Pages.PageNumber)]
+    [InlineData(Endpoints.DatabasePages, "PageOption.json", Pages.PageOption)]
+    [InlineData(Endpoints.DatabasePages, "PagePerson.json", Pages.PagePerson)]
+    [InlineData(Endpoints.DatabasePages, "PagePhone.json", Pages.PagePhone)]
+    [InlineData(Endpoints.DatabasePages, "PageRelationChild.json", Pages.PageRelationChild)]
+    [InlineData(Endpoints.DatabasePages, "PageRelationParent.json", Pages.PageRelationParent)]
+    [InlineData(Endpoints.DatabasePages, "PageStatus.json", Pages.PageStatus)]
+    [InlineData(Endpoints.DatabasePages, "PageText.json", Pages.PageText)]
+    [InlineData(Endpoints.DatabasePages, "PageUrl.json", Pages.PageUrl)]
     public async Task Get(Endpoints endpoints, string fileName, string guid)
     {
         // arrange
@@ -128,13 +152,15 @@ public class ContractTests : NotionTestsBase
 
     private async Task<string> GetJson(Endpoints endpoints, string guid)
     {
+        var id = Guid.Parse(guid);
         var json = endpoints switch
         {
-            Endpoints.Blocks => await Sut.GetBlockRawAsync(Guid.Parse(guid)),
-            Endpoints.Pages => await Sut.GetPageRawAsync(Guid.Parse(guid)),
-            Endpoints.RichTexts => await Sut.GetBlockRawAsync(Guid.Parse(guid)),
-            Endpoints.Databases => await Sut.GetDatabaseRawAsync(Guid.Parse(guid)),
-            _ => throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null)
+            Endpoints.Blocks => await Sut.GetBlockRawAsync(id),
+            Endpoints.Pages => await Sut.GetPageRawAsync(id),
+            Endpoints.RichTexts => await Sut.GetBlockRawAsync(id),
+            Endpoints.Databases => await Sut.GetDatabaseRawAsync(id),
+            Endpoints.DatabasePages => await Sut.GetPageRawAsync(id),
+            _ => throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null),
         };
         return json.Formatted();
     }
@@ -147,7 +173,8 @@ public class ContractTests : NotionTestsBase
             Endpoints.Pages => Path.Combine("Resources", "Pages", fileName),
             Endpoints.RichTexts => Path.Combine("Resources", "RichTexts", fileName),
             Endpoints.Databases => Path.Combine("Resources", "Databases", fileName),
-            _ => throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null)
+            Endpoints.DatabasePages => Path.Combine("Resources", "DatabasePages", fileName),
+            _ => throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null),
         };
     }
 }

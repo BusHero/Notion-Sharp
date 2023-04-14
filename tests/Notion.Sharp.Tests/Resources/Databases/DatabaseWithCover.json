@@ -1,0 +1,64 @@
+{
+  "object": "database",
+  "id": "e6bf26af-439b-4a01-84c0-9c8b4f4549a7",
+  "cover": {
+    "type": "external",
+    "external": {
+      "url": "https://www.notion.so/images/page-cover/rijksmuseum_jansz_1641.jpg"
+    }
+  },
+  "icon": null,
+  "created_time": "2023-04-11T17:50:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "last_edited_by": {
+    "object": "user",
+    "id": "6591a4d4-ca53-4b54-a3ca-7d2420d6b902"
+  },
+  "last_edited_time": "2023-04-11T17:50:00.000Z",
+  "title": [
+    {
+      "type": "text",
+      "text": {
+        "content": "Database with Cover",
+        "link": null
+      },
+      "annotations": {
+        "bold": false,
+        "italic": false,
+        "strikethrough": false,
+        "underline": false,
+        "code": false,
+        "color": "default"
+      },
+      "plain_text": "Database with Cover",
+      "href": null
+    }
+  ],
+  "description": [],
+  "is_inline": false,
+  "properties": {
+    "Tags": {
+      "id": "%7C%3Aic",
+      "name": "Tags",
+      "type": "multi_select",
+      "multi_select": {
+        "options": []
+      }
+    },
+    "Name": {
+      "id": "title",
+      "name": "Name",
+      "type": "title",
+      "title": {}
+    }
+  },
+  "parent": {
+    "type": "page_id",
+    "page_id": "001e7c51-c1a0-4ccf-871a-b2e483155bf2"
+  },
+  "url": "https://www.notion.so/e6bf26af439b4a0184c09c8b4f4549a7",
+  "archived": false
+}
