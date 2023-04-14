@@ -1,5 +1,6 @@
 ﻿using FluentAssertions.Execution;
 using Notion.Sharp.Tests.Utils;
+using File = Notion.Model.File;
 using Property = Notion.Model.Property;
 using Users = Notion.Sharp.Tests.Utils.Users;
 
@@ -7,6 +8,42 @@ namespace Notion.Sharp.Tests;
 
 public class DatabaseTests : NotionTestsBase
 {
+    [Fact]
+    public async Task DatabaseWithIcon()
+    {
+        // arrange
+        
+        // act
+        var database = await Sut.GetDatabaseAsync(Databases.DatabaseWithIcon.ToGuid());
+        
+        // assert 
+        using (new AssertionScope())
+        {
+            database.IsInline.Should().BeFalse();
+            
+            var emoji = database.Icon as Icon.Emoji;
+            emoji?.Value.Should().Be("\uD83D\uDE00");
+        }
+    }
+
+    [Fact]
+    public async Task DatabaseWithCover()
+    {
+        // arrange
+        
+        // act
+        var database = await Sut.GetDatabaseAsync(Databases.DatabaseWithCover.ToGuid());
+        
+        // assert 
+        using (new AssertionScope())
+        {
+            database.IsInline.Should().BeFalse();
+
+            var cover = database.Cover as File.External;
+            cover?.Uri.Should().Be("https://www.notion.so/images/page-cover/rijksmuseum_jansz_1641.jpg");
+        }
+    }
+    
     [Fact]
     public async Task Name()
     {
@@ -23,8 +60,8 @@ public class DatabaseTests : NotionTestsBase
             database.Icon.Should().BeNull();
             database.CreatedTime.Should().Be(DateTimeOffset.Parse("2023-04-10T19:34:00.000Z"));
             database.LastEditedTime.Should().Be(DateTimeOffset.Parse("2023-04-10T19:45:00.000Z"));
-            database.IsInline.Should().Be(true);
-            database.Archived.Should().Be(false);
+            database.IsInline.Should().BeTrue();
+            database.Archived.Should().BeFalse();
             database.Url.Should().Be("https://www.notion.so/8c58fac02aac4c688315dd8b82e5d024");
 
             database.Title.Should().HaveCount(1);

@@ -11,7 +11,7 @@ public record Database : PageOrDatabase
     [JsonPropertyName("created_time")] public DateTimeOffset CreatedTime { get; set; }
     [JsonPropertyName("last_edited_time")] public DateTimeOffset LastEditedTime { get; set; }
     [JsonPropertyName("title")] public RichText[]? Title { get; init; }
-    [JsonPropertyName("icon")] public File? Icon { get; init; }
+    [JsonPropertyName("icon")] public Icon? Icon { get; init; }
     [JsonPropertyName("cover")] public File? Cover { get; init; }
     [JsonPropertyName("properties")] public Dictionary<string, Property>? Properties { get; init; }
     [JsonPropertyName("parent")] public Parent? Parent { get; init; }
