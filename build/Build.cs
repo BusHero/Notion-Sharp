@@ -62,7 +62,7 @@ partial class Build : NukeBuild
 
 	Target Compile => _ => _
 		.DependsOn(Restore)
-		.Triggers(Test, GetCurrentNbrWarnings)
+		.Triggers(Test, GetCurrentWarningsCount)
 		.Produces(nameof(WarningsOutput))
 		.Executes(() =>
 		{
@@ -73,7 +73,7 @@ partial class Build : NukeBuild
 
 		});
 	
-	Target GetCurrentNbrWarnings => _ => _
+	Target GetCurrentWarningsCount => _ => _
 		.Consumes(Compile, nameof(CompileOutput))
 		.DependsOn(EnsureArtifactsDirectoryExists)
 		.Unlisted()
@@ -138,10 +138,9 @@ partial class Build : NukeBuild
 				.EnableNoRestore());
 		});
 
-
 	Target NugetPublish => _ => _
 		.Description("Publish to GitHub nuget index")
-		.DependsOn(Pack, Test, CompareWithPreviousNbrOfWarnings)
+		.DependsOn(Pack, Test, CompareWithPreviousWarningsCount)
 		.Executes(() =>
 		{
 			DotNetNuGetPush(_ => _
@@ -162,7 +161,7 @@ partial class Build : NukeBuild
 			Log.Information("Authenticated GitHub client created");
 		});
 
-	Target GetPreviousNbrOfWarnings => _ => _
+	Target GetPreviousWarningsCount => _ => _
 		.DependsOn(SetupGitHubClient, SetUpHttpClient)
 		.Unlisted()
 		.Executes(async () =>
@@ -181,9 +180,9 @@ partial class Build : NukeBuild
 			}
 		});
 
-	Target CompareWithPreviousNbrOfWarnings => _ => _
-		.DependsOn(GetPreviousNbrOfWarnings, GetCurrentNbrWarnings)
-		.Consumes(GetPreviousNbrOfWarnings, GetCurrentNbrWarnings)
+	Target CompareWithPreviousWarningsCount => _ => _
+		.DependsOn(GetPreviousWarningsCount, GetCurrentWarningsCount)
+		.Consumes(GetPreviousWarningsCount, GetCurrentWarningsCount)
 		.Executes(() =>
 		{
 			var result = PreviousWarningsCount >= CurrentWarningsCount;
