@@ -79,16 +79,16 @@
           "items": {
             "type": "string",
             "enum": [
-              "CompareWithPreviousNbrOfWarnings",
+              "CompareWithPreviousWarningsCount",
               "Compile",
               "EnsureArtifactsDirectoryExists",
-              "Foo",
-              "GetCurrentNbrWarnings",
-              "GetPreviousNbrOfWarnings",
+              "GetCurrentWarningsCount",
+              "GetPreviousWarningsCount",
               "NugetPublish",
               "Pack",
               "Restore",
               "SetupGitHubClient",
+              "SetUpHttpClient",
               "StoreSecrets",
               "Test"
             ]
@@ -104,16 +104,16 @@
           "items": {
             "type": "string",
             "enum": [
-              "CompareWithPreviousNbrOfWarnings",
+              "CompareWithPreviousWarningsCount",
               "Compile",
               "EnsureArtifactsDirectoryExists",
-              "Foo",
-              "GetCurrentNbrWarnings",
-              "GetPreviousNbrOfWarnings",
+              "GetCurrentWarningsCount",
+              "GetPreviousWarningsCount",
               "NugetPublish",
               "Pack",
               "Restore",
               "SetupGitHubClient",
+              "SetUpHttpClient",
               "StoreSecrets",
               "Test"
             ]
