@@ -1,32 +1,34 @@
 ﻿using System;
 
+// ReSharper disable once CheckNamespace
 namespace Notion.Model;
 
 public record File
 {
-    public RichText[] Caption { get; init; }
+    public RichText[]? Caption { get; init; }
 
-    public string Name { get; init; }
+    public string? Name { get; init; }
 
     public record External : File
     {
-        public Uri Uri { get; init; }
+        public Uri? Uri { get; init; }
     }
 
     public record Internal : File
     {
-        public Uri Uri { get; set; }
+        public Uri? Uri { get; set; }
         public DateTime ExpireTime { get; set; }
     }
 
     public record Emoji : File
     {
-        public string Value { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public string? Value { get; set; }
     }
     
     public T Copy<T>() where T : File, new() => new()
     {
-        Caption = Caption
+        Name = Name,
+        Caption = Caption,
     };
-
 }

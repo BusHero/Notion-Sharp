@@ -120,13 +120,15 @@ public static partial class Parser
         ArgumentNullException.ThrowIfNull(parserSelector);
         return (ref Utf8JsonReader reader, JsonSerializerOptions? options) =>
         {
-            if (ParseCurrentToken(JsonTokenType.StartObject).Or(StartObjectToken)(ref reader, options) is IFailure<Func<T, T>> failure)
-                return failure;
+            var result = ParseCurrentToken(JsonTokenType.StartObject)
+                .Or(StartObjectToken)(ref reader, options);
+            if (result is IFailure<Void> failure)
+                return failure.Repack<Func<T, T>>();
             var updaters = new List<Func<T, T>>();
             
-            while (PropertyName(ref reader, options) is ISuccess<string>{Value: var propertyName})
+            while (PropertyName(ref reader, options) is ISuccess<string>{Value: var name})
             {
-                switch (parserSelector(propertyName)(ref reader, options))
+                switch (parserSelector(name)(ref reader, options))
                 {
                     case ISuccess<Func<T, T>> { Value: var value }:
                         updaters.Add(value);
