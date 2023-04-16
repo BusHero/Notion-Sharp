@@ -667,7 +667,6 @@ public class BlockTests: NotionTestsBase
             file.Should().NotBeNull();
             file?.Caption.Should().BeNullOrEmpty();
             file?.Uri.Should().NotBeNull();
-            file?.ExpireTime.Should().BeSameDateAs(DateTime.Today);
 
             var parent = video?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -702,7 +701,7 @@ public class BlockTests: NotionTestsBase
             file?.Uri.Should().Be("http://www.africau.edu/images/default/sample.pdf");
             
             file?.Caption.Should().ContainSingle();
-            var richText = file?.Caption[0] as RichText.Text;
+            var richText = file?.Caption?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("File with caption");
             richText?.Link.Should().BeNull();

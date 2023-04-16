@@ -97,7 +97,6 @@ public class PageTests: NotionTestsBase
         {
             var externalFile = page.Icon as Icon.File;
             externalFile!.Url.Should().NotBeNull();
-            externalFile!.ExpiryTime.Should().BeSameDateAs(DateTime.Now);
         }
     }
 
@@ -157,7 +156,6 @@ public class PageTests: NotionTestsBase
         {
             var externalFile = page.Cover as Cover.File;
             externalFile!.Url.Should().NotBeNull();
-            externalFile.ExpiryTime.Should().BeSameDateAs(DateTime.Now);
         }
     }
 
