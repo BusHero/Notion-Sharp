@@ -13,6 +13,7 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitHub;
 using Octokit;
@@ -39,6 +40,7 @@ partial class Build : NukeBuild
 
     static AbsolutePath WarningsOutput => RootDirectory / "output" / "artifacts" / "warnings";
 
+    static AbsolutePath CoverageResultFile => RootDirectory / "output" / "coverage"  / "coverage.json";
     static AbsolutePath TestOutput => RootDirectory / "output" / "artifacts"  / "tests";
 	IReadOnlyCollection<Output> CompileOutput { get; set; } = null!;
 	int PreviousWarningsCount { get; set; }
@@ -51,7 +53,6 @@ partial class Build : NukeBuild
 	GitHubActions GitHubActions => GitHubActions.Instance;
 #pragma warning restore CA1822
 	static long RunAttempt => EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
-	
 	
 	Target Restore => _ => _
 		.Executes(() =>
@@ -105,8 +106,13 @@ partial class Build : NukeBuild
 			DotNetTest(_ => _
 				.SetProjectFile(Solution)
 				.SetLoggers($"trx;LogFileName={TestOutput}")
+				.EnableCollectCoverage()
+				.SetCoverletOutput(CoverageResultFile)
+				.AddProperty("MergeWith", CoverageResultFile)
 				.EnableNoBuild()
 				.EnableNoRestore()
+				.EnableNoLogo()
+				.EnableUseSourceLink()
 				.SetConfiguration(Configuration));
 		});
 
