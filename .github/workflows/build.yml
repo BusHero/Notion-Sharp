@@ -40,5 +40,6 @@ jobs:
           path: output/artifacts/warnings
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
-        files: ./output/coverage/coverage.json
+        with:
+          files: ./output/coverage/coverage.json
       
