@@ -38,4 +38,8 @@ jobs:
         with:
           name: warnings
           path: output/artifacts/warnings
-      
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage 
+          path: output/coverage/coverage.json
