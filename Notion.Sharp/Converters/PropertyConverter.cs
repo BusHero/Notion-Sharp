@@ -3,6 +3,7 @@ using Pevac;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using Notion.Converters.Utils;
 using Void = Pevac.Void;
 
 namespace Notion.Converters;

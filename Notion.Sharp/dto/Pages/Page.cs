@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Notion.Model;
 
 public record Page : PageOrDatabase
@@ -18,13 +18,13 @@ public record Page : PageOrDatabase
     [JsonPropertyName("archived")]
     public bool Archived { get; set; }
     [JsonPropertyName("icon")]
-    public Icon Icon { get; set; }
+    public Icon? Icon { get; set; }
     [JsonPropertyName("cover")]
-    public Cover Cover { get; set; }
+    public Cover? Cover { get; set; }
     [JsonPropertyName("properties")]
-    public Dictionary<string, PropertyValue> Properties { get; set; }
+    public Dictionary<string, PropertyValue>? Properties { get; set; }
     [JsonPropertyName("parent")]
-    public Parent Parent { get; set; }
+    public Parent? Parent { get; set; }
     [JsonPropertyName("url")]
-    public Uri Url { get; set; }
+    public Uri? Url { get; set; }
 }

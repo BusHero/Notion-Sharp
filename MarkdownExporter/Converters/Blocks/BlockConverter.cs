@@ -6,16 +6,16 @@ namespace MarkdownExporter;
 
 public abstract class BlockConverter<T> : Converter<T> where T : Block
 {
-    public override Option<List<string>> Convert(T block, ConverterSettings? settings)
+    public override Option<List<string?>> Convert(T block, ConverterSettings? settings)
     {
-        var result = GetText(block)
+        Option<List<string?>> result = GetText(block)
             .Select(text => Converter.Convert(text, settings))
             .Aggregate(Option.Binary<List<string>>(Lists.Add))
             .Select(Strings.Join)
             .Select(Format)
             .Select(Lists.Of);
 
-        var children = GetChildren(block)
+        Option<List<string?>> children = GetChildren(block)
             .Select(block => Converter.Convert(block, settings))
             .Aggregate(new List<string>().ToOption(), (first, second) => first.Map2(second, Lists.Add))
             .Select(list => list.Select(FormatChild))

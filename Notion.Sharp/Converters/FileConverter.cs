@@ -4,6 +4,7 @@ using Pevac;
 
 using System;
 using System.Text.Json;
+using Notion.Converters.Utils;
 
 namespace Notion.Converters;
 

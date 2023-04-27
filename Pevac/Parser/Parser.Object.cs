@@ -12,23 +12,23 @@ public static partial class Parser
     /// Creates an updater.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam name="TU"></typeparam>
     /// <returns></returns>
-    public static Parser<Func<U, U>> Updater<T, U>(this Parser<T> parser, Func<T, U, U> func) =>
+    public static Parser<Func<TU, TU>> Updater<T, TU>(this Parser<T> parser, Func<T, TU, TU> func) =>
         from t in parser
-        select new Func<U, U>(u => func(t, u));
+        select new Func<TU, TU>(u => func(t, u));
 
     /// <summary>
     /// Creates an updater.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam name="TU"></typeparam>
     /// <param name="parser"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static Parser<Func<U, U>> Updater<T, U>(this Parser<T> parser, Action<T, U> action) =>
+    public static Parser<Func<TU, TU>> Updater<T, TU>(this Parser<T> parser, Action<T, TU> action) =>
         from t in parser
-        select new Func<U, U>(u =>
+        select new Func<TU, TU>(u =>
         {
             action(t, u);
             return u;
@@ -38,11 +38,11 @@ public static partial class Parser
     /// Creates an updater.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam name="TU"></typeparam>
     /// <param name="parser"></param>
     /// <param name="func"></param>
     /// <returns></returns>
-    public static Parser<Func<U, U>> Updater<T, U>(this Parser<T> parser, Func<U, U> func) =>
+    public static Parser<Func<TU, TU>> Updater<T, TU>(this Parser<T> parser, Func<TU, TU> func) =>
         from _ in parser
         select func;
 
@@ -50,13 +50,13 @@ public static partial class Parser
     /// Creates an updater.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam name="TU"></typeparam>
     /// <param name="parser"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static Parser<Func<U, U>> Updater<T, U>(this Parser<T> parser, Action<U> action) =>
+    public static Parser<Func<TU, TU>> Updater<T, TU>(this Parser<T> parser, Action<TU> action) =>
         from _ in parser
-        select new Func<U, U>(u =>
+        select new Func<TU, TU>(u =>
         {
             action(u);
             return u;
@@ -66,13 +66,13 @@ public static partial class Parser
     /// Creates an identity updater
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="U"></typeparam>
+    /// <typeparam name="TU"></typeparam>
     /// <param name="parser"></param>
     /// <returns></returns>
-    public static Parser<Func<U, U>> Updater<T, U>(this Parser<T> parser) =>
+    public static Parser<Func<TU, TU>> Updater<T, TU>(this Parser<T> parser) =>
         from _ in parser
-        select new Func<U, U>(u => u);
-
+        select new Func<TU, TU>(u => u);
+    
     /// <summary>
     /// 
     /// </summary>

@@ -5,19 +5,22 @@ namespace Notion.Sharp.Tests;
 public class NotionTestsBase
 {
     internal INotion Sut { get; }
-
+    internal NotionClient NotionClient { get; }
+    
     protected NotionTestsBase()
     {
         var configuration = new ConfigurationBuilder()
             .AddUserSecrets<ModelTests>()
             .Build();
 
-        Sut = Notion.NewClient(bearerToken: configuration["Notion"], "2022-06-28");
+        var token = configuration["Notion"] ?? throw new InvalidOperationException();
+        Sut = Notion.NewClient(token);
+        NotionClient = new NotionClient(new Credentials(token));
     }
 
     protected static async Task RetryAsync(Func<Task> action, int attempts)
     {
-        for (var attempt = 0; attempt < attempts; attempt++)
+        for (var attempt = 0; attempt < attempts; )
         {
             try
             {

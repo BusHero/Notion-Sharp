@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Notion.Converters;
+namespace Notion.Converters.Utils;
 
 internal abstract class MyJsonConverter<T> : JsonConverter<T>
 {
     public override bool CanConvert(Type typeToConvert) => typeof(T).IsAssignableFrom(typeToConvert);
 
-    public Dictionary<Type, IWriter<T>> Writers { get; init; }
+    public Dictionary<Type, IWriter<T>> Writers { get; init; } = new();
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        if (Writers is null || !Writers.TryGetValue(value.GetType(), out var propertyWriter))
+        var type = value?.GetType() ?? throw new ArgumentNullException(nameof(value));
+        if (!Writers.TryGetValue(type, out var propertyWriter))
             throw new JsonException($"Cannot serialize {value.GetType().Name}");
 
         writer.WriteStartObject();
-        writer.WritePropertyName(propertyWriter.Property);
+        writer.WritePropertyName(propertyWriter.Property ?? throw new InvalidOperationException());
         propertyWriter.Write(writer, value, options);
         writer.WriteEndObject();
     }

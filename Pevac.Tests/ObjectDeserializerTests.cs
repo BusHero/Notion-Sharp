@@ -16,7 +16,7 @@ public class ObjectDeserializerTests
 
     private record Baz() : Foo
     {
-        public string BazValue { get; set; }
+        public string? BazValue { get; set; }
     }
 
     private record Data(string Foo, string Bar)

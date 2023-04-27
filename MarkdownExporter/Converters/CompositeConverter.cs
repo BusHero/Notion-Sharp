@@ -14,7 +14,7 @@ public class CompositeConverter : Converter
 
     public List<Converter> Converters { get; }
 
-    public override Option<List<string>> Convert(object? value, ConverterSettings? settings)
+    public override Option<List<string?>> Convert(object? value, ConverterSettings? settings)
     {
         foreach (var converter in Converters)
         {
