@@ -4,7 +4,7 @@ namespace MarkdownExporter;
 
 public interface IAplicable
 {
-    string Apply(RichText richText, string result);
+    string? Apply(RichText richText, string? result);
 
     public static IAplicable operator +(IAplicable first, IAplicable second) => Applicable.ToAplicable((richText, result) => second
         .Apply(richText, first.Apply(richText, result)));
@@ -12,7 +12,7 @@ public interface IAplicable
 
 public static class Applicable
 {
-    public static IAplicable ToAplicable(Func<RichText, string, string> func) => new RelayAplicable(func);
+    public static IAplicable ToAplicable(Func<RichText, string, string?> func) => new RelayAplicable(func);
 
     public static IAplicable ToAplicable(Func<RichText, string> func) => new RelayAplicable((richText, _) => func(richText));
 
@@ -58,9 +58,9 @@ public static class Applicable
             _ => Id<string>);
 
     internal record RelayAplicable(
-        Func<RichText, string, string> Relay) : IAplicable
+        Func<RichText, string, string?> Relay) : IAplicable
     {
-        public string Apply(RichText richText, string result) => Relay(richText, result);
+        public string? Apply(RichText richText, string? result) => Relay(richText, result);
     }
 
     internal record RelayApplicable(
@@ -68,7 +68,7 @@ public static class Applicable
         Func<string, string> WhenTrue,
         Func<string, string> WhenFalse) : IAplicable
     {
-        public string Apply(RichText richText, string result) => Predicate(richText) switch
+        public string? Apply(RichText richText, string? result) => Predicate(richText) switch
         {
             true => WhenTrue(result),
             false => WhenFalse(result)
@@ -80,7 +80,7 @@ public static class Applicable
         Func<RichText, Func<string, string>> WhenTrue,
         Func<RichText, Func<string, string>> WhenFalse) : IAplicable
     {
-        public string Apply(RichText richText, string result) => Predicate(richText) switch
+        public string? Apply(RichText richText, string? result) => Predicate(richText) switch
         {
             true => WhenTrue(richText)(result),
             false => WhenFalse(richText)(result)

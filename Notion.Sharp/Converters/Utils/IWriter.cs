@@ -4,7 +4,7 @@ namespace Notion.Converters;
 
 internal interface IWriter<T>
 {
-    string Property { get; }
+    string? Property { get; }
 
     void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options);
 }

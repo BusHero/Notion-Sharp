@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Text.Json;
 
-namespace Notion.Converters;
+namespace Notion.Converters.Utils;
 
 internal static class Writer
 {
@@ -19,9 +18,9 @@ internal static class Writer
 
     private class DelegateWriter<T> : IWriter<T>
     {
-        public string Property { get; init; }
+        public string? Property { get; init; }
 
-        public Action<Utf8JsonWriter, T, JsonSerializerOptions?> Writer { get; init; }
+        public Action<Utf8JsonWriter, T, JsonSerializerOptions?>? Writer { get; init; }
 
         public void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {

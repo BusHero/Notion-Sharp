@@ -13,7 +13,7 @@ public class PageTests: NotionTestsBase
         //arrange
         
         //act 
-        var page = await Sut.GetPageAsync(Pages.Page.ToGuid());
+        var page = await NotionClient.Page(Pages.Page.ToGuid()).Get();
         
         //assert
         using (new AssertionScope())
@@ -33,7 +33,7 @@ public class PageTests: NotionTestsBase
         //arrange
         
         //act 
-        var page = await Sut.GetPageAsync(Pages.DeletedPage.ToGuid());
+        var page = await NotionClient.Page(Pages.DeletedPage.ToGuid()).Get();
         
         //assert
         using (new AssertionScope())
@@ -47,7 +47,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithEmojiIconWorks()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithEmojiIcon.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithEmojiIcon.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -61,7 +61,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithIconWorks()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithIcon.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithIcon.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -75,7 +75,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithCustomLinkIconWorks()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithCustomLinkIcon.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithCustomLinkIcon.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -90,7 +90,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithUploadedIconWorks()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithUploadedIcon.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithUploadedIcon.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -104,7 +104,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithCover()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithCover.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithCover.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -119,7 +119,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithCustomLinkCover()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithCustomLinkCover.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithCustomLinkCover.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -134,7 +134,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithUnsplashCover()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithUnsplashCover.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithUnsplashCover.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -149,7 +149,7 @@ public class PageTests: NotionTestsBase
     public async Task GetPageWithUploadedCover()
     {
         // act
-        var page = await Sut.GetPageAsync(Pages.PageWithUploadedCover.ToGuid());
+        var page = await NotionClient.Page(Pages.PageWithUploadedCover.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -165,7 +165,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageName.ToGuid());
+        var page = await NotionClient.Page(Pages.PageName.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -181,7 +181,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageText.ToGuid());
+        var page = await NotionClient.Page(Pages.PageText.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -197,7 +197,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageCheckBox.ToGuid());
+        var page = await NotionClient.Page(Pages.PageCheckBox.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -213,7 +213,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageCreatedTime.ToGuid());
+        var page = await NotionClient.Page(Pages.PageCreatedTime.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -229,7 +229,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageDate.ToGuid());
+        var page = await NotionClient.Page(Pages.PageDate.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -247,7 +247,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageEmail.ToGuid());
+        var page = await NotionClient.Page(Pages.PageEmail.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -263,7 +263,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageLastEditedTime.ToGuid());
+        var page = await NotionClient.Page(Pages.PageLastEditedTime.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -279,7 +279,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageFormula.ToGuid());
+        var page = await NotionClient.Page(Pages.PageFormula.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -295,7 +295,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PagePhone.ToGuid());
+        var page = await NotionClient.Page(Pages.PagePhone.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -311,7 +311,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageUrl.ToGuid());
+        var page = await NotionClient.Page(Pages.PageUrl.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -327,7 +327,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageNumber.ToGuid());
+        var page = await NotionClient.Page(Pages.PageNumber.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -343,7 +343,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageOption.ToGuid());
+        var page = await NotionClient.Page(Pages.PageOption.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -361,7 +361,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageMultiSelect.ToGuid());
+        var page = await NotionClient.Page(Pages.PageMultiSelect.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -392,7 +392,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageFile.ToGuid());
+        var page = await NotionClient.Page(Pages.PageFile.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -410,7 +410,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageCreatedBy.ToGuid());
+        var page = await NotionClient.Page(Pages.PageCreatedBy.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -429,7 +429,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageLastEditedBy.ToGuid());
+        var page = await NotionClient.Page(Pages.PageLastEditedBy.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -448,7 +448,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PagePerson.ToGuid());
+        var page = await NotionClient.Page(Pages.PagePerson.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -467,7 +467,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageRelationParent.ToGuid());
+        var page = await NotionClient.Page(Pages.PageRelationParent.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -483,7 +483,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageRelationChild.ToGuid());
+        var page = await NotionClient.Page(Pages.PageRelationChild.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -504,7 +504,7 @@ public class PageTests: NotionTestsBase
         // arrange
         
         // act
-        var page = await Sut.GetPageAsync(Pages.PageStatus.ToGuid());
+        var page = await NotionClient.Page(Pages.PageStatus.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())

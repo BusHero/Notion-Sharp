@@ -21,7 +21,7 @@ public class RichTextConverterTests
 
     private ConverterSettings? Settings { get; } = default;
 
-    private IEqualityComparer<Option<List<string>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
+    private IEqualityComparer<Option<List<string?>>> Comparer { get; } = new OptionComparer<List<string>>(new ListSequenceComparer<string>());
 
 
     [Theory]
@@ -31,7 +31,7 @@ public class RichTextConverterTests
         var actualResult = Converter
             .Convert(richText, Settings);
 
-        var expectedResult = new List<string> { expectedString }.ToOption();
+        var expectedResult = new List<string?> { expectedString }.ToOption();
 
         Assert.Equal(expectedResult, actualResult, Comparer);
     }

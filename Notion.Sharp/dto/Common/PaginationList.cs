@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Notion.Model;
 
 public record PaginationList<TItem>
@@ -11,7 +10,7 @@ public record PaginationList<TItem>
     public const string Object = "list";
 
     [JsonPropertyName("results")]
-    public TItem[] Results { get; set; }
+    public TItem[]? Results { get; set; }
 
     [JsonPropertyName("next_cursor")]
     public Guid? NextCursor { get; set; }

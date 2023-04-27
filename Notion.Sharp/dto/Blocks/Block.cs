@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Notion.Model;
 
 public record LastEditedBy
@@ -45,53 +46,53 @@ public record Block
     
     public record Paragraph : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
     }
 
     public record Heading1 : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
         public bool IsToggable { get; set; }
     }
 
     public record Heading2 : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
         public bool IsToggable { get; set; }
     }
 
     public record Heading3 : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
         public bool IsToggable { get; set; }
     }
 
     public record NumberedListItem : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
     }
 
     public record BulletedListItem : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
     }
 
     public record ToDo : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public bool Checked { get; set; }
         public Color Color { get; set; }
     }
 
     public record Toggle : Block
     {
-        public RichText[] Text { get; set; }
+        public RichText[]? Text { get; set; }
         public Color Color { get; set; }
     }
 
@@ -171,11 +172,11 @@ public record Block
             public static LanguageType Xml { get; } = new LanguageType("xml");
             public static LanguageType Yaml { get; } = new LanguageType("yaml");
 
-            private readonly string language;
+            private readonly string? _language;
 
-            public LanguageType(string language) => this.language = language ?? throw new ArgumentNullException(nameof(language));
+            public LanguageType(string language) => this._language = language ?? throw new ArgumentNullException(nameof(language));
 
-            public override string ToString() => language;
+            public override string? ToString() => _language;
         }
 
         public RichText[]? Text { get; init; }
@@ -186,91 +187,85 @@ public record Block
 
     public record ChildPage : Block
     {
-        public string Title { get; set; }
+        public string? Title { get; set; }
     }
 
     public record ChildDatabase : Block
     {
-        public string Title { get; set; }
+        public string? Title { get; set; }
     }
 
     public record Embed : Block
     {
-        public RichText[] Caption { get; init; }
-        public Uri Url { get; init; }
+        public RichText[]? Caption { get; init; }
+        public Uri? Url { get; init; }
     }
 
     public record Image : Block
     {
-        public File File { get; init; }
+        public File? File { get; init; }
     }
 
     public record Video : Block
     {
-        public File File { get; init; }
+        public File? File { get; init; }
     }
 
     public record Audio : Block
     {
-        public File File { get; set; }
+        public File? File { get; set; }
     }
 
     public record FileBlock : Block
     {
-        public File File { get; init; }
+        public File? File { get; init; }
     }
 
     public record Pdf : Block
     {
-        public File File { get; init; }
+        public File? File { get; init; }
     }
 
     public record Bookmark : Block
     {
-        public RichText[] Caption { get; init; }
-        public Uri Url { get; init; }
+        public RichText[]? Caption { get; init; }
+        public Uri? Url { get; init; }
     }
 
     public record Callout : Block
     {
-        public RichText[] Text { get; init; }
+        public RichText[]? Text { get; init; }
         public Color Color { get; set; }
-        public Emoji Icon { get; init; }
+        public Emoji? Icon { get; init; }
     }
 
     public record Quote : Block
     {
-        public RichText[] Text { get; init; }
+        public RichText[]? Text { get; init; }
         public Color Color { get; set; }
     }
 
     public record Equation : Block
     {
-        public string Expression { get; init; }
+        public string? Expression { get; init; }
     }
 
-    public record Divider : Block
-    {
-
-    }
+    public record Divider : Block;
 
     public record TableOfContents : Block
     {
         public Color Color { get; set; }
     }
 
-    public record Unsupported : Block { }
+    public record Unsupported : Block;
 
-    public record Breadcrumb : Block { }
+    public record Breadcrumb : Block;
 
-    public record ColumnList : Block { }
+    public record ColumnList : Block;
 
-    public record Column : Block { }
+    public record Column : Block;
 
-    public record LinkToPage: Block
-    {
-        
-    }
+    public record LinkToPage: Block;
 
     public record DatabasePageLink : LinkToPage
     {
@@ -293,7 +288,7 @@ public record Block
 
     public record SyncBlock : Block
     {
-        public SyncedFrom From { get; set; }
+        public SyncedFrom? From { get; set; }
     }
 
     public record SyncedFrom
@@ -304,6 +299,6 @@ public record Block
 
     public record LinkPreview : Block
     {
-        public Uri Url { get; set; }   
+        public Uri? Url { get; set; }   
     }
 }

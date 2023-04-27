@@ -1,12 +1,13 @@
 ﻿using System;
 
+// ReSharper disable once CheckNamespace
 namespace Notion.Model;
 
 public record RichText
 {
-    public string PlainText { get; init; }
+    public string? PlainText { get; init; }
     public Uri? Href { get; init; }
-    public Annotations Annotations { get; init; }
+    public Annotations? Annotations { get; init; }
 
     public T Copy<T>() where T : RichText, new() => new()
     {
@@ -21,8 +22,8 @@ public record RichText
 
     public record Text : RichText
     {
-        public string Content { get; init; }
-        public Link Link { get; init; }
+        public string? Content { get; init; }
+        public Link? Link { get; init; }
 
         public static Text Copy(RichText richText) => new()
         {
@@ -32,8 +33,7 @@ public record RichText
         };
     }
 
-    public record Mention : RichText
-    { }
+    public record Mention : RichText;
 
     public record PageMention : Mention
     {
@@ -42,7 +42,7 @@ public record RichText
 
     public record LinkPreviewMention: Mention
     {
-        public Uri Url { get; init; }
+        public Uri? Url { get; init; }
     }
 
     public record DateMention : Mention
@@ -50,7 +50,7 @@ public record RichText
         public DateTimeOffset? Start { get; init; }
         public DateTimeOffset? End { get; init; }
 
-        public string TimeZone { get; init; }
+        public string? TimeZone { get; init; }
     }
 
     public record DatabaseMention : Mention
@@ -60,12 +60,12 @@ public record RichText
 
     public record UserMention : Mention
     {
-        public User User { get; init; }
+        public User? User { get; init; }
     }
 
     public record Equation : RichText
     {
-        public string Expression { get; init; }
+        public string? Expression { get; init; }
     }
 
     #endregion
