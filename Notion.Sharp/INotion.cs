@@ -22,12 +22,11 @@ public interface INotion
     Task<Database> CreateDatabaseAsync(Database database);
 
     [Patch("/databases/{id}")]
-     Task<Database> UpdateDatabaseAsync(Guid id, [Body] object database);
+    Task<Database> UpdateDatabaseAsync(Guid id, [Body] object database);
 
     /// <summary>
     /// Updates an existing database as specified by the parameters.
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="database"></param>
     /// <returns></returns>
     public async Task<Database> UpdateDatabaseAsync(Database database)
@@ -48,7 +47,7 @@ public interface INotion
     /// This endpoint will only return explicitly shared pages, while search will also return child pages within explicitly shared pages. 
     /// This endpoint's results cannot be filtered, while search can be used to match on page title.</remarks>
     /// <returns></returns>
-    [Obsolete]
+    [Obsolete("Don't use this endpoint")]
     [Get("/databases")]
     Task<PaginationList<Database>> GetDatabasesAsync([AliasAs("page_size")] int pageSize = 100, [AliasAs("start_cursor")] Guid? startCursor = default);
 
@@ -126,7 +125,7 @@ public interface INotion
         {
             parent = page.Parent,
             properties = page.Properties,
-            children = children
+            children,
         });
     }
 
