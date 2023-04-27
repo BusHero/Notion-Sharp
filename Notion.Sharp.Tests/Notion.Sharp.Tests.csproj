@@ -3,24 +3,24 @@
     <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <UserSecretsId>02256519-807b-4124-9963-0b5353e766b0</UserSecretsId>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<LangVersion>default</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-  	<Using Include="System.Text.Json" />
-  	<Using Include="Xunit" />
-  	<Using Include="FluentAssertions" />
-	<Using Include="Notion.Model" />
+    <Using Include="System.Text.Json" />
+    <Using Include="Xunit" />
+    <Using Include="FluentAssertions" />
+    <Using Include="Notion.Model" />
   </ItemGroup>
-  
+
   <ItemGroup>
-	<DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
-	<PackageReference Include="coverlet.msbuild" Version="3.2.0">
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  <PrivateAssets>all</PrivateAssets>
-	</PackageReference>
-	<PackageReference Include="FluentAssertions" Version="6.10.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
+    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" Version="6.10.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
@@ -36,10 +36,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -433,6 +429,10 @@
     <None Update="Resources\Databases\DatabaseWithIcon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
 </Project>

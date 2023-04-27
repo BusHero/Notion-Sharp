@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Notion.Sharp\Notion.Sharp.csproj" />
+    <ProjectReference Include="..\Notion.Sharp\Notion.Sharp.csproj" />
   </ItemGroup>
 
 </Project>
