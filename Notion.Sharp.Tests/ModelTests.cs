@@ -3,20 +3,10 @@ using Users = Notion.Sharp.Tests.Utils.Users;
 
 namespace Notion.Sharp.Tests;
 
-using System.Reflection;
 using System.Threading.Tasks;
 
 public class ModelTests : NotionTestsBase
 {
-    #region Setup
-
-    public ModelTests()
-    {
-
-    }
-
-    #endregion
-
     #region Users
 
     [Fact]
@@ -42,7 +32,7 @@ public class ModelTests : NotionTestsBase
     }
 
     [Fact]
-    public async Task GetUser_Succeds_OnValidId()
+    public async Task GetUser_Succeeds_OnValidId()
     {
         User user = await Sut.GetUserAsync(Users.Me.ToGuid());
         user.Should().NotBeNull();
@@ -88,9 +78,7 @@ public class ModelTests : NotionTestsBase
             },
             Properties = new Dictionary<string, Property>
             {
-                ["Name"] = new Property.Title
-                {
-                }
+                ["Name"] = new Property.Title(),
             }
         };
         database = database with { Parent = new Parent.Page { Id = Pages.Page.ToGuid() } };
@@ -251,7 +239,7 @@ public class ModelTests : NotionTestsBase
     [InlineData("85387287-61bb-4913-a93c-76f7d8d074dd")]
     [InlineData("7da8cfa80de14b3685e141afe7ca4a1f")]
     [InlineData("e392eaec-2dae-47ca-b24f-c0e72783ffe5")]
-    public async Task GetBlocks_Succeds_OnValidId(string id)
+    public async Task GetBlocks_Succeeds_OnValidId(string id)
     {
         var blocks = await Sut.GetBlocksChildrenAsync(Guid.Parse(id));
         blocks.Should().NotBeNull();
@@ -266,7 +254,7 @@ public class ModelTests : NotionTestsBase
     [Theory(Skip = "It's broken")]
     [InlineData("eb3f156343164743971a4c44f713a127")]
     [InlineData("68d00e3a200b497e80d82285708d58d2")]
-    public async Task GetBlock_Succeds_OnValidId(string id)
+    public async Task GetBlock_Succeeds_OnValidId(string id)
     {
         var block = await Sut.GetBlockAsync(Guid.Parse(id));
         block.Should().NotBeNull();
@@ -275,7 +263,7 @@ public class ModelTests : NotionTestsBase
     [Fact(Skip = "It's broken")]
     public async Task AppendChildren_Fails_OnInvalidId() => await RetryAsync(async () =>
     {
-        var result = await Sut.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new List<Block>
+        var unused = await Sut.Awaiting(sut => sut.AppendBlockChildrenAsync(Guid.NewGuid(), new List<Block>
                {
                    new Block.Heading2
                    {
@@ -333,7 +321,7 @@ public class ModelTests : NotionTestsBase
                    }
                }
            });
-        var result2 = await Sut.DeleteBlockAsync(result.Results[0].Id);
+        var result2 = await Sut.DeleteBlockAsync(result.Results![0].Id);
         result2.Should().NotBeNull();
     }, 3);
 

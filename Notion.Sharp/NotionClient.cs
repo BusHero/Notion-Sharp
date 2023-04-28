@@ -16,7 +16,7 @@ public class NotionClient
 
     public NotionClient(Credentials credentials)
     {
-        _httpClient = new HttpClient()
+        _httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://api.notion.com/v1/"),
             DefaultRequestHeaders =
@@ -28,8 +28,7 @@ public class NotionClient
         };
     }
 
-    public IPagesClient Page(Guid id)
-    {
-        return new PagesClient(id, _httpClient);
-    }
+    public IPagesClient Page(Guid id) => new PagesClient(id, _httpClient);
+
+    public IBlocksClient Block(Guid id) => new BlocksClient(id, _httpClient);
 }
