@@ -170,7 +170,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var title = page.Properties["Name"] as PropertyValue.Title;
+            var title = page.Properties?["Name"] as PropertyValue.Title;
             title?.Content?[0].PlainText.Should().Be("Name");
         }
     }
@@ -186,7 +186,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var text = page.Properties["Text"] as PropertyValue.Text;
+            var text = page.Properties?["Text"] as PropertyValue.Text;
             text?.Content?[0].PlainText.Should().Be("Some text");
         }
     }
@@ -202,7 +202,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var checkbox = page.Properties["Checkbox"] as PropertyValue.Checkbox;
+            var checkbox = page.Properties?["Checkbox"] as PropertyValue.Checkbox;
             checkbox?.Checked.Should().BeTrue();
         }
     }
@@ -218,7 +218,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var checkbox = page.Properties["Created time"] as PropertyValue.CreatedTime;
+            var checkbox = page.Properties?["Created time"] as PropertyValue.CreatedTime;
             checkbox?.Value.Should().Be(DateTimeOffset.Parse("2023-04-10T19:47:00.000Z"));
         }
     }
@@ -234,7 +234,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var date = page.Properties["Date"] as PropertyValue.Date;
+            var date = page.Properties?["Date"] as PropertyValue.Date;
             date?.Start.Should().Be(DateTime.Parse("2023-04-10"));
             date?.End.Should().BeNull();
             date?.TimeZone.Should().BeNull();
@@ -252,7 +252,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var email = page.Properties["Email"] as PropertyValue.Email;
+            var email = page.Properties?["Email"] as PropertyValue.Email;
             email?.Value.Should().Be("petru.cervac@gmail.com");
         }
     }
@@ -268,7 +268,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var lastEditedTime = page.Properties["Last edited time"] as PropertyValue.LastEditedTime;
+            var lastEditedTime = page.Properties?["Last edited time"] as PropertyValue.LastEditedTime;
             lastEditedTime?.Value.Should().Be(DateTimeOffset.Parse("2023-04-10T19:48:00.000Z"));
         }
     }
@@ -284,7 +284,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var formula = page.Properties["Formula"] as PropertyValue.StringFormula;
+            var formula = page.Properties?["Formula"] as PropertyValue.StringFormula;
             formula?.Value.Should().Be("Formula");
         }
     }
@@ -300,7 +300,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var phoneNumber = page.Properties["Phone"] as PropertyValue.PhoneNumber;
+            var phoneNumber = page.Properties?["Phone"] as PropertyValue.PhoneNumber;
             phoneNumber?.Value.Should().Be("+37379153404");
         }
     }
@@ -316,7 +316,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var url = page.Properties["URL"] as PropertyValue.Url;
+            var url = page.Properties?["URL"] as PropertyValue.Url;
             url?.Link.Should().Be("https://google.com");
         }
     }
@@ -332,7 +332,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var number = page.Properties["Number"] as PropertyValue.Number;
+            var number = page.Properties?["Number"] as PropertyValue.Number;
             number?.Value.Should().Be(123);
         }
     }
@@ -348,7 +348,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var select = page.Properties["Select"] as PropertyValue.Select;
+            var select = page.Properties?["Select"] as PropertyValue.Select;
             select?.Option?.Id.Should().Be("~WVP");
             select?.Option?.Color.Should().Be("brown");
             select?.Option?.Name.Should().Be("Option 1");
@@ -366,7 +366,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var select = page.Properties["Multi-select"] as PropertyValue.MultiSelect;
+            var select = page.Properties?["Multi-select"] as PropertyValue.MultiSelect;
             select?.Options.Should().BeEquivalentTo(new List<Option>()
             {
                 new()
@@ -397,7 +397,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var files = page.Properties["Files \u0026 media"] as PropertyValue.Files;
+            var files = page.Properties?["Files \u0026 media"] as PropertyValue.Files;
             var file = files?.Value?[0] as File.External;
             file?.Name.Should().Be("https://www.notion.so/Databases-001e7c51c1a04ccf871ab2e483155bf2");
             file?.Uri.Should().Be("https://www.notion.so/Databases-001e7c51c1a04ccf871ab2e483155bf2");
@@ -415,7 +415,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var createdBy = page.Properties["Created by"] as PropertyValue.CreatedBy;
+            var createdBy = page.Properties?["Created by"] as PropertyValue.CreatedBy;
             var person = createdBy?.Value as User.Person;
             person?.Name.Should().Be("Petru Cervac");
             person?.AvatarUrl.Should().Be("https://lh3.googleusercontent.com/a-/AOh14GhcBvrhyvv32v0kTVHocfT7oex0gofyo0r6OjoHPw=s100");
@@ -434,7 +434,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var lastEditedBy = page.Properties["Last edited by"] as PropertyValue.LastEditedBy;
+            var lastEditedBy = page.Properties?["Last edited by"] as PropertyValue.LastEditedBy;
             var person = lastEditedBy?.Value as User.Person;
             person?.Name.Should().Be("Petru Cervac");
             person?.AvatarUrl.Should().Be("https://lh3.googleusercontent.com/a-/AOh14GhcBvrhyvv32v0kTVHocfT7oex0gofyo0r6OjoHPw=s100");
@@ -453,7 +453,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var lastEditedBy = page.Properties["Person"] as PropertyValue.People;
+            var lastEditedBy = page.Properties?["Person"] as PropertyValue.People;
             var person = lastEditedBy?.Value?[0] as User.Person;
             person?.Name.Should().Be("Petru Cervac");
             person?.AvatarUrl.Should().Be("https://lh3.googleusercontent.com/a-/AOh14GhcBvrhyvv32v0kTVHocfT7oex0gofyo0r6OjoHPw=s100");
@@ -472,7 +472,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var relation = page.Properties["Relation Child"] as PropertyValue.Relation;
+            var relation = page.Properties?["Relation Child"] as PropertyValue.Relation;
             relation?.Pages?[0].Id.Should().Be(Pages.PageRelationChild);
         }
     }
@@ -488,10 +488,10 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var relation = page.Properties["Relation Parent Single"] as PropertyValue.Relation;
+            var relation = page.Properties?["Relation Parent Single"] as PropertyValue.Relation;
             relation?.Pages?[0].Id.Should().Be(Pages.PageRelationParent);
 
-            var arrayRollup = page.Properties["Rollup"] as PropertyValue.ArrayRollup;
+            var arrayRollup = page.Properties?["Rollup"] as PropertyValue.ArrayRollup;
             arrayRollup?.Function.Should().Be("show_original");
             var title = arrayRollup?.Value?[0] as PropertyValue.Title;
             title?.Content?[0].PlainText.Should().Be("Parent");
@@ -509,7 +509,7 @@ public class PageTests: NotionTestsBase
         // assert
         using (new AssertionScope())
         {
-            var status = page.Properties["Status"] as PropertyValue.Status;
+            var status = page.Properties?["Status"] as PropertyValue.Status;
             status?.Value.Should().BeEquivalentTo(new Property.Status.Option
             {
                 Id = Guid.Parse("8e233849-de45-48cd-b191-b655ecbd46e2"),

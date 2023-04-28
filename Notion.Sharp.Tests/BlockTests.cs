@@ -13,7 +13,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Paragraph.ToGuid());
+        var block = await NotionClient.Block(Blocks.Paragraph.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -28,17 +28,17 @@ public class BlockTests: NotionTestsBase
             paragraph?.Color.Should().Be(Color.Default);
             paragraph?.Text.Should().ContainSingle();
             
-            var richText = paragraph?.Text[0] as RichText.Text;
+            var richText = paragraph?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Paragraph");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Paragraph");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = paragraph?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -55,7 +55,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.ToggleList.ToGuid());
+        var block = await NotionClient.Block(Blocks.ToggleList.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -70,17 +70,17 @@ public class BlockTests: NotionTestsBase
             toggle?.Color.Should().Be(Color.Default);
             toggle?.Text.Should().ContainSingle();
             
-            var richText = toggle?.Text[0] as RichText.Text;
+            var richText = toggle?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Toggle list");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Toggle list");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = toggle?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -97,7 +97,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.ToDoChecked.ToGuid());
+        var block = await NotionClient.Block(Blocks.ToDoChecked.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -113,17 +113,17 @@ public class BlockTests: NotionTestsBase
             todo?.Text.Should().ContainSingle();
             todo?.Checked.Should().BeTrue();
             
-            var richText = todo?.Text[0] as RichText.Text;
+            var richText = todo?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("ToDo Checked");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("ToDo Checked");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = todo?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -140,7 +140,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Callout.ToGuid());
+        var block = await NotionClient.Block(Blocks.Callout.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -155,17 +155,17 @@ public class BlockTests: NotionTestsBase
             callout?.Color.Should().Be(Color.GrayBackground);
             callout?.Text.Should().ContainSingle();
             
-            var richText = callout?.Text[0] as RichText.Text;
+            var richText = callout?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Callout");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Callout");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
 
             var icon = callout?.Icon;
             icon?.Value.Should().Be("💡");
@@ -185,7 +185,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.WebBookmark.ToGuid());
+        var block = await NotionClient.Block(Blocks.WebBookmark.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -215,7 +215,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Quote.ToGuid());
+        var block = await NotionClient.Block(Blocks.Quote.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -230,17 +230,17 @@ public class BlockTests: NotionTestsBase
             quote?.Color.Should().Be(Color.Default);
             quote?.Text.Should().ContainSingle();
             
-            var richText = quote?.Text[0] as RichText.Text;
+            var richText = quote?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Quote");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Quote");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = quote?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -257,7 +257,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Equation.ToGuid());
+        var block = await NotionClient.Block(Blocks.Equation.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -286,7 +286,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Code.ToGuid());
+        var block = await NotionClient.Block(Blocks.Code.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -306,12 +306,12 @@ public class BlockTests: NotionTestsBase
             richText?.Content.Should().Be("Some Code here and there");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Some Code here and there");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = code?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -328,7 +328,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.BulletedListItem.ToGuid());
+        var block = await NotionClient.Block(Blocks.BulletedListItem.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -343,17 +343,17 @@ public class BlockTests: NotionTestsBase
             bulletedListItem?.Color.Should().Be(Color.Default);
             bulletedListItem?.Text.Should().ContainSingle();
             
-            var richText = bulletedListItem?.Text[0] as RichText.Text;
+            var richText = bulletedListItem?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Bulleted list item");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Bulleted list item");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = bulletedListItem?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -370,7 +370,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.NumberedListItem.ToGuid());
+        var block = await NotionClient.Block(Blocks.NumberedListItem.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -385,17 +385,17 @@ public class BlockTests: NotionTestsBase
             numberedListItem?.Color.Should().Be(Color.Default);
             numberedListItem?.Text.Should().ContainSingle();
             
-            var richText = numberedListItem?.Text[0] as RichText.Text;
+            var richText = numberedListItem?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Numbered list item");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Numbered list item");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
             
             var parent = numberedListItem?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -412,7 +412,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Heading1.ToGuid());
+        var block = await NotionClient.Block(Blocks.Heading1.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -428,17 +428,17 @@ public class BlockTests: NotionTestsBase
             heading1?.Text.Should().ContainSingle();
             heading1?.IsToggable.Should().BeFalse();
             
-            var richText = heading1?.Text[0] as RichText.Text;
+            var richText = heading1?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Heading 1");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Heading 1");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
 
             var parent = heading1?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -455,7 +455,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Heading2.ToGuid());
+        var block = await NotionClient.Block(Blocks.Heading2.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -471,17 +471,17 @@ public class BlockTests: NotionTestsBase
             heading2?.Text.Should().ContainSingle();
             heading2?.IsToggable.Should().BeFalse();
             
-            var richText = heading2?.Text[0] as RichText.Text;
+            var richText = heading2?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Heading 2");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Heading 2");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
 
             var parent = heading2?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -498,7 +498,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Heading3.ToGuid());
+        var block = await NotionClient.Block(Blocks.Heading3.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -514,17 +514,17 @@ public class BlockTests: NotionTestsBase
             heading1?.Text.Should().ContainSingle();
             heading1?.IsToggable.Should().BeFalse();
             
-            var richText = heading1?.Text[0] as RichText.Text;
+            var richText = heading1?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Heading 3");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Heading 3");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
 
             var parent = heading1?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -541,7 +541,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.ToggledHeading1.ToGuid());
+        var block = await NotionClient.Block(Blocks.ToggledHeading1.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -557,17 +557,17 @@ public class BlockTests: NotionTestsBase
             heading1?.Text.Should().ContainSingle();
             heading1?.IsToggable.Should().BeTrue();
             
-            var richText = heading1?.Text[0] as RichText.Text;
+            var richText = heading1?.Text?[0] as RichText.Text;
             richText.Should().NotBeNull();
             richText?.Content.Should().Be("Toggled Heading 1");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("Toggled Heading 1");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
 
             var parent = heading1?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -584,7 +584,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Audio.ToGuid());
+        var block = await NotionClient.Block(Blocks.Audio.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -617,7 +617,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Video.ToGuid());
+        var block = await NotionClient.Block(Blocks.Video.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -650,7 +650,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.VideoUploaded.ToGuid());
+        var block = await NotionClient.Block(Blocks.VideoUploaded.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -683,7 +683,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.FileWithCaption.ToGuid());
+        var block = await NotionClient.Block(Blocks.FileWithCaption.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -706,12 +706,12 @@ public class BlockTests: NotionTestsBase
             richText?.Content.Should().Be("File with caption");
             richText?.Link.Should().BeNull();
             richText?.PlainText.Should().Be("File with caption");
-            richText?.Annotations.Bold.Should().BeFalse();
-            richText?.Annotations.Italic.Should().BeFalse();
-            richText?.Annotations.Underline.Should().BeFalse();
-            richText?.Annotations.Strikethrough.Should().BeFalse();
-            richText?.Annotations.Code.Should().BeFalse();
-            richText?.Annotations.Color.Should().Be(Color.Default);
+            richText?.Annotations?.Bold.Should().BeFalse();
+            richText?.Annotations?.Italic.Should().BeFalse();
+            richText?.Annotations?.Underline.Should().BeFalse();
+            richText?.Annotations?.Strikethrough.Should().BeFalse();
+            richText?.Annotations?.Code.Should().BeFalse();
+            richText?.Annotations?.Color.Should().Be(Color.Default);
 
             var parent = fileBlock?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -728,7 +728,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Embed.ToGuid());
+        var block = await NotionClient.Block(Blocks.Embed.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -757,7 +757,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Breadcrumb.ToGuid());
+        var block = await NotionClient.Block(Blocks.Breadcrumb.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -785,7 +785,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Divider.ToGuid());
+        var block = await NotionClient.Block(Blocks.Divider.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -813,7 +813,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.ColumnList.ToGuid());
+        var block = await NotionClient.Block(Blocks.ColumnList.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -841,7 +841,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Column.ToGuid());
+        var block = await NotionClient.Block(Blocks.Column.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -869,7 +869,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.TableOfContents.ToGuid());
+        var block = await NotionClient.Block(Blocks.TableOfContents.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -898,7 +898,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Button.ToGuid());
+        var block = await NotionClient.Block(Blocks.Button.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -926,7 +926,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Pdf.ToGuid());
+        var block = await NotionClient.Block(Blocks.Pdf.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -959,7 +959,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.ImageLink.ToGuid());
+        var block = await NotionClient.Block(Blocks.ImageLink.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -992,7 +992,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Page.ToGuid());
+        var block = await NotionClient.Block(Blocks.Page.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -1021,7 +1021,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.LinkedDatabase.ToGuid());
+        var block = await NotionClient.Block(Blocks.LinkedDatabase.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -1050,7 +1050,7 @@ public class BlockTests: NotionTestsBase
         // arrange
         
         // act
-        var block = await Sut.GetBlockAsync(Blocks.Table.ToGuid());
+        var block = await NotionClient.Block(Blocks.Table.ToGuid()).Get();
         
         // assert
         using (new AssertionScope())
@@ -1081,7 +1081,7 @@ public class BlockTests: NotionTestsBase
         // arrange
 
         // act
-        var block = await Sut.GetBlockAsync(Blocks.LinkPreview.ToGuid());
+        var block = await NotionClient.Block(Blocks.LinkPreview.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -1110,7 +1110,7 @@ public class BlockTests: NotionTestsBase
         // arrange
 
         // act
-        var block = await Sut.GetBlockAsync(Blocks.SyncdBlockCopy.ToGuid());
+        var block = await NotionClient.Block(Blocks.SyncdBlockCopy.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())
@@ -1122,7 +1122,7 @@ public class BlockTests: NotionTestsBase
             syncBlock?.LastEditedTime.Should().Be(DateTime.Parse("2023-03-27T16:28:00.000Z"));
             syncBlock?.Archived.Should().BeFalse();
             syncBlock?.HasChildren.Should().BeTrue();
-            syncBlock?.From.Id.Should().Be(Blocks.SyncBlockOriginal);
+            syncBlock?.From?.Id.Should().Be(Blocks.SyncBlockOriginal);
 
             var parent = syncBlock?.Parent as Parent.Page;
             parent.Should().NotBeNull();
@@ -1139,7 +1139,7 @@ public class BlockTests: NotionTestsBase
         // arrange
 
         // act
-        var block = await Sut.GetBlockAsync(Blocks.SyncBlockOriginal.ToGuid());
+        var block = await NotionClient.Block(Blocks.SyncBlockOriginal.ToGuid()).Get();
 
         // assert
         using (new AssertionScope())

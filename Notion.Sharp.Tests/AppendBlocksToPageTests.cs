@@ -14,7 +14,7 @@ public class AppendBlocksToPageTests : NotionTestsBase
                      block
                 });
         result.Should().NotBeNull();
-        await Sut.DeleteBlockAsync(result.Results[0].Id);
+        await Sut.DeleteBlockAsync(result.Results![0].Id);
     }, 3);
 
     public static TheoryData<Block> Blocks { get; } = new TheoryData<Block>
@@ -199,12 +199,8 @@ public class AppendBlocksToPageTests : NotionTestsBase
         {
             Expression = "1 + 1"
         },
-        new Block.Divider
-            {
-            },
-        new Block.TableOfContents
-            {
-            },
-        new Block.Breadcrumb { }
+        new Block.Divider(),
+        new Block.TableOfContents(),
+        new Block.Breadcrumb()
     };
 }
