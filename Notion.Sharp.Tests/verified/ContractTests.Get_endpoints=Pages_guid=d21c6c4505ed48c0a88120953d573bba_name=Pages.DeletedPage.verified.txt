@@ -1,0 +1,47 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: page_id,
+    page_id: Guid_3
+  },
+  archived: true,
+  properties: {
+    title: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Deleted Page,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Deleted Page,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Deleted-Page-d21c6c4505ed48c0a88120953d573bba
+}

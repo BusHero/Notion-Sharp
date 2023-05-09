@@ -1,0 +1,77 @@
+﻿{
+  object: block,
+  id: Guid_1,
+  parent: {
+    type: page_id,
+    page_id: Guid_2
+  },
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_3
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_3
+  },
+  has_children: false,
+  archived: false,
+  type: paragraph,
+  paragraph: {
+    rich_text: [
+      {
+        type: text,
+        text: {
+          content: Bold ,
+          link: null
+        },
+        annotations: {
+          bold: true,
+          italic: false,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: default
+        },
+        plain_text: Bold ,
+        href: null
+      },
+      {
+        type: text,
+        text: {
+          content: then ,
+          link: null
+        },
+        annotations: {
+          bold: false,
+          italic: false,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: default
+        },
+        plain_text: then ,
+        href: null
+      },
+      {
+        type: text,
+        text: {
+          content: Italic,
+          link: null
+        },
+        annotations: {
+          bold: false,
+          italic: true,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: default
+        },
+        plain_text: Italic,
+        href: null
+      }
+    ],
+    color: default
+  }
+}

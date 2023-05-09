@@ -1,0 +1,60 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Files & media: {
+      id: %3EGgT,
+      type: files,
+      files: [
+        {
+          name: https://www.notion.so/Databases-001e7c51c1a04ccf871ab2e483155bf2,
+          type: external,
+          external: {
+            url: https://www.notion.so/Databases-001e7c51c1a04ccf871ab2e483155bf2
+          }
+        }
+      ]
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Files,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Files,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Files-8fe4f82f3ed24b3d846056afa48e3434
+}

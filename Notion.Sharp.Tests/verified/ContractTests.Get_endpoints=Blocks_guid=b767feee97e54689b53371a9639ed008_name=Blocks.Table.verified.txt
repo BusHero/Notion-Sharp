@@ -1,0 +1,26 @@
+﻿{
+  object: block,
+  id: Guid_1,
+  parent: {
+    type: page_id,
+    page_id: Guid_2
+  },
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_3
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_3
+  },
+  has_children: true,
+  archived: false,
+  type: table,
+  table: {
+    table_width: 2,
+    has_column_header: false,
+    has_row_header: false
+  }
+}

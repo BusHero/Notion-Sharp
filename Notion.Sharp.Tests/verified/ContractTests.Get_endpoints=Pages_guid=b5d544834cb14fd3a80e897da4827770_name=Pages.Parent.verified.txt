@@ -1,0 +1,47 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: workspace,
+    workspace: true
+  },
+  archived: false,
+  properties: {
+    title: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Parent page for tests,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Parent page for tests,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Parent-page-for-tests-b5d544834cb14fd3a80e897da4827770
+}

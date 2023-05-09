@@ -1,0 +1,61 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Created by: {
+      id: %5Ekx%7B,
+      type: created_by,
+      created_by: {
+        object: user,
+        id: Guid_2,
+        name: Petru Cervac,
+        avatar_url: https://lh3.googleusercontent.com/a-/AOh14GhcBvrhyvv32v0kTVHocfT7oex0gofyo0r6OjoHPw=s100,
+        type: person,
+        person: {
+          email: petru.cervac@gmail.com
+        }
+      }
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Created By,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Created By,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Created-By-c6220c5095924a40ba93900ce1581e8d
+}
