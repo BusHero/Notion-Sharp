@@ -1,0 +1,57 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Relation Child: {
+      id: O%3DKh,
+      type: relation,
+      relation: [
+        {
+          id: Guid_4
+        }
+      ],
+      has_more: false
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Parent,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Parent,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Parent-cbeb4c51856446cb8e5e755cac6a9139
+}

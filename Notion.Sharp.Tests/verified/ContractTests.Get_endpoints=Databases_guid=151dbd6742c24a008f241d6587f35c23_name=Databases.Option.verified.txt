@@ -1,0 +1,73 @@
+﻿{
+  object: database,
+  id: Guid_1,
+  cover: null,
+  icon: null,
+  created_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_time: DateTimeOffset_2,
+  title: [
+    {
+      type: text,
+      text: {
+        content: Option,
+        link: null
+      },
+      annotations: {
+        bold: false,
+        italic: false,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: default
+      },
+      plain_text: Option,
+      href: null
+    }
+  ],
+  is_inline: true,
+  properties: {
+    Select: {
+      id: u%3EXc,
+      name: Select,
+      type: select,
+      select: {
+        options: [
+          {
+            id: nZ:R,
+            name: Option 3,
+            color: yellow
+          },
+          {
+            id: D|lf,
+            name: Option 2,
+            color: default
+          },
+          {
+            id: ~WVP,
+            name: Option 1,
+            color: brown
+          }
+        ]
+      }
+    },
+    Name: {
+      id: title,
+      name: Name,
+      type: title
+    }
+  },
+  parent: {
+    type: page_id,
+    page_id: Guid_3
+  },
+  url: https://www.notion.so/151dbd6742c24a008f241d6587f35c23,
+  archived: false
+}

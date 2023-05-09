@@ -1,0 +1,63 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Multi-select: {
+      id: ekY%40,
+      type: multi_select,
+      multi_select: [
+        {
+          id: dTsU,
+          name: Option 1,
+          color: orange
+        },
+        {
+          id: JTFE,
+          name: Option 2,
+          color: gray
+        }
+      ]
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Multi select,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Multi select,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Multi-select-e3a8abe872a94173a0154af62714a871
+}

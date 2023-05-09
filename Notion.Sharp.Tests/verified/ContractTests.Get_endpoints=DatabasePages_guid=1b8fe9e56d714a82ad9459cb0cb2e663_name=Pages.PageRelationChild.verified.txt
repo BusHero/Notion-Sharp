@@ -1,0 +1,99 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Relation Parent Single: {
+      id: %40%7B%7BE,
+      type: relation,
+      relation: [
+        {
+          id: Guid_4
+        }
+      ],
+      has_more: false
+    },
+    Rollup: {
+      id: %5DzEA,
+      type: rollup,
+      rollup: {
+        type: array,
+        array: [
+          {
+            type: title,
+            title: [
+              {
+                type: text,
+                text: {
+                  content: Parent,
+                  link: null
+                },
+                annotations: {
+                  bold: false,
+                  italic: false,
+                  strikethrough: false,
+                  underline: false,
+                  code: false,
+                  color: default
+                },
+                plain_text: Parent,
+                href: null
+              }
+            ]
+          }
+        ],
+        function: show_original
+      }
+    },
+    Relation Parent: {
+      id: %7C%7DZo,
+      type: relation,
+      relation: [
+        {
+          id: Guid_4
+        }
+      ],
+      has_more: false
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Child,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Child,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Child-1b8fe9e56d714a82ad9459cb0cb2e663
+}

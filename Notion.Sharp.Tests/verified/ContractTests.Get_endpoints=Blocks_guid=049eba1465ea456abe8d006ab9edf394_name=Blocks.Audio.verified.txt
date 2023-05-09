@@ -1,0 +1,27 @@
+﻿{
+  object: block,
+  id: Guid_1,
+  parent: {
+    type: page_id,
+    page_id: Guid_2
+  },
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_3
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_3
+  },
+  has_children: false,
+  archived: false,
+  type: audio,
+  audio: {
+    type: external,
+    external: {
+      url: https://file-examples.com/storage/feb401d325641db2fa1dfe7/2017/11/file_example_MP3_700KB.mp3
+    }
+  }
+}

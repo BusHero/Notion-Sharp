@@ -1,0 +1,52 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Checkbox: {
+      id: d%5BFd,
+      type: checkbox,
+      checkbox: true
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Checkbox,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Checkbox,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Checkbox-71c2440b87dd4e9fb43fe394ccae5840
+}

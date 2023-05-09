@@ -1,0 +1,56 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: null,
+  parent: {
+    type: database_id,
+    database_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    Date: {
+      id: b%3C%7Cq,
+      type: date,
+      date: {
+        start: 2023-04-10,
+        end: null,
+        time_zone: null
+      }
+    },
+    Name: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Date,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Date,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Date-ea0a7038b35b43a8b8324dd53bfb8e24
+}

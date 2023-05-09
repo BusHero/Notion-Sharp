@@ -1,0 +1,99 @@
+﻿{
+  object: database,
+  id: Guid_1,
+  cover: null,
+  icon: null,
+  created_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_time: DateTimeOffset_2,
+  title: [
+    {
+      type: text,
+      text: {
+        content: Status,
+        link: null
+      },
+      annotations: {
+        bold: false,
+        italic: false,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: default
+      },
+      plain_text: Status,
+      href: null
+    }
+  ],
+  is_inline: true,
+  properties: {
+    Status: {
+      id: e%3FiD,
+      name: Status,
+      type: status,
+      status: {
+        options: [
+          {
+            id: Guid_3,
+            name: Not started,
+            color: default
+          },
+          {
+            id: Guid_4,
+            name: In progress,
+            color: blue
+          },
+          {
+            id: Guid_5,
+            name: Done,
+            color: green
+          }
+        ],
+        groups: [
+          {
+            id: Guid_6,
+            name: To-do,
+            color: gray,
+            option_ids: [
+              Guid_3
+            ]
+          },
+          {
+            id: Guid_7,
+            name: In progress,
+            color: blue,
+            option_ids: [
+              Guid_4
+            ]
+          },
+          {
+            id: Guid_8,
+            name: Complete,
+            color: green,
+            option_ids: [
+              Guid_5
+            ]
+          }
+        ]
+      }
+    },
+    Name: {
+      id: title,
+      name: Name,
+      type: title
+    }
+  },
+  parent: {
+    type: page_id,
+    page_id: Guid_9
+  },
+  url: https://www.notion.so/58c46e04daef48afa6b2816d4b4a4c70,
+  archived: false
+}

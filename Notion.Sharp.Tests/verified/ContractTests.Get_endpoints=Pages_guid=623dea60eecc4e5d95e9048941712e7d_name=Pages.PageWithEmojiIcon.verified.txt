@@ -1,0 +1,50 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: null,
+  icon: {
+    type: emoji,
+    emoji: 😀
+  },
+  parent: {
+    type: page_id,
+    page_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    title: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Page with Icon,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Page with Icon,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Page-with-Icon-623dea60eecc4e5d95e9048941712e7d
+}

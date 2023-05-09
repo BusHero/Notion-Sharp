@@ -1,0 +1,52 @@
+﻿{
+  object: page,
+  id: Guid_1,
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  cover: {
+    type: external,
+    external: {
+      url: https://www.notion.so/images/page-cover/gradients_8.png
+    }
+  },
+  icon: null,
+  parent: {
+    type: page_id,
+    page_id: Guid_3
+  },
+  archived: false,
+  properties: {
+    title: {
+      id: title,
+      type: title,
+      title: [
+        {
+          type: text,
+          text: {
+            content: Page with cover,
+            link: null
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: default
+          },
+          plain_text: Page with cover,
+          href: null
+        }
+      ]
+    }
+  },
+  url: https://www.notion.so/Page-with-cover-47fd30c0254043ac8d2b9678f2f46a30
+}

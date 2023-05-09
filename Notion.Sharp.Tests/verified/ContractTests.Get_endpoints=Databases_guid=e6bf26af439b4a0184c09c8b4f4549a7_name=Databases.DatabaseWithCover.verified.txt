@@ -1,0 +1,60 @@
+﻿{
+  object: database,
+  id: Guid_1,
+  cover: {
+    type: external,
+    external: {
+      url: https://www.notion.so/images/page-cover/rijksmuseum_jansz_1641.jpg
+    }
+  },
+  icon: null,
+  created_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_time: DateTimeOffset_1,
+  title: [
+    {
+      type: text,
+      text: {
+        content: Database with Cover,
+        link: null
+      },
+      annotations: {
+        bold: false,
+        italic: false,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: default
+      },
+      plain_text: Database with Cover,
+      href: null
+    }
+  ],
+  is_inline: false,
+  properties: {
+    Tags: {
+      id: %7C%3Aic,
+      name: Tags,
+      type: multi_select,
+      multi_select: {}
+    },
+    Name: {
+      id: title,
+      name: Name,
+      type: title
+    }
+  },
+  parent: {
+    type: page_id,
+    page_id: Guid_3
+  },
+  url: https://www.notion.so/e6bf26af439b4a0184c09c8b4f4549a7,
+  archived: false
+}

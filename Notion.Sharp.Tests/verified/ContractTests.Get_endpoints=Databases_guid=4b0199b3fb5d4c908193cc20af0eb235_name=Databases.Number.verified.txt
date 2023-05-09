@@ -1,0 +1,57 @@
+﻿{
+  object: database,
+  id: Guid_1,
+  cover: null,
+  icon: null,
+  created_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_time: DateTimeOffset_2,
+  title: [
+    {
+      type: text,
+      text: {
+        content: Number,
+        link: null
+      },
+      annotations: {
+        bold: false,
+        italic: false,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: default
+      },
+      plain_text: Number,
+      href: null
+    }
+  ],
+  is_inline: true,
+  properties: {
+    Number: {
+      id: u%5Ex%3B,
+      name: Number,
+      type: number,
+      number: {
+        format: number
+      }
+    },
+    Name: {
+      id: title,
+      name: Name,
+      type: title
+    }
+  },
+  parent: {
+    type: page_id,
+    page_id: Guid_3
+  },
+  url: https://www.notion.so/4b0199b3fb5d4c908193cc20af0eb235,
+  archived: false
+}

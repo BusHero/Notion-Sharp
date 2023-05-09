@@ -1,0 +1,24 @@
+﻿{
+  object: block,
+  id: Guid_1,
+  parent: {
+    type: workspace,
+    workspace: true
+  },
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_2
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_2
+  },
+  has_children: true,
+  archived: false,
+  type: child_page,
+  child_page: {
+    title: Parent page for tests
+  }
+}

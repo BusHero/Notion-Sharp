@@ -1,0 +1,47 @@
+﻿{
+  object: block,
+  id: Guid_1,
+  parent: {
+    type: page_id,
+    page_id: Guid_2
+  },
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_2,
+  created_by: {
+    object: user,
+    id: Guid_3
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_3
+  },
+  has_children: false,
+  archived: false,
+  type: paragraph,
+  paragraph: {
+    rich_text: [
+      {
+        type: mention,
+        mention: {
+          type: date,
+          date: {
+            start: 2023-03-27,
+            end: null,
+            time_zone: null
+          }
+        },
+        annotations: {
+          bold: false,
+          italic: false,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: default
+        },
+        plain_text: 2023-03-27,
+        href: null
+      }
+    ],
+    color: default
+  }
+}

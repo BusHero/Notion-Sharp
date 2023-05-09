@@ -1,0 +1,43 @@
+﻿{
+  object: block,
+  id: Guid_1,
+  parent: {
+    type: page_id,
+    page_id: Guid_2
+  },
+  created_time: DateTimeOffset_1,
+  last_edited_time: DateTimeOffset_1,
+  created_by: {
+    object: user,
+    id: Guid_3
+  },
+  last_edited_by: {
+    object: user,
+    id: Guid_3
+  },
+  has_children: false,
+  archived: false,
+  type: toggle,
+  toggle: {
+    rich_text: [
+      {
+        type: text,
+        text: {
+          content: Toggle list,
+          link: null
+        },
+        annotations: {
+          bold: false,
+          italic: false,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: default
+        },
+        plain_text: Toggle list,
+        href: null
+      }
+    ],
+    color: default
+  }
+}

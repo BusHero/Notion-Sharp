@@ -1,7 +1,8 @@
-﻿using Notion.Sharp.Tests.Utils;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json.Nodes;
+using Notion.Sharp.Tests.Utils;
 
 namespace Notion.Sharp.Tests;
-using File = System.IO.File;
 
 public enum Endpoints
 {
@@ -12,142 +13,154 @@ public enum Endpoints
     DatabasePages,
 }
 
+[UsesVerify]
 public class ContractTests : NotionTestsBase
 {
+    [ModuleInitializer]
+    internal static void Initialize() =>
+        VerifyDiffPlex.Initialize();
+    
     [Theory]
-    [InlineData(Endpoints.Pages, "Page.json", Pages.Page)]
-    [InlineData(Endpoints.Pages, "PageWithEmojiIcon.json", Pages.PageWithEmojiIcon)]
-    [InlineData(Endpoints.Pages, "PageWithIcon.json", Pages.PageWithIcon)]
-    [InlineData(Endpoints.Pages, "DeletedPage.json", Pages.DeletedPage)]
-    [InlineData(Endpoints.Pages, "PageWithCustomLinkIcon.json", Pages.PageWithCustomLinkIcon)]
-    [InlineData(Endpoints.Pages, "PageWithCover.json", Pages.PageWithCover)]
-    [InlineData(Endpoints.Pages, "PageWithCustomLinkCover.json", Pages.PageWithCustomLinkCover)]
-    [InlineData(Endpoints.Pages, "PageWithUnsplashCover.json", Pages.PageWithUnsplashCover)]
-    [InlineData(Endpoints.Pages, "PageFromDatabase.json", Pages.PageFromDatabase)]
-    [InlineData(Endpoints.Pages, "Parent.json", Pages.Parent)]
-    [InlineData(Endpoints.Blocks, "Heading1.json", Blocks.Heading1)]
-    [InlineData(Endpoints.Blocks, "Heading2.json", Blocks.Heading2)]
-    [InlineData(Endpoints.Blocks, "Heading3.json", Blocks.Heading3)]
-    [InlineData(Endpoints.Blocks, "Paragraph.json", Blocks.Paragraph)]
-    [InlineData(Endpoints.Blocks, "ToDoUnchecked.json", Blocks.ToDoUnchecked)]
-    [InlineData(Endpoints.Blocks, "ToDoChecked.json", Blocks.ToDoChecked)]
-    [InlineData(Endpoints.Blocks, "BulletedListItem.json", Blocks.BulletedListItem)]
-    [InlineData(Endpoints.Blocks, "NumberedListItem.json", Blocks.NumberedListItem)]
-    [InlineData(Endpoints.Blocks, "ToggleList.json", Blocks.ToggleList)]
-    [InlineData(Endpoints.Blocks, "Quote.json", Blocks.Quote)]
-    [InlineData(Endpoints.Blocks, "Divider.json", Blocks.Divider)]
-    [InlineData(Endpoints.Blocks, "Callout.json", Blocks.Callout)]
-    [InlineData(Endpoints.Blocks, "Table.json", Blocks.Table)]
-    [InlineData(Endpoints.Blocks, "Page.json", Blocks.Page)]
-    [InlineData(Endpoints.Blocks, "LinkToPage.json", Blocks.LinkToPage)]
-    [InlineData(Endpoints.Blocks, "ImageUnsplash.json", Blocks.ImageUnsplash)]
-    [InlineData(Endpoints.Blocks, "ImageLink.json", Blocks.ImageLink)]
-    [InlineData(Endpoints.Blocks, "ImageEmpty.json", Blocks.ImageEmpty)]
-    [InlineData(Endpoints.Blocks, "WebBookmark.json", Blocks.WebBookmark)]
-    [InlineData(Endpoints.Blocks, "WebBookmarkEmpty.json", Blocks.WebBookmarkEmpty)]
-    [InlineData(Endpoints.Blocks, "Video.json", Blocks.Video)]
-    [InlineData(Endpoints.Blocks, "VideoEmpty.json", Blocks.VideoEmpty)]
-    [InlineData(Endpoints.Blocks, "AudioEmpty.json", Blocks.AudioEmpty)]
-    [InlineData(Endpoints.Blocks, "Code.json", Blocks.Code)]
-    [InlineData(Endpoints.Blocks, "CodeWithCaption.json", Blocks.CodeWithCaption)]
-    [InlineData(Endpoints.Blocks, "CodeCSharp.json", Blocks.CodeCSharp)]
-    [InlineData(Endpoints.Blocks, "File.json", Blocks.File)]
-    [InlineData(Endpoints.Blocks, "FileEmpty.json", Blocks.FileEmpty)]
-    [InlineData(Endpoints.Blocks, "FileWithCaption.json", Blocks.FileWithCaption)]
-    [InlineData(Endpoints.Blocks, "Audio.json", Blocks.Audio)]
-    [InlineData(Endpoints.Blocks, "Equation.json", Blocks.Equation)]
-    [InlineData(Endpoints.Blocks, "TableOfContents.json", Blocks.TableOfContents)]
-    [InlineData(Endpoints.Blocks, "EquationEmpty.json", Blocks.EquationEmpty)]
-    [InlineData(Endpoints.Blocks, "Breadcumb.json", Blocks.Breadcrumb)]
-    [InlineData(Endpoints.Blocks, "SyncBlockOriginal.json", Blocks.SyncBlockOriginal)]
-    [InlineData(Endpoints.Blocks, "SyncdBlockCopy.json", Blocks.SyncdBlockCopy)]
-    [InlineData(Endpoints.Blocks, "Button.json", Blocks.Button)]
-    [InlineData(Endpoints.Blocks, "ToggledHeading3.json", Blocks.ToggledHeading3)]
-    [InlineData(Endpoints.Blocks, "ToggledHeading2.json", Blocks.ToggledHeading2)]
-    [InlineData(Endpoints.Blocks, "ToggledHeading1.json", Blocks.ToggledHeading1)]
-    [InlineData(Endpoints.Blocks, "Column.json", Blocks.Column)]
-    [InlineData(Endpoints.Blocks, "ColumnList.json", Blocks.ColumnList)]
-    [InlineData(Endpoints.Blocks, "Embed.json", Blocks.Embed)]
-    [InlineData(Endpoints.Blocks, "TwitterEmbed.json", Blocks.TwitterEmbed)]
-    [InlineData(Endpoints.Blocks, "ChildDatabase.json", Blocks.ChildDatabase)]
-    [InlineData(Endpoints.Blocks, "LinkedDatabase.json", Blocks.LinkedDatabase)]
-    [InlineData(Endpoints.Blocks, "BlockWithChildren.json", Blocks.BlockWithChildren)]
-    [InlineData(Endpoints.Blocks, "ChildBlock.json", Blocks.ChildBlock)]
-    [InlineData(Endpoints.Blocks, "Pdf.json", Blocks.Pdf)]
-    [InlineData(Endpoints.Blocks, "LinkPreview.json", Blocks.LinkPreview)]
-    [InlineData(Endpoints.RichTexts, "SimpleText.json", RichTexts.SimpleText)]
-    [InlineData(Endpoints.RichTexts, "MentionPerson.json", RichTexts.MentionPerson)]
-    [InlineData(Endpoints.RichTexts, "MentionBlock.json", RichTexts.MentionBlock)]
-    [InlineData(Endpoints.RichTexts, "MentionToday.json", RichTexts.MentionToday)]
-    [InlineData(Endpoints.RichTexts, "MentionTomorrow.json", RichTexts.MentionTomorrow)]
-    [InlineData(Endpoints.RichTexts, "LinkPage.json", RichTexts.LinkPage)]
-    [InlineData(Endpoints.RichTexts, "LinkToWebsite.json", RichTexts.LinkToWebsite)]
-    [InlineData(Endpoints.RichTexts, "Bold.json", RichTexts.Bold)]
-    [InlineData(Endpoints.RichTexts, "Italic.json", RichTexts.Italic)]
-    [InlineData(Endpoints.RichTexts, "Underline.json", RichTexts.Underline)]
-    [InlineData(Endpoints.RichTexts, "StrikeThrough.json", RichTexts.StrikeThrough)]
-    [InlineData(Endpoints.RichTexts, "Background.json", RichTexts.Background)]
-    [InlineData(Endpoints.RichTexts, "Foreground.json", RichTexts.Foreground)]
-    [InlineData(Endpoints.RichTexts, "Code.json", RichTexts.Code)]
-    [InlineData(Endpoints.RichTexts, "Equation.json", RichTexts.Equation)]
-    [InlineData(Endpoints.RichTexts, "BoldAndItalic.json", RichTexts.BoldAndItalic)]
-    [InlineData(Endpoints.RichTexts, "BoldThenItalic.json", RichTexts.BoldThenItalic)]
-    [InlineData(Endpoints.Databases, "Name.json", Databases.Name)]
-    [InlineData(Endpoints.Databases, "Text.json", Databases.Text)]
-    [InlineData(Endpoints.Databases, "Number.json", Databases.Number)]
-    [InlineData(Endpoints.Databases, "Date.json", Databases.Date)]
-    [InlineData(Endpoints.Databases, "Option.json", Databases.Option)]
-    [InlineData(Endpoints.Databases, "MultiSelect.json", Databases.MultiSelect)]
-    [InlineData(Endpoints.Databases, "Status.json", Databases.Status)]
-    [InlineData(Endpoints.Databases, "Person.json", Databases.Person)]
-    [InlineData(Endpoints.Databases, "Files.json", Databases.Files)]
-    [InlineData(Endpoints.Databases, "Checkbox.json", Databases.Checkbox)]
-    [InlineData(Endpoints.Databases, "Url.json", Databases.Url)]
-    [InlineData(Endpoints.Databases, "Email.json", Databases.Email)]
-    [InlineData(Endpoints.Databases, "Phone.json", Databases.Phone)]
-    [InlineData(Endpoints.Databases, "Formula.json", Databases.Formula)]
-    [InlineData(Endpoints.Databases, "CreatedTime.json", Databases.CreatedTime)]
-    [InlineData(Endpoints.Databases, "CreatedBy.json", Databases.CreatedBy)]
-    [InlineData(Endpoints.Databases, "LastEditedTime.json", Databases.LastEditedTime)]
-    [InlineData(Endpoints.Databases, "LastEditedBy.json", Databases.LastEditedBy)]
-    [InlineData(Endpoints.Databases, "RelationParent.json", Databases.RelationParent)]
-    [InlineData(Endpoints.Databases, "RelationChild.json", Databases.RelationChild)]
-    [InlineData(Endpoints.Databases, "DatabaseFullPage.json", Databases.DatabaseFullPage)]
-    [InlineData(Endpoints.Databases, "DatabaseWithCover.json", Databases.DatabaseWithCover)]
-    [InlineData(Endpoints.Databases, "DatabaseWithIcon.json", Databases.DatabaseWithIcon)]
-    [InlineData(Endpoints.DatabasePages, "PageCheckBox.json", Pages.PageCheckBox)]
-    [InlineData(Endpoints.DatabasePages, "PageCreatedBy.json", Pages.PageCreatedBy)]
-    [InlineData(Endpoints.DatabasePages, "PageCreatedTime.json", Pages.PageCreatedTime)]
-    [InlineData(Endpoints.DatabasePages, "PageDate.json", Pages.PageDate)]
-    [InlineData(Endpoints.DatabasePages, "PageEmail.json", Pages.PageEmail)]
-    [InlineData(Endpoints.DatabasePages, "PageFile.json", Pages.PageFile)]
-    [InlineData(Endpoints.DatabasePages, "PageFormula.json", Pages.PageFormula)]
-    [InlineData(Endpoints.DatabasePages, "PageLastEditedBy.json", Pages.PageLastEditedBy)]
-    [InlineData(Endpoints.DatabasePages, "PageLastEditedTime.json", Pages.PageLastEditedTime)]
-    [InlineData(Endpoints.DatabasePages, "PageMultiSelect.json", Pages.PageMultiSelect)]
-    [InlineData(Endpoints.DatabasePages, "PageName.json", Pages.PageName)]
-    [InlineData(Endpoints.DatabasePages, "PageNumber.json", Pages.PageNumber)]
-    [InlineData(Endpoints.DatabasePages, "PageOption.json", Pages.PageOption)]
-    [InlineData(Endpoints.DatabasePages, "PagePerson.json", Pages.PagePerson)]
-    [InlineData(Endpoints.DatabasePages, "PagePhone.json", Pages.PagePhone)]
-    [InlineData(Endpoints.DatabasePages, "PageRelationChild.json", Pages.PageRelationChild)]
-    [InlineData(Endpoints.DatabasePages, "PageRelationParent.json", Pages.PageRelationParent)]
-    [InlineData(Endpoints.DatabasePages, "PageStatus.json", Pages.PageStatus)]
-    [InlineData(Endpoints.DatabasePages, "PageText.json", Pages.PageText)]
-    [InlineData(Endpoints.DatabasePages, "PageUrl.json", Pages.PageUrl)]
-    public async Task Get(Endpoints endpoints, string fileName, string guid)
+    [InlineData(Endpoints.Pages, Pages.Page, "Pages.Page")]
+    [InlineData(Endpoints.Pages, Pages.PageWithEmojiIcon, "Pages.PageWithEmojiIcon")]
+    [InlineData(Endpoints.Pages, Pages.PageWithIcon, "Pages.PageWithIcon")]
+    [InlineData(Endpoints.Pages, Pages.DeletedPage, "Pages.DeletedPage")]
+    [InlineData(Endpoints.Pages, Pages.PageWithCustomLinkIcon, "Pages.PageWithCustomLinkIcon")]
+    [InlineData(Endpoints.Pages, Pages.PageWithCover, "Pages.PageWithCover")]
+    [InlineData(Endpoints.Pages, Pages.PageWithCustomLinkCover, "Pages.PageWithCustomLinkCover")]
+    [InlineData(Endpoints.Pages, Pages.PageWithUnsplashCover, "Pages.PageWithUnsplashCover")]
+    [InlineData(Endpoints.Pages, Pages.PageFromDatabase, "Pages.PageFromDatabase")]
+    [InlineData(Endpoints.Pages, Pages.Parent, "Pages.Parent")]
+    [InlineData(Endpoints.Blocks, Blocks.Heading1, "Blocks.Heading1")]
+    [InlineData(Endpoints.Blocks, Blocks.Heading2, "Blocks.Heading2")]
+    [InlineData(Endpoints.Blocks, Blocks.Heading3, "Blocks.Heading3")]
+    [InlineData(Endpoints.Blocks, Blocks.Paragraph, "Blocks.Paragraph")]
+    [InlineData(Endpoints.Blocks, Blocks.ToDoUnchecked, "Blocks.ToDoUnchecked")]
+    [InlineData(Endpoints.Blocks, Blocks.ToDoChecked, "Blocks.ToDoChecked")]
+    [InlineData(Endpoints.Blocks, Blocks.BulletedListItem, "Blocks.BulletedListItem")]
+    [InlineData(Endpoints.Blocks, Blocks.NumberedListItem, "Blocks.NumberedListItem")]
+    [InlineData(Endpoints.Blocks, Blocks.ToggleList, "Blocks.ToggleList")]
+    [InlineData(Endpoints.Blocks, Blocks.Quote, "Blocks.Quote")]
+    [InlineData(Endpoints.Blocks, Blocks.Divider, "Blocks.Divider")]
+    [InlineData(Endpoints.Blocks, Blocks.Callout, "Blocks.Callout")]
+    [InlineData(Endpoints.Blocks, Blocks.Table, "Blocks.Table")]
+    [InlineData(Endpoints.Blocks, Blocks.Page, "Blocks.Page")]
+    [InlineData(Endpoints.Blocks, Blocks.LinkToPage, "Blocks.LinkToPage")]
+    [InlineData(Endpoints.Blocks, Blocks.ImageUnsplash, "Blocks.ImageUnsplash")]
+    [InlineData(Endpoints.Blocks, Blocks.ImageUploaded, "Blocks.ImageUploaded")]
+    [InlineData(Endpoints.Blocks, Blocks.ImageLink, "Blocks.ImageLink")]
+    [InlineData(Endpoints.Blocks, Blocks.ImageEmpty, "Blocks.ImageEmpty")]
+    [InlineData(Endpoints.Blocks, Blocks.WebBookmark, "Blocks.WebBookmark")]
+    [InlineData(Endpoints.Blocks, Blocks.WebBookmarkEmpty, "Blocks.WebBookmarkEmpty")]
+    [InlineData(Endpoints.Blocks, Blocks.Video, "Blocks.Video")]
+    [InlineData(Endpoints.Blocks, Blocks.VideoEmpty, "Blocks.VideoEmpty")]
+    [InlineData(Endpoints.Blocks, Blocks.AudioEmpty, "Blocks.AudioEmpty")]
+    [InlineData(Endpoints.Blocks, Blocks.Code, "Blocks.Code")]
+    [InlineData(Endpoints.Blocks, Blocks.CodeWithCaption, "Blocks.CodeWithCaption")]
+    [InlineData(Endpoints.Blocks, Blocks.CodeCSharp, "Blocks.CodeCSharp")]
+    [InlineData(Endpoints.Blocks, Blocks.File, "Blocks.File")]
+    [InlineData(Endpoints.Blocks, Blocks.FileEmpty, "Blocks.FileEmpty")]
+    [InlineData(Endpoints.Blocks, Blocks.FileWithCaption, "Blocks.FileWithCaption")]
+    [InlineData(Endpoints.Blocks, Blocks.Audio, "Blocks.Audio")]
+    [InlineData(Endpoints.Blocks, Blocks.AudioUploaded, "Blocks.AudioUploaded")]
+    [InlineData(Endpoints.Blocks, Blocks.Equation, "Blocks.Equation")]
+    [InlineData(Endpoints.Blocks, Blocks.TableOfContents, "Blocks.TableOfContents")]
+    [InlineData(Endpoints.Blocks, Blocks.EquationEmpty, "Blocks.EquationEmpty")]
+    [InlineData(Endpoints.Blocks, Blocks.Breadcrumb, "Blocks.Breadcrumb")]
+    [InlineData(Endpoints.Blocks, Blocks.SyncBlockOriginal, "Blocks.SyncBlockOriginal")]
+    [InlineData(Endpoints.Blocks, Blocks.SyncdBlockCopy, "Blocks.SyncdBlockCopy")]
+    [InlineData(Endpoints.Blocks, Blocks.Button, "Blocks.Button")]
+    [InlineData(Endpoints.Blocks, Blocks.ToggledHeading3, "Blocks.ToggledHeading3")]
+    [InlineData(Endpoints.Blocks, Blocks.ToggledHeading2, "Blocks.ToggledHeading2")]
+    [InlineData(Endpoints.Blocks, Blocks.ToggledHeading1, "Blocks.ToggledHeading1")]
+    [InlineData(Endpoints.Blocks, Blocks.Column, "Blocks.Column")]
+    [InlineData(Endpoints.Blocks, Blocks.ColumnList, "Blocks.ColumnList")]
+    [InlineData(Endpoints.Blocks, Blocks.Embed, "Blocks.Embed")]
+    [InlineData(Endpoints.Blocks, Blocks.TwitterEmbed, "Blocks.TwitterEmbed")]
+    [InlineData(Endpoints.Blocks, Blocks.ChildDatabase, "Blocks.ChildDatabase")]
+    [InlineData(Endpoints.Blocks, Blocks.LinkedDatabase, "Blocks.LinkedDatabase")]
+    [InlineData(Endpoints.Blocks, Blocks.BlockWithChildren, "Blocks.BlockWithChildren")]
+    [InlineData(Endpoints.Blocks, Blocks.ChildBlock, "Blocks.ChildBlock")]
+    [InlineData(Endpoints.Blocks, Blocks.Pdf, "Blocks.Pdf")]
+    [InlineData(Endpoints.Blocks, Blocks.PdfUploaded, "Blocks.PdfUploaded")]
+    [InlineData(Endpoints.Blocks, Blocks.LinkPreview, "Blocks.LinkPreview")]
+    [InlineData(Endpoints.RichTexts, RichTexts.SimpleText, "RichTexts.SimpleText")]
+    [InlineData(Endpoints.RichTexts, RichTexts.MentionPerson, "RichTexts.MentionPerson")]
+    [InlineData(Endpoints.RichTexts, RichTexts.MentionBlock, "RichTexts.MentionBlock")]
+    [InlineData(Endpoints.RichTexts, RichTexts.MentionToday, "RichTexts.MentionToday")]
+    [InlineData(Endpoints.RichTexts, RichTexts.MentionTomorrow, "RichTexts.MentionTomorrow")]
+    [InlineData(Endpoints.RichTexts, RichTexts.LinkPage, "RichTexts.LinkPage")]
+    [InlineData(Endpoints.RichTexts, RichTexts.LinkToWebsite, "RichTexts.LinkToWebsite")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Bold, "RichTexts.Bold")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Italic, "RichTexts.Italic")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Underline, "RichTexts.Underline")]
+    [InlineData(Endpoints.RichTexts, RichTexts.StrikeThrough, "RichTexts.StrikeThrough")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Background, "RichTexts.Background")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Foreground, "RichTexts.Foreground")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Code, "RichTexts.Code")]
+    [InlineData(Endpoints.RichTexts, RichTexts.Equation, "RichTexts.Equation")]
+    [InlineData(Endpoints.RichTexts, RichTexts.BoldAndItalic, "RichTexts.BoldAndItalic")]
+    [InlineData(Endpoints.RichTexts, RichTexts.BoldThenItalic, "RichTexts.BoldThenItalic")]
+    [InlineData(Endpoints.Databases, Databases.Name, "Databases.Name")]
+    [InlineData(Endpoints.Databases, Databases.Text, "Databases.Text")]
+    [InlineData(Endpoints.Databases, Databases.Number, "Databases.Number")]
+    [InlineData(Endpoints.Databases, Databases.Date, "Databases.Date")]
+    [InlineData(Endpoints.Databases, Databases.Option, "Databases.Option")]
+    [InlineData(Endpoints.Databases, Databases.MultiSelect, "Databases.MultiSelect")]
+    [InlineData(Endpoints.Databases, Databases.Status, "Databases.Status")]
+    [InlineData(Endpoints.Databases, Databases.Person, "Databases.Person")]
+    [InlineData(Endpoints.Databases, Databases.Files, "Databases.Files")]
+    [InlineData(Endpoints.Databases, Databases.Checkbox, "Databases.Checkbox")]
+    [InlineData(Endpoints.Databases, Databases.Url, "Databases.Url")]
+    [InlineData(Endpoints.Databases, Databases.Email, "Databases.Email")]
+    [InlineData(Endpoints.Databases, Databases.Phone, "Databases.Phone")]
+    [InlineData(Endpoints.Databases, Databases.Formula, "Databases.Formula")]
+    [InlineData(Endpoints.Databases, Databases.CreatedTime, "Databases.CreatedTime")]
+    [InlineData(Endpoints.Databases, Databases.CreatedBy, "Databases.CreatedBy")]
+    [InlineData(Endpoints.Databases, Databases.LastEditedTime, "Databases.LastEditedTime")]
+    [InlineData(Endpoints.Databases, Databases.LastEditedBy, "Databases.LastEditedBy")]
+    [InlineData(Endpoints.Databases, Databases.RelationParent, "Databases.RelationParent")]
+    [InlineData(Endpoints.Databases, Databases.RelationChild, "Databases.RelationChild")]
+    [InlineData(Endpoints.Databases, Databases.DatabaseFullPage, "Databases.DatabaseFullPage")]
+    [InlineData(Endpoints.Databases, Databases.DatabaseWithCover, "Databases.DatabaseWithCover")]
+    [InlineData(Endpoints.Databases, Databases.DatabaseWithIcon, "Databases.DatabaseWithIcon")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageCheckBox, "Pages.PageCheckBox")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageCreatedBy, "Pages.PageCreatedBy")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageCreatedTime, "Pages.PageCreatedTime")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageDate, "Pages.PageDate")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageEmail, "Pages.PageEmail")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageFile, "Pages.PageFile")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageFormula, "Pages.PageFormula")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageLastEditedBy, "Pages.PageLastEditedBy")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageLastEditedTime, "Pages.PageLastEditedTime")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageMultiSelect, "Pages.PageMultiSelect")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageName, "Pages.PageName")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageNumber, "Pages.PageNumber")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageOption, "Pages.PageOption")]
+    [InlineData(Endpoints.DatabasePages, Pages.PagePerson, "Pages.PagePerson")]
+    [InlineData(Endpoints.DatabasePages, Pages.PagePhone, "Pages.PagePhone")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageRelationChild, "Pages.PageRelationChild")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageRelationParent, "Pages.PageRelationParent")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageStatus, "Pages.PageStatus")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageText, "Pages.PageText")]
+    [InlineData(Endpoints.DatabasePages, Pages.PageUrl, "Pages.PageUrl")]
+    public async Task Get(Endpoints endpoints, string guid, string name)
     {
         // arrange
-        var path = GetPath(endpoints, fileName);
-        var expectedJson = await File.ReadAllTextAsync(path);
         
         // act
-        var page = await GetJson(endpoints, guid);
+        var json = await GetJson(endpoints, guid);
+        var node = JsonNode.Parse(json);
+        foreach (var property in IgnoreProperties)
+        {
+            node.IgnoreProperty(property);
+        }
+        json = JsonSerializer.Serialize(node);
         
         // assert
-        page
-            .Should()
-            .Be(expectedJson);
+        await VerifyJson(json)
+            .UseDirectory("verified")
+            .UseParameters(endpoints, guid, name);
     }
 
     private async Task<string> GetJson(Endpoints endpoints, string guid)
@@ -162,19 +175,17 @@ public class ContractTests : NotionTestsBase
             Endpoints.DatabasePages => await Sut.GetPageRawAsync(id),
             _ => throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null),
         };
-        return json.Formatted();
+        var jsonFormatted = json.Formatted();
+        return jsonFormatted;
     }
-    
-    private static string GetPath(Endpoints endpoints, string fileName)
+
+    private string[] IgnoreProperties => new[]
     {
-        return endpoints switch
-        {
-            Endpoints.Blocks => Path.Combine("Resources", "Blocks", fileName),
-            Endpoints.Pages => Path.Combine("Resources", "Pages", fileName),
-            Endpoints.RichTexts => Path.Combine("Resources", "RichTexts", fileName),
-            Endpoints.Databases => Path.Combine("Resources", "Databases", fileName),
-            Endpoints.DatabasePages => Path.Combine("Resources", "DatabasePages", fileName),
-            _ => throw new ArgumentOutOfRangeException(nameof(endpoints), endpoints, null),
-        };
-    }
+        "pdf.file.url",
+        "pdf.file.expiry_time",
+        "image.file.url",
+        "image.file.expiry_time",
+        "audio.file.url",
+        "audio.file.expiry_time",
+    };
 }
