@@ -20,6 +20,7 @@ using Octokit;
 using Octokit.Internal;
 using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using ParameterAttribute = Nuke.Common.ParameterAttribute;
 
 // ReSharper disable UnusedMember.Local
 
@@ -29,9 +30,9 @@ partial class Build : NukeBuild
 {
 	public static int Main() => Execute<Build>(_ => _.Compile);
 
-	[Nuke.Common.Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-	[Nuke.Common.Parameter, Secret] readonly string? NotionKey;
-	[Nuke.Common.Parameter, Secret] readonly string? GithubToken;
+	[Parameter] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+	[Parameter, Secret] readonly string? NotionKey;
+	[Parameter, Secret] readonly string? GithubToken;
 	
 	[Solution(GenerateProjects = true, SuppressBuildProjectCheck = true)] readonly Solution Solution = null!;
 	[GitRepository] readonly GitRepository Repository = null!;
