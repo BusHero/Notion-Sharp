@@ -52,7 +52,6 @@ partial class Build : NukeBuild
 #pragma warning disable CA1822
 	GitHubActions GitHubActions => GitHubActions.Instance;
 #pragma warning restore CA1822
-	static long RunAttempt => EnvironmentInfo.GetVariable<long>("GITHUB_RUN_ATTEMPT");
 	
 	Target Restore => _ => _
 		.Executes(() =>
@@ -138,7 +137,7 @@ partial class Build : NukeBuild
 				.EnableNoLogo()
 				.EnableDeterministic()
 				.EnableIncludeSource()
-				.SetVersionSuffix($"{GitHubActions.RunNumber}.{RunAttempt}")
+				.SetVersionSuffix($"{GitHubActions.RunNumber}.{GitHubActions.RunAttempt}")
 				.SetSymbolPackageFormat("snupkg")
 				.SetOutputDirectory(PublishFolder)
 				.EnableNoRestore());
