@@ -14,7 +14,7 @@ public enum Endpoints
 }
 
 [UsesVerify]
-public class ContractTests : NotionTestsBase
+public class EndpointApprovalTests : NotionTestsBase
 {
     [ModuleInitializer]
     internal static void Initialize() =>
@@ -150,11 +150,9 @@ public class ContractTests : NotionTestsBase
         
         // act
         var json = await GetJson(endpoints, guid);
-        var node = JsonNode.Parse(json);
-        foreach (var property in IgnoreProperties)
-        {
-            node.IgnoreProperty(property);
-        }
+        var node = IgnoreProperties.Aggregate(
+            JsonNode.Parse(json), 
+            (n, prop) => n.IgnoreProperty(prop));
         json = JsonSerializer.Serialize(node);
         
         // assert
@@ -179,7 +177,7 @@ public class ContractTests : NotionTestsBase
         return jsonFormatted;
     }
 
-    private string[] IgnoreProperties => new[]
+    private static IEnumerable<string> IgnoreProperties => new[]
     {
         "pdf.file.url",
         "pdf.file.expiry_time",
